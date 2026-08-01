@@ -40,33 +40,35 @@
         .f12-help { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 8px; font-weight: 600; line-height: 1.5; }
 
         /* ─── PREVIEW & POSTER ─── */
-       .preview-area {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow: hidden;
-}
+        .preview-area {
+            flex: 1;
+            display: flex;
+            justify-content: center; /* Centre le contenu au lieu de le coller à gauche */
+            align-items: flex-start;
+            overflow: auto; /* Permet de scroller au lieu de couper l'image */
+            padding: 20px;
+        }
         body.capture-mode .poster {
-    transform: none;
-}
+            transform: none;
+        }
         .poster { 
-    width: 1920px;
-    height: 1080px;
-    background-color: #05020a;
-    position: relative;
-    overflow: hidden;
-    padding: 45px 60px 85px;
-    display: flex;
-    flex-direction: column;
+            width: 1920px;
+            height: 1080px;
+            background-color: #05020a;
+            position: relative;
+            overflow: hidden;
+            padding: 45px 60px 85px;
+            display: flex;
+            flex-direction: column;
 
-    transform: scale(0.65);
-    transform-origin: top left;
+            transform: scale(0.60); /* Réduit un tout petit peu l'échelle pour mieux rentrer */
+            transform-origin: top center;
 
-    border: 3px solid #9d00ff;
-    box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2),
-                0 0 40px rgba(157, 0, 255, 0.4);
-}
+            border: 3px solid #9d00ff;
+            box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2),
+                        0 0 40px rgba(157, 0, 255, 0.4);
+            flex-shrink: 0;
+        }
 
         /* FOND & EFFETS */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
@@ -145,38 +147,38 @@
         /* ─── CLASSE POUR LE MODE CAPTURE ─── */
         body.capture-mode .sidebar { display: none; }
         /* MODE CAPTURE F12 */
-body.capture-mode {
-    margin: 0;
-    padding: 0;
-    width: 1920px;
-    height: 1080px;
-    overflow: hidden;
-    display: block;
-    background: #05020a;
-}
+        body.capture-mode {
+            margin: 0;
+            padding: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            background: #05020a;
+        }
 
-body.capture-mode .sidebar {
-    display: none;
-}
+        body.capture-mode .sidebar {
+            display: none;
+        }
 
-body.capture-mode .preview-area {
-    width: 1920px;
-    height: 1080px;
-    padding: 0;
-    margin: 0;
-    display: block;
-    overflow: hidden;
-}
+        body.capture-mode .preview-area {
+            width: 1920px;
+            height: 1080px;
+            padding: 0;
+            margin: 0;
+            display: block;
+            overflow: hidden;
+        }
 
-body.capture-mode .poster {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1920px;
-    height: 1080px;
-    zoom: 1 !important;
-    transform: none !important;
-}
+        body.capture-mode .poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            zoom: 1 !important;
+            transform: none !important;
+        }
     </style>
 </head>
 <body>
