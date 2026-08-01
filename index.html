@@ -44,7 +44,25 @@
 
         /* ─── PREVIEW & POSTER ─── */
         .preview-area { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; overflow: auto; padding: 20px; }
-        .poster { width: 1920px; height: 1080px; min-width: 1920px; min-height: 1080px; background-color: #05020a; position: relative; overflow: hidden; padding: 45px 60px 85px; display: flex; flex-direction: column; transform: scale(0.65); transform-origin: center center; transition: transform 0.3s ease; }
+        
+        .poster { 
+            width: 1920px; 
+            height: 1080px; 
+            min-width: 1920px; 
+            min-height: 1080px; 
+            background-color: #05020a; 
+            position: relative; 
+            overflow: hidden; 
+            padding: 45px 60px 85px; 
+            display: flex; 
+            flex-direction: column; 
+            transform: scale(0.65); 
+            transform-origin: center center; 
+            transition: transform 0.3s ease;
+            /* 🔴 RETOUR DU CADRE NÉON ICI 🔴 */
+            border: 3px solid #9d00ff;
+            box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2), 0 0 40px rgba(157, 0, 255, 0.4);
+        }
 
         /* FOND & EFFETS */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
@@ -60,7 +78,14 @@
         .header { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 10; padding-bottom: 25px; margin-bottom: 35px; }
         .title-group { display: flex; flex-direction: column; }
         .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 40px rgba(168, 85, 247, 0.9); }
-        .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; background: linear-gradient(90deg, #22d3ee, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; }
+        
+        /* 🔴 FIX HTML2CANVAS : Couleur unie au lieu de dégradé pour que ça s'exporte bien */
+        .title-name { 
+            font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; 
+            color: #22d3ee; text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+            letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; 
+        }
+        
         .header-badge { background: rgba(168, 85, 247, 0.08); border: 2px solid rgba(168, 85, 247, 0.4); border-left: 8px solid #22d3ee; padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; color: #fff; letter-spacing: 4px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); text-transform: uppercase; clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%); }
 
         /* GRID & CARDS */
@@ -84,11 +109,15 @@
         .time-wrapper.cyan { background: linear-gradient(90deg, #22d3ee, #0e7490); border-left-color: #cffafe; }
         .time-text { display: block; transform: skewX(15deg); font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
         .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
-        .game-sub { font-size: 16px; font-weight: 700; background: linear-gradient(90deg, #d8b4fe, #ffffff); -webkit-background-clip: text; background-clip: text; color: transparent; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 4px 10px rgba(168, 85, 247, 0.4); }
+        
+        /* 🔴 FIX HTML2CANVAS : Couleur unie pour les sous-titres */
+        .game-sub { font-size: 16px; font-weight: 700; color: #e9d5ff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); }
         .time-wrapper.cyan + .game-title + .game-sub { color: #a5f3fc; }
 
         .text-center { text-align: center; align-items: center; justify-content: center; height: 100%; }
-        .text-center .game-title { font-size: 48px; background: linear-gradient(180deg, #fff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        
+        /* 🔴 FIX HTML2CANVAS : Couleur unie + ombre pour le gros texte */
+        .text-center .game-title { font-size: 48px; color: #fff; text-shadow: 0 5px 25px rgba(168, 85, 247, 0.9); }
 
         /* DAY OFF */
         .day-col.off { opacity: 0.85; }
@@ -97,12 +126,15 @@
         .day-col.off .day-name, .day-col.off .day-date { color: #9ca3af; text-shadow: none; }
         .day-col.off .day-card { border-color: rgba(168, 85, 247, 0.15); border-top-color: #4b5563; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
         .event-block.off-block .event-overlay { background: repeating-linear-gradient(45deg, rgba(20, 15, 30, 0.8), rgba(20, 15, 30, 0.8) 15px, rgba(5, 2, 10, 0.9) 15px, rgba(5, 2, 10, 0.9) 30px); }
-        .text-center.off-text .game-title { background: linear-gradient(180deg, #d1d5db, #4b5563); -webkit-background-clip: text; background-clip: text; letter-spacing: 5px; }
+        .text-center.off-text .game-title { color: #9ca3af; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 5px; }
 
         /* BADGE TWITCH */
         .twitch-badge { position: absolute; bottom: 30px; right: 60px; background: linear-gradient(90deg, rgba(145, 70, 255, 0.1), rgba(145, 70, 255, 0.4)); backdrop-filter: blur(5px); border: 1px solid rgba(145, 70, 255, 0.6); border-right: 6px solid #9146FF; padding: 10px 40px 10px 50px; display: flex; align-items: center; gap: 15px; z-index: 20; box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3), inset 0 0 15px rgba(145,70,255,0.2); transform: skewX(-10deg); }
         .twitch-icon, .twitch-text { transform: skewX(10deg); }
-        .twitch-icon { display: inline-block; width: 26px; height: 26px; background-color: #fff; mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.265 3 3 6.236v13.223h5.154V23l3.417-3.541h3.795L21 13.626V3H4.265zm15.044 9.68-2.656 2.76H12.1l-2.656 2.75v-2.75H5.53V4.69h13.78v7.99z"/><path d="M11.344 7.45h2.276v4.83h-2.276zM15.14 7.45h2.275v4.83H15.14z"/></svg>') center/contain no-repeat; -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.265 3 3 6.236v13.223h5.154V23l3.417-3.541h3.795L21 13.626V3H4.265zm15.044 9.68-2.656 2.76H12.1l-2.656 2.75v-2.75H5.53V4.69h13.78v7.99z"/><path d="M11.344 7.45h2.276v4.83h-2.276zM15.14 7.45h2.275v4.83H15.14z"/></svg>') center/contain no-repeat; }
+        
+        /* 🔴 FIX HTML2CANVAS : L'icône est maintenant une image SVG normale */
+        .twitch-icon { display: inline-block; width: 26px; height: 26px; }
+        
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
         @media (max-width: 1600px) { .poster { transform: scale(0.55); } }
@@ -149,7 +181,8 @@
             <div class="grid-days" id="poster-grid-container"></div> <!-- Les cartes s'injecteront ici -->
 
             <div class="twitch-badge">
-                <span class="twitch-icon"></span>
+                <!-- SVG INTÉGRÉ ICI POUR EVITER LE BUG DE CAPTURE -->
+                <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22white%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M4.265%203%203%206.236v13.223h5.154V23l3.417-3.541h3.795L21%2013.626V3H4.265zm15.044%209.68-2.656%202.76H12.1l-2.656%202.75v-2.75H5.53V4.69h13.78v7.99z%22%2F%3E%3Cpath%20d%3D%22M11.344%207.45h2.276v4.83h-2.276zM15.14%207.45h2.275v4.83H15.14z%22%2F%3E%3C%2Fsvg%3E" class="twitch-icon" alt="Twitch">
                 <span class="twitch-text" id="display-twitch">TWITCH.TV/SQUADIRFN</span>
             </div>
 
