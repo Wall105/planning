@@ -59,7 +59,6 @@
             transform: scale(0.65); 
             transform-origin: center center; 
             transition: transform 0.3s ease;
-            /* 🔴 RETOUR DU CADRE NÉON ICI 🔴 */
             border: 3px solid #9d00ff;
             box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2), 0 0 40px rgba(157, 0, 255, 0.4);
         }
@@ -79,7 +78,6 @@
         .title-group { display: flex; flex-direction: column; }
         .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 40px rgba(168, 85, 247, 0.9); }
         
-        /* 🔴 FIX HTML2CANVAS : Couleur unie au lieu de dégradé pour que ça s'exporte bien */
         .title-name { 
             font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; 
             color: #22d3ee; text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
@@ -99,8 +97,11 @@
 
         .event-block { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 20px; overflow: hidden; }
         .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(90deg, transparent, #22d3ee, transparent); z-index: 10; box-shadow: 0 0 15px #22d3ee; }
-        .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 1; }
+        
+        /* 🔴 FIX HTML2CANVAS : Utilisation de div avec background au lieu de balises <img> */
+        .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; }
         .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); transform: scale(1.05); }
+        
         .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
         .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
 
@@ -110,13 +111,10 @@
         .time-text { display: block; transform: skewX(15deg); font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
         .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
         
-        /* 🔴 FIX HTML2CANVAS : Couleur unie pour les sous-titres */
         .game-sub { font-size: 16px; font-weight: 700; color: #e9d5ff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); }
         .time-wrapper.cyan + .game-title + .game-sub { color: #a5f3fc; }
 
         .text-center { text-align: center; align-items: center; justify-content: center; height: 100%; }
-        
-        /* 🔴 FIX HTML2CANVAS : Couleur unie + ombre pour le gros texte */
         .text-center .game-title { font-size: 48px; color: #fff; text-shadow: 0 5px 25px rgba(168, 85, 247, 0.9); }
 
         /* DAY OFF */
@@ -128,13 +126,10 @@
         .event-block.off-block .event-overlay { background: repeating-linear-gradient(45deg, rgba(20, 15, 30, 0.8), rgba(20, 15, 30, 0.8) 15px, rgba(5, 2, 10, 0.9) 15px, rgba(5, 2, 10, 0.9) 30px); }
         .text-center.off-text .game-title { color: #9ca3af; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 5px; }
 
-        /* BADGE TWITCH */
-        .twitch-badge { position: absolute; bottom: 30px; right: 60px; background: linear-gradient(90deg, rgba(145, 70, 255, 0.1), rgba(145, 70, 255, 0.4)); backdrop-filter: blur(5px); border: 1px solid rgba(145, 70, 255, 0.6); border-right: 6px solid #9146FF; padding: 10px 40px 10px 50px; display: flex; align-items: center; gap: 15px; z-index: 20; box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3), inset 0 0 15px rgba(145,70,255,0.2); transform: skewX(-10deg); }
+        /* BADGE TWITCH - Légèrement descendu */
+        .twitch-badge { position: absolute; bottom: 15px; right: 60px; background: linear-gradient(90deg, rgba(145, 70, 255, 0.1), rgba(145, 70, 255, 0.4)); backdrop-filter: blur(5px); border: 1px solid rgba(145, 70, 255, 0.6); border-right: 6px solid #9146FF; padding: 10px 40px 10px 50px; display: flex; align-items: center; gap: 15px; z-index: 20; box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3), inset 0 0 15px rgba(145,70,255,0.2); transform: skewX(-10deg); }
         .twitch-icon, .twitch-text { transform: skewX(10deg); }
-        
-        /* 🔴 FIX HTML2CANVAS : L'icône est maintenant une image SVG normale */
         .twitch-icon { display: inline-block; width: 26px; height: 26px; }
-        
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
         @media (max-width: 1600px) { .poster { transform: scale(0.55); } }
@@ -147,8 +142,12 @@
     <aside class="sidebar">
         <h2>🛠️ Globaux</h2>
         <div class="form-group">
-            <label>Nom du Streameur</label>
-            <input type="text" value="SQUADIRFN" oninput="updateGlobal('name', this.value)">
+            <label>Nom en haut à gauche</label>
+            <input type="text" value="SQUADIR" oninput="updateGlobal('name', this.value)">
+        </div>
+        <div class="form-group">
+            <label>Pseudo Twitch</label>
+            <input type="text" value="SQUADIRFN" oninput="updateGlobal('twitch', this.value)">
         </div>
         <div class="form-group">
             <label>Mois / Année</label>
@@ -173,7 +172,7 @@
             <header class="header">
                 <div class="title-group">
                     <div class="title-planning">PLANNING</div>
-                    <div class="title-name" id="display-name">SQUADIRFN</div>
+                    <div class="title-name" id="display-name">SQUADIR</div>
                 </div>
                 <div class="header-badge" id="display-date">JUILLET 2026</div>
             </header>
@@ -316,7 +315,7 @@
                 else if (day.type === 'libre') {
                     cardHTML += `
                         <div class="event-block">
-                            <img src="${day.img1 || placeholderImg}" class="event-bg with-effects">
+                            <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}')"></div>
                             <div class="event-overlay with-effects"></div>
                             <div class="event-info text-center"><span class="game-title">${day.title1 || ''}</span></div>
                         </div>`;
@@ -324,7 +323,7 @@
                 else if (day.type === 'single') {
                     cardHTML += `
                         <div class="event-block">
-                            <img src="${day.img1 || placeholderImg}" class="event-bg">
+                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
@@ -336,7 +335,7 @@
                 else if (day.type === 'split') {
                     cardHTML += `
                         <div class="event-block">
-                            <img src="${day.img1 || placeholderImg}" class="event-bg">
+                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
@@ -345,7 +344,7 @@
                             </div>
                         </div>
                         <div class="event-block">
-                            <img src="${day.img2 || placeholderImg}" class="event-bg">
+                            <div class="event-bg" style="background-image: url('${day.img2 || placeholderImg}')"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper cyan"><span class="time-text" style="color:#000;">${day.time2 || ''}</span></div>
@@ -364,7 +363,8 @@
         function updateGlobal(target, value) {
             if(target === 'name') {
                 document.getElementById('display-name').innerText = value;
-                document.getElementById('display-watermark').innerText = value.replace('FN', ''); 
+                document.getElementById('display-watermark').innerText = value; // Le filigrane de fond s'adapte aussi
+            } else if (target === 'twitch') {
                 document.getElementById('display-twitch').innerText = "TWITCH.TV/" + value;
             } else if (target === 'date') {
                 document.getElementById('display-date').innerText = value;
