@@ -34,41 +34,30 @@
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #22d3ee; box-shadow: 0 0 10px rgba(34, 211, 238, 0.2); }
         .split-divider { width: 100%; height: 1px; background: rgba(34, 211, 238, 0.3); margin: 10px 0; }
 
-        /* Bouton Upload */
         .upload-btn { background: rgba(168, 85, 247, 0.15); border: 1px dashed #a855f7; color: #fff; padding: 10px; text-align: center; border-radius: 4px; cursor: pointer; font-size: 14px; transition: 0.2s; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
         .upload-btn:hover { background: rgba(168, 85, 247, 0.3); border-color: #22d3ee; }
         .upload-btn input[type="file"] { display: none; }
 
-        .download-btn { background: linear-gradient(90deg, #9d00ff, #22d3ee); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
+        .download-btn { background: linear-gradient(to right, #9d00ff, #22d3ee); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
         .download-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(157, 0, 255, 0.4); }
 
         /* ─── PREVIEW & POSTER ─── */
         .preview-area { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; overflow: auto; padding: 20px; }
         
         .poster { 
-            width: 1920px; 
-            height: 1080px; 
-            min-width: 1920px; 
-            min-height: 1080px; 
-            background-color: #05020a; 
-            position: relative; 
-            overflow: hidden; 
-            padding: 45px 60px 85px; 
-            display: flex; 
-            flex-direction: column; 
-            transform: scale(0.65); 
-            transform-origin: center center; 
-            transition: transform 0.3s ease;
-            border: 3px solid #9d00ff;
-            box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2), 0 0 40px rgba(157, 0, 255, 0.4);
+            width: 1920px; height: 1080px; min-width: 1920px; min-height: 1080px; 
+            background-color: #05020a; position: relative; overflow: hidden; 
+            padding: 45px 60px 85px; display: flex; flex-direction: column; 
+            transform: scale(0.65); transform-origin: center center; transition: transform 0.3s ease;
+            border: 3px solid #9d00ff; box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2), 0 0 40px rgba(157, 0, 255, 0.4);
         }
 
         /* FOND & EFFETS */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
         .bg-layer::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 10% 10%, rgba(157, 0, 255, 0.2) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(34, 211, 238, 0.15) 0%, transparent 40%), #030107; }
         .beam-1, .beam-2 { position: absolute; width: 200%; height: 180px; transform-origin: center; }
-        .beam-1 { top: 15%; left: -50%; transform: rotate(-35deg); background: linear-gradient(90deg, transparent 0%, rgba(168, 85, 247, 0.08) 50%, transparent 100%); }
-        .beam-2 { top: 60%; left: -50%; transform: rotate(-35deg); background: linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.05) 50%, transparent 100%); }
+        .beam-1 { top: 15%; left: -50%; transform: rotate(-35deg); background: linear-gradient(to right, transparent 0%, rgba(168, 85, 247, 0.08) 50%, transparent 100%); }
+        .beam-2 { top: 60%; left: -50%; transform: rotate(-35deg); background: linear-gradient(to right, transparent 0%, rgba(34, 211, 238, 0.05) 50%, transparent 100%); }
         .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); font-family: 'Oswald', sans-serif; font-weight: 700; font-style: italic; font-size: 380px; color: rgba(255, 255, 255, 0.015); white-space: nowrap; letter-spacing: -5px; z-index: 1; }
         .dot-matrix { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px); background-size: 32px 32px; z-index: 2; mask-image: radial-gradient(circle at center, black 40%, transparent 90%); -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%); }
         .poster::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; pointer-events: none; z-index: 3; }
@@ -77,14 +66,17 @@
         .header { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 10; padding-bottom: 25px; margin-bottom: 35px; }
         .title-group { display: flex; flex-direction: column; }
         .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 40px rgba(168, 85, 247, 0.9); }
+        .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; color: #22d3ee; text-shadow: 0 0 20px rgba(168, 85, 247, 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; }
         
-        .title-name { 
-            font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; 
-            color: #22d3ee; text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-            letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; 
+        .header-badge { 
+            background-color: #1a0b35; 
+            border: 2px solid rgba(168, 85, 247, 0.8); 
+            border-left: 8px solid #22d3ee; 
+            border-radius: 6px; 
+            padding: 12px 35px; 
+            font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; color: #fff; 
+            letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px 25px rgba(168, 85, 247, 0.3); 
         }
-        
-        .header-badge { background: rgba(168, 85, 247, 0.08); border: 2px solid rgba(168, 85, 247, 0.4); border-left: 8px solid #22d3ee; padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; color: #fff; letter-spacing: 4px; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); text-transform: uppercase; clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%); }
 
         /* GRID & CARDS */
         .grid-days { display: flex; gap: 22px; flex: 1; position: relative; z-index: 10; }
@@ -93,24 +85,37 @@
         .day-header::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 40%; height: 3px; background: #22d3ee; box-shadow: 0 0 15px #22d3ee; }
         .day-name { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 0 rgba(168,85,247,0.5); }
         .day-date { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 38px; font-weight: 700; color: #22d3ee; line-height: 0.8; text-shadow: 0 0 15px rgba(34, 211, 238, 0.5); }
-        .day-card { flex: 1; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: rgba(6, 2, 12, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(34, 211, 238, 0.2); border-top: 4px solid #22d3ee; box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(34, 211, 238, 0.05); }
+        .day-card { flex: 1; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: rgba(6, 2, 12, 0.95); border: 1px solid rgba(34, 211, 238, 0.2); border-top: 4px solid #22d3ee; box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(34, 211, 238, 0.05); }
 
         .event-block { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 20px; overflow: hidden; }
-        .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(90deg, transparent, #22d3ee, transparent); z-index: 10; box-shadow: 0 0 15px #22d3ee; }
-        
-        /* 🔴 FIX HTML2CANVAS : Utilisation de div avec background au lieu de balises <img> */
+        .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, #22d3ee, transparent); z-index: 10; box-shadow: 0 0 15px #22d3ee; }
         .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; }
         .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); transform: scale(1.05); }
-        
         .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
         .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
 
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
-        .time-wrapper { align-self: flex-start; background: linear-gradient(90deg, #a855f7, #6b21a8); padding: 4px 18px; transform: skewX(-15deg); margin-bottom: 8px; border-left: 3px solid #e9d5ff; box-shadow: 5px 5px 0 rgba(0,0,0,0.6); }
-        .time-wrapper.cyan { background: linear-gradient(90deg, #22d3ee, #0e7490); border-left-color: #cffafe; }
-        .time-text { display: block; transform: skewX(15deg); font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
-        .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
         
+        .time-wrapper { 
+            align-self: flex-start; 
+            background-color: #7e22ce; 
+            background: linear-gradient(to right, #9d00ff, #6b21a8); 
+            padding: 6px 16px; 
+            margin-bottom: 8px; 
+            border-left: 4px solid #e9d5ff; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+        }
+        .time-wrapper.cyan { 
+            background-color: #0891b2; 
+            background: linear-gradient(to right, #22d3ee, #0e7490); 
+            border-left-color: #cffafe; 
+        }
+        .time-text { 
+            display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; 
+        }
+        
+        .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
         .game-sub { font-size: 16px; font-weight: 700; color: #e9d5ff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); }
         .time-wrapper.cyan + .game-title + .game-sub { color: #a5f3fc; }
 
@@ -126,10 +131,21 @@
         .event-block.off-block .event-overlay { background: repeating-linear-gradient(45deg, rgba(20, 15, 30, 0.8), rgba(20, 15, 30, 0.8) 15px, rgba(5, 2, 10, 0.9) 15px, rgba(5, 2, 10, 0.9) 30px); }
         .text-center.off-text .game-title { color: #9ca3af; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 5px; }
 
-        /* BADGE TWITCH - Légèrement descendu */
-        .twitch-badge { position: absolute; bottom: 15px; right: 60px; background: linear-gradient(90deg, rgba(145, 70, 255, 0.1), rgba(145, 70, 255, 0.4)); backdrop-filter: blur(5px); border: 1px solid rgba(145, 70, 255, 0.6); border-right: 6px solid #9146FF; padding: 10px 40px 10px 50px; display: flex; align-items: center; gap: 15px; z-index: 20; box-shadow: 0 10px 30px rgba(145, 70, 255, 0.3), inset 0 0 15px rgba(145,70,255,0.2); transform: skewX(-10deg); }
-        .twitch-icon, .twitch-text { transform: skewX(10deg); }
-        .twitch-icon { display: inline-block; width: 26px; height: 26px; }
+        /* 🔴 MODIF: BADGE TWITCH Centré, Descendu et en Bleu Ciel */
+        .twitch-badge { 
+            position: absolute; 
+            bottom: 12px; /* Descendu un chouia plus bas */
+            left: 50%; /* Positionné au milieu */
+            transform: translateX(-50%); /* Centrage parfait au milieu */
+            background-color: #06020c; 
+            border: 2px solid rgba(34, 211, 238, 0.4); /* Contour fin cyan */
+            border-right: 8px solid #22d3ee; /* Gros trait Cyan (Bleu Ciel) sur le côté droit */
+            border-radius: 8px; 
+            padding: 10px 35px 10px 30px; 
+            display: flex; align-items: center; gap: 15px; z-index: 20; 
+            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2); /* Ombre cyan */
+        }
+        .twitch-icon svg { width: 28px; height: 28px; fill: #fff; display: block; }
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
         @media (max-width: 1600px) { .poster { transform: scale(0.55); } }
@@ -156,7 +172,7 @@
 
         <div id="sidebar-days-container"></div> <!-- Les jours s'injecteront ici -->
 
-        <button class="download-btn" onclick="downloadPoster()">⬇️ Télécharger</button>
+        <button class="download-btn" onclick="downloadPoster()">⬇️ Télécharger l'affiche</button>
     </aside>
 
     <!-- ═══ AFFICHE GÉNÉRÉE PAR JAVASCRIPT ═══ -->
@@ -180,8 +196,12 @@
             <div class="grid-days" id="poster-grid-container"></div> <!-- Les cartes s'injecteront ici -->
 
             <div class="twitch-badge">
-                <!-- SVG INTÉGRÉ ICI POUR EVITER LE BUG DE CAPTURE -->
-                <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22white%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M4.265%203%203%206.236v13.223h5.154V23l3.417-3.541h3.795L21%2013.626V3H4.265zm15.044%209.68-2.656%202.76H12.1l-2.656%202.75v-2.75H5.53V4.69h13.78v7.99z%22%2F%3E%3Cpath%20d%3D%22M11.344%207.45h2.276v4.83h-2.276zM15.14%207.45h2.275v4.83H15.14z%22%2F%3E%3C%2Fsvg%3E" class="twitch-icon" alt="Twitch">
+                <div class="twitch-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.265 3 3 6.236v13.223h5.154V23l3.417-3.541h3.795L21 13.626V3H4.265zm15.044 9.68-2.656 2.76H12.1l-2.656 2.75v-2.75H5.53V4.69h13.78v7.99z"/>
+                        <path d="M11.344 7.45h2.276v4.83h-2.276zM15.14 7.45h2.275v4.83H15.14z"/>
+                    </svg>
+                </div>
                 <span class="twitch-text" id="display-twitch">TWITCH.TV/SQUADIRFN</span>
             </div>
 
@@ -190,8 +210,7 @@
 
     <!-- ═══ MOTEUR JAVASCRIPT ═══ -->
     <script>
-        // 1. NOTRE BASE DE DONNÉES DU PLANNING (Modifiable via l'interface)
-        const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; // Image vide par défaut
+        const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
         
         let schedule = [
             { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', title1: 'STREAM<br>LIBRE' },
@@ -203,42 +222,38 @@
             { id: 6, name: 'DIMANCHE', date: '26', type: 'split', img1: 'ranked.png', time1: '14H00', title1: 'FORTNITE', sub1: 'RANKED SOLO', img2: 'pillars.jpg', time2: '23H00', title2: 'PILLARS', sub2: 'GAMES VIEWERS' }
         ];
 
-        // 2. METTRE À JOUR LES DONNÉES ET RÉAFFICHER
         function updateData(dayId, field, value) {
             schedule[dayId][field] = value;
-            renderGrid(); // Met à jour l'affiche visuelle instantanément
+            renderGrid(); 
         }
 
         function updateType(dayId, newType) {
             schedule[dayId].type = newType;
-            // On initialise des valeurs par défaut si on change de type pour éviter les bugs
             if(!schedule[dayId].title1) schedule[dayId].title1 = "TITRE";
             if(!schedule[dayId].sub1) schedule[dayId].sub1 = "SOUS-TITRE";
             if(!schedule[dayId].time1) schedule[dayId].time1 = "20H00";
             if(newType === 'split' && !schedule[dayId].title2) {
                 schedule[dayId].title2 = "JEU 2"; schedule[dayId].sub2 = "INFO"; schedule[dayId].time2 = "22H00";
             }
-            renderSidebar(); // On redessine le menu de gauche car les champs changent
-            renderGrid();    // On redessine l'affiche
+            renderSidebar(); 
+            renderGrid();    
         }
 
-        // 3. FONCTION D'UPLOAD D'IMAGE MAGIQUE
         function handleImageUpload(input, dayId, imageField) {
             const file = input.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    schedule[dayId][imageField] = e.target.result; // Sauvegarde l'image encodée
-                    renderGrid(); // Met à jour l'affiche
+                    schedule[dayId][imageField] = e.target.result; 
+                    renderGrid(); 
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        // 4. GÉNÉRATION DE LA SIDEBAR (Menu de gauche dynamique)
         function renderSidebar() {
             const container = document.getElementById('sidebar-days-container');
-            container.innerHTML = ''; // On vide
+            container.innerHTML = ''; 
 
             schedule.forEach((day, index) => {
                 let html = `
@@ -299,7 +314,6 @@
             });
         }
 
-        // 5. GÉNÉRATION DE L'AFFICHE (Partie Droite)
         function renderGrid() {
             const grid = document.getElementById('poster-grid-container');
             grid.innerHTML = '';
@@ -359,11 +373,10 @@
             });
         }
 
-        // MAJ Globale Header
         function updateGlobal(target, value) {
             if(target === 'name') {
                 document.getElementById('display-name').innerText = value;
-                document.getElementById('display-watermark').innerText = value; // Le filigrane de fond s'adapte aussi
+                document.getElementById('display-watermark').innerText = value;
             } else if (target === 'twitch') {
                 document.getElementById('display-twitch').innerText = "TWITCH.TV/" + value;
             } else if (target === 'date') {
@@ -371,7 +384,6 @@
             }
         }
 
-        // Téléchargement
         async function downloadPoster() {
             const poster = document.getElementById('poster-capture');
             const btn = document.querySelector('.download-btn');
@@ -383,16 +395,15 @@
                 const canvas = await html2canvas(poster, { scale: 1, useCORS: true, backgroundColor: "#05020a" });
                 const link = document.createElement('a');
                 link.download = 'Planning_Semaine.png';
-                link.href = canvas.toDataURL('image/png', 0.95);
+                link.href = canvas.toDataURL('image/png', 1.0);
                 link.click();
             } catch (err) { alert("Erreur lors de la capture : " + err); }
 
             poster.style.transform = currentScale || "scale(0.65)";
             btn.innerText = "✅ Téléchargé !"; btn.style.opacity = "1";
-            setTimeout(() => { btn.innerText = "⬇️ Télécharger"; }, 3000);
+            setTimeout(() => { btn.innerText = "⬇️ Télécharger l'affiche"; }, 3000);
         }
 
-        // On lance la génération au démarrage
         renderSidebar();
         renderGrid();
     </script>
