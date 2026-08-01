@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur Planning SQUADIR - PRO</title>
+    <title>Générateur Planning SQUADIR - PRO (Capture F12)</title>
     
-    <!-- Script pour capturer l'affiche en image -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,500;0,700;1,700&family=Rajdhani:wght@500;600;700&display=swap');
 
@@ -38,8 +35,11 @@
         .upload-btn:hover { background: rgba(168, 85, 247, 0.3); border-color: #22d3ee; }
         .upload-btn input[type="file"] { display: none; }
 
-        .download-btn { background: linear-gradient(to right, #9d00ff, #22d3ee); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
-        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(157, 0, 255, 0.4); }
+        /* Nouveau design pour le bouton de préparation F12 */
+        .f12-btn { background: linear-gradient(to right, #e11d48, #be123c); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
+        .f12-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(225, 29, 72, 0.4); }
+        
+        .f12-help { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 5px; font-weight: 600; }
 
         /* ─── PREVIEW & POSTER ─── */
         .preview-area { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; overflow: auto; padding: 20px; }
@@ -69,13 +69,9 @@
         .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; color: #22d3ee; text-shadow: 0 0 20px rgba(168, 85, 247, 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; }
         
         .header-badge { 
-            background-color: #1a0b35; 
-            border: 2px solid rgba(168, 85, 247, 0.8); 
-            border-left: 8px solid #22d3ee; 
-            border-radius: 6px; 
-            padding: 12px 35px; 
-            font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; color: #fff; 
-            letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px 25px rgba(168, 85, 247, 0.3); 
+            background-color: #1a0b35; border: 2px solid rgba(168, 85, 247, 0.8); border-left: 8px solid #22d3ee; 
+            border-radius: 6px; padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; 
+            font-size: 32px; color: #fff; letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px 25px rgba(168, 85, 247, 0.3); 
         }
 
         /* GRID & CARDS */
@@ -96,24 +92,9 @@
 
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
         
-        .time-wrapper { 
-            align-self: flex-start; 
-            background-color: #7e22ce; 
-            background: linear-gradient(to right, #9d00ff, #6b21a8); 
-            padding: 6px 16px; 
-            margin-bottom: 8px; 
-            border-left: 4px solid #e9d5ff; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.8); 
-        }
-        .time-wrapper.cyan { 
-            background-color: #0891b2; 
-            background: linear-gradient(to right, #22d3ee, #0e7490); 
-            border-left-color: #cffafe; 
-        }
-        .time-text { 
-            display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; 
-        }
+        .time-wrapper { align-self: flex-start; background-color: #7e22ce; background: linear-gradient(to right, #9d00ff, #6b21a8); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid #e9d5ff; border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+        .time-wrapper.cyan { background-color: #0891b2; background: linear-gradient(to right, #22d3ee, #0e7490); border-left-color: #cffafe; }
+        .time-text { display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
         
         .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
         .game-sub { font-size: 16px; font-weight: 700; color: #e9d5ff; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); }
@@ -131,25 +112,25 @@
         .event-block.off-block .event-overlay { background: repeating-linear-gradient(45deg, rgba(20, 15, 30, 0.8), rgba(20, 15, 30, 0.8) 15px, rgba(5, 2, 10, 0.9) 15px, rgba(5, 2, 10, 0.9) 30px); }
         .text-center.off-text .game-title { color: #9ca3af; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 5px; }
 
-        /* 🔴 MODIF: BADGE TWITCH Centré, Descendu et en Bleu Ciel */
+        /* BADGE TWITCH Centré */
         .twitch-badge { 
-            position: absolute; 
-            bottom: 12px; /* Descendu un chouia plus bas */
-            left: 50%; /* Positionné au milieu */
-            transform: translateX(-50%); /* Centrage parfait au milieu */
-            background-color: #06020c; 
-            border: 2px solid rgba(34, 211, 238, 0.4); /* Contour fin cyan */
-            border-right: 8px solid #22d3ee; /* Gros trait Cyan (Bleu Ciel) sur le côté droit */
-            border-radius: 8px; 
-            padding: 10px 35px 10px 30px; 
-            display: flex; align-items: center; gap: 15px; z-index: 20; 
-            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2); /* Ombre cyan */
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); 
+            background-color: #06020c; border: 2px solid rgba(34, 211, 238, 0.4); border-right: 8px solid #22d3ee; 
+            border-radius: 8px; padding: 10px 35px 10px 30px; display: flex; align-items: center; gap: 15px; z-index: 20; 
+            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2); 
         }
         .twitch-icon svg { width: 28px; height: 28px; fill: #fff; display: block; }
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
+        /* Gestion de l'affichage adaptatif de base */
         @media (max-width: 1600px) { .poster { transform: scale(0.55); } }
         @media (max-width: 1300px) { .poster { transform: scale(0.45); } }
+        
+        /* Classe spéciale déclenchée par le bouton pour forcer la taille 100% (pour F12) */
+        .poster.ready-for-capture {
+            transform: scale(1) !important;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -170,13 +151,20 @@
             <input type="text" value="JUILLET 2026" oninput="updateGlobal('date', this.value)">
         </div>
 
-        <div id="sidebar-days-container"></div> <!-- Les jours s'injecteront ici -->
+        <div id="sidebar-days-container"></div> 
 
-        <button class="download-btn" onclick="downloadPoster()">⬇️ Télécharger l'affiche</button>
+        <button class="f12-btn" id="f12-btn" onclick="toggleCaptureMode()">📸 Préparer pour Capture</button>
+        <div class="f12-help">
+            1. Clique ici pour afficher en 1920x1080<br>
+            2. Fais <b>F12</b> (Inspecter)<br>
+            3. Clic droit sur le code de l'affiche<br>
+            4. <b>Capturer le nœud</b>
+        </div>
     </aside>
 
     <!-- ═══ AFFICHE GÉNÉRÉE PAR JAVASCRIPT ═══ -->
-    <main class="preview-area">
+    <main class="preview-area" id="preview-area">
+        <!-- C'est ce bloc qu'il faut cibler dans F12 -->
         <div class="poster" id="poster-capture">
             
             <div class="bg-layer">
@@ -193,7 +181,7 @@
                 <div class="header-badge" id="display-date">JUILLET 2026</div>
             </header>
 
-            <div class="grid-days" id="poster-grid-container"></div> <!-- Les cartes s'injecteront ici -->
+            <div class="grid-days" id="poster-grid-container"></div> 
 
             <div class="twitch-badge">
                 <div class="twitch-icon">
@@ -213,7 +201,8 @@
         const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
         
         let schedule = [
-            { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', title1: 'STREAM<br>LIBRE' },
+            // Ajout de l'heure pour le stream libre (time1)
+            { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', time1: '18H00', title1: 'STREAM<br>LIBRE' },
             { id: 1, name: 'MARDI', date: '21', type: 'split', img1: 'ranked.png', time1: '19H00', title1: 'FORTNITE', sub1: 'RANKED RELOAD', img2: 'f1.jpg', time2: '21H00', title2: 'F1 25', sub2: 'VIEWERS' },
             { id: 2, name: 'MERCREDI', date: '22', type: 'off' },
             { id: 3, name: 'JEUDI', date: '23', type: 'single', img1: 'perf.png', time1: '19H00', title1: 'FORTNITE', sub1: 'PERFORMANCE CUP' },
@@ -302,6 +291,7 @@
                         </div>`;
                 } else if (day.type === 'libre') {
                     html += `
+                        <div class="form-group"><label>Heure</label><input type="text" value="${day.time1 || ''}" oninput="updateData(${index}, 'time1', this.value)"></div>
                         <div class="form-group"><label>Gros Titre (&lt;br&gt; = saut ligne)</label><input type="text" value="${day.title1 || ''}" oninput="updateData(${index}, 'title1', this.value)"></div>
                         <div class="form-group">
                             <label>Image de fond (Effet Sombre)</label>
@@ -331,7 +321,10 @@
                         <div class="event-block">
                             <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}')"></div>
                             <div class="event-overlay with-effects"></div>
-                            <div class="event-info text-center"><span class="game-title">${day.title1 || ''}</span></div>
+                            <div class="event-info text-center">
+                                <div class="time-wrapper" style="align-self: center; margin-bottom: 12px;"><span class="time-text">${day.time1 || ''}</span></div>
+                                <span class="game-title">${day.title1 || ''}</span>
+                            </div>
                         </div>`;
                 }
                 else if (day.type === 'single') {
@@ -384,24 +377,25 @@
             }
         }
 
-        async function downloadPoster() {
+        // Fonction pour activer/désactiver la vue 100% (pour faciliter F12)
+        let isCaptureMode = false;
+        function toggleCaptureMode() {
             const poster = document.getElementById('poster-capture');
-            const btn = document.querySelector('.download-btn');
-            btn.innerText = "⏳ Génération..."; btn.style.opacity = "0.7";
-            const currentScale = poster.style.transform;
-            poster.style.transform = "scale(1)";
+            const btn = document.getElementById('f12-btn');
             
-            try {
-                const canvas = await html2canvas(poster, { scale: 1, useCORS: true, backgroundColor: "#05020a" });
-                const link = document.createElement('a');
-                link.download = 'Planning_Semaine.png';
-                link.href = canvas.toDataURL('image/png', 1.0);
-                link.click();
-            } catch (err) { alert("Erreur lors de la capture : " + err); }
-
-            poster.style.transform = currentScale || "scale(0.65)";
-            btn.innerText = "✅ Téléchargé !"; btn.style.opacity = "1";
-            setTimeout(() => { btn.innerText = "⬇️ Télécharger l'affiche"; }, 3000);
+            isCaptureMode = !isCaptureMode;
+            
+            if(isCaptureMode) {
+                poster.classList.add('ready-for-capture');
+                btn.innerText = "❌ Annuler le zoom";
+                btn.style.background = "linear-gradient(to right, #4b5563, #374151)";
+                // Fait scroller la zone pour voir le poster
+                document.getElementById('preview-area').scrollTop = 0;
+            } else {
+                poster.classList.remove('ready-for-capture');
+                btn.innerText = "📸 Préparer pour Capture";
+                btn.style.background = "linear-gradient(to right, #e11d48, #be123c)";
+            }
         }
 
         renderSidebar();
