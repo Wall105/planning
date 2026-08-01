@@ -6,7 +6,7 @@
     <title>Générateur Planning SQUADIR - PRO (Sauvegarde Auto)</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,500;0,700;1,700&family=Rajdhani:wght@500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,500;0,700;1,500;1,700&family=Oswald:ital,wght@0,500;0,700;1,700&family=Poppins:ital,wght@0,500;0,700;1,500;1,700&family=Rajdhani:wght@500;600;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
         /* ─── VARIABLES DE THÈMES (COULEURS) ─── */
         :root {
@@ -26,6 +26,11 @@
             /* VARIABLES DE CUSTOMISATION */
             --neon-glow: 1; 
             --card-radius: 8px; 
+            
+            /* VARIABLES DE TYPOGRAPHIE */
+            --font-main: 'Oswald', sans-serif;
+            --font-weight-main: 700;
+            --font-style-main: italic;
         }
 
         body[data-theme="inferno"] {
@@ -92,6 +97,15 @@
         .upload-btn { background: rgba(var(--c-prim-light-rgb), 0.15); border: 1px dashed rgb(var(--c-prim-light-rgb)); color: #fff; padding: 10px; text-align: center; border-radius: 4px; cursor: pointer; font-size: 14px; transition: 0.2s; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
         .upload-btn:hover { background: rgba(var(--c-prim-light-rgb), 0.3); border-color: var(--c-sec); }
         .upload-btn input[type="file"] { display: none; }
+        
+        /* Styles pour les cases à cocher */
+        .checkbox-group { display: flex; gap: 15px; align-items: center; padding: 5px 0; }
+        .checkbox-label { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .checkbox-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--c-sec); }
+
+        /* Select Typo Style Spécial */
+        #select-font optgroup { background: #111; color: var(--c-sec); font-family: sans-serif; }
+        #select-font option { color: #fff; font-family: sans-serif; padding: 5px; }
 
         .f12-btn { background: linear-gradient(to right, var(--c-prim), var(--c-sec)); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 10px; flex-shrink: 0; }
         .f12-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(var(--c-prim-rgb), 0.4); }
@@ -101,13 +115,13 @@
 
         /* ─── PREVIEW & POSTER ─── */
         .preview-area { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 20px; }
-        body.capture-mode .poster { transform: none; }
+        body.capture-mode .poster { transform: none !important; }
         .poster { 
             width: 1920px; height: 1080px; background-color: #05020a; position: relative; overflow: hidden; padding: 45px 60px 85px; display: flex; flex-direction: column;
             transform: scale(0.60); transform-origin: top center;
             border: 3px solid var(--c-prim);
             box-shadow: inset 0 0 calc(150px * var(--neon-glow)) rgba(var(--c-prim-rgb), 0.2), 0 0 calc(40px * var(--neon-glow)) rgba(var(--c-prim-rgb), 0.4);
-            flex-shrink: 0; transition: border-color 0.5s, box-shadow 0.5s;
+            flex-shrink: 0; transition: border-color 0.5s, box-shadow 0.5s, width 0.3s, height 0.3s;
         }
 
         /* ─── GESTION DES FONDS (BACKGROUNDS) ─── */
@@ -128,35 +142,41 @@
         body[data-bg="minimal"] .dot-matrix, body[data-bg="minimal"] .beam-1, body[data-bg="minimal"] .beam-2 { opacity: 0; }
         body[data-bg="minimal"] .bg-layer::before { background: radial-gradient(circle at 50% -20%, rgba(var(--c-prim-rgb), 0.15) 0%, transparent 60%), #030107; }
 
-        .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); font-family: 'Oswald', sans-serif; font-weight: 700; font-style: italic; font-size: 380px; color: rgba(255, 255, 255, 0.015); white-space: nowrap; letter-spacing: -5px; z-index: 1; }
+        .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-main); font-weight: var(--font-weight-main); font-style: var(--font-style-main); font-size: 380px; color: rgba(255, 255, 255, 0.015); white-space: nowrap; letter-spacing: -5px; z-index: 1; transition: 0.3s; }
         .poster::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; pointer-events: none; z-index: 3; opacity: 0.8; }
         body[data-bg="minimal"] .poster::after { opacity: 0.2; }
 
-        /* HEADER */
+        /* HEADER PAYSAGE (Normal) */
         .header { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 10; padding-bottom: 25px; margin-bottom: 35px; }
+        .header-main { display: flex; align-items: center; gap: 20px; }
+        .header-side { display: flex; align-items: center; gap: 20px; }
+        
         .title-group { display: flex; flex-direction: column; }
-        .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 calc(40px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
-        .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; color: var(--c-sec); text-shadow: 0 0 calc(20px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; transition: color 0.5s, text-shadow 0.5s; }
+        .title-planning { font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 88px; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 calc(40px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
+        .title-name { font-family: var(--font-main); font-weight: var(--font-weight-main); font-size: 34px; color: var(--c-sec); text-shadow: 0 0 calc(20px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; transition: color 0.5s, text-shadow 0.5s; }
         
         .header-badge { 
             background-color: #1a0b35; border: 2px solid rgba(var(--c-prim-light-rgb), 0.8); border-left: 8px solid var(--c-sec); 
-            border-radius: calc(var(--card-radius) * 0.75); padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; 
+            border-radius: calc(var(--card-radius) * 0.75); padding: 12px 35px; font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main);
             font-size: 32px; color: #fff; letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px calc(25px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.3); 
             transition: all 0.5s;
         }
+        
+        /* IMAGE CHAT */
+        .header-mascot { height: 160px; width: auto; object-fit: contain; }
 
-        /* GRID & CARDS */
+        /* GRID & CARDS PAYSAGE (Normal) */
         .grid-days { display: flex; gap: 22px; flex: 1; position: relative; z-index: 10; }
         .day-col { flex: 1; display: flex; flex-direction: column; }
         .day-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 5px 8px; border-bottom: 3px solid rgba(var(--c-prim-light-rgb), 0.4); margin-bottom: 16px; position: relative; transition: border-color 0.5s; }
         .day-header::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 40%; height: 3px; background: var(--c-sec); box-shadow: 0 0 calc(15px * var(--neon-glow)) var(--c-sec); transition: all 0.5s; }
-        .day-name { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 0 rgba(var(--c-prim-light-rgb), 0.5); transition: text-shadow 0.5s; }
-        .day-date { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 38px; font-weight: 700; color: var(--c-sec); line-height: 0.8; text-shadow: 0 0 calc(15px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.5); transition: all 0.5s; }
+        .day-name { font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 28px; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 0 rgba(var(--c-prim-light-rgb), 0.5); transition: text-shadow 0.5s; }
+        .day-date { font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 38px; color: var(--c-sec); line-height: 0.8; text-shadow: 0 0 calc(15px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.5); transition: all 0.5s; }
         .day-card { flex: 1; display: flex; flex-direction: column; border-radius: var(--card-radius); overflow: hidden; background: rgba(6, 2, 12, 0.95); border: 1px solid rgba(var(--c-sec-rgb), 0.2); border-top: 4px solid var(--c-sec); box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 calc(20px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.05); transition: all 0.5s; }
 
         .event-block { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 20px; overflow: hidden; }
         .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, var(--c-sec), transparent); z-index: 10; box-shadow: 0 0 calc(15px * var(--neon-glow)) var(--c-sec); transition: all 0.5s; }
-        .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; }
+        .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
         .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); }
         .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
         .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
@@ -164,10 +184,10 @@
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
         .time-wrapper { align-self: flex-start; background: var(--grad-time1); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid var(--time1-bord); border-radius: calc(var(--card-radius) * 0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.8); transition: all 0.5s; }
         .time-wrapper.cyan { background: var(--grad-time2); border-left-color: var(--time2-bord); }
-        .time-text { display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .time-text { display: block; font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 22px; color: #fff; letter-spacing: 1px; }
         
-        .game-title { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 32px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
-        .game-sub { font-size: 16px; font-weight: 700; color: var(--time1-bord); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); transition: color 0.5s; }
+        .game-title { font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 32px; color: #fff; text-transform: uppercase; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); letter-spacing: 1px; }
+        .game-sub { font-size: 16px; font-weight: var(--font-weight-main); color: var(--time1-bord); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.9); transition: color 0.5s; }
         .time-wrapper.cyan + .game-title + .game-sub { color: var(--time2-sub); }
 
         .text-center { text-align: center; align-items: center; justify-content: center; height: 100%; }
@@ -190,16 +210,71 @@
             box-shadow: 0 10px calc(30px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.2); transition: all 0.5s;
         }
         .twitch-icon svg { width: 28px; height: 28px; fill: #fff; display: block; }
-        .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .twitch-text { font-family: var(--font-main); font-style: var(--font-style-main); font-weight: var(--font-weight-main); font-size: 26px; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
-        @media (max-width: 1600px) { .poster { zoom: 0.55; } }
-        @media (max-width: 1300px) { .poster { zoom: 0.45; } }
+        /* ─── NOUVEAU : MODE VERTICAL (Tiktok, Reels, Shorts) ─── */
+        body.vertical-mode .poster { width: 1080px; height: 1920px; padding: 40px 30px 100px; transform: scale(0.40); }
+        
+        body.vertical-mode .header { flex-direction: column; align-items: center; gap: 10px; padding-bottom: 0; margin-bottom: 25px; }
+        body.vertical-mode .header-main { justify-content: center; width: 100%; gap: 15px; }
+        body.vertical-mode .header-side { justify-content: center; width: 100%; margin-top: 10px; }
+        
+        body.vertical-mode .header-badge { font-size: 28px; padding: 10px 25px; margin-top: 5px; }
+        body.vertical-mode .watermark { transform: translate(-50%, -50%) rotate(-90deg); font-size: 250px; opacity: 0.02; letter-spacing: 5px; }
+        
+        body.vertical-mode .grid-days { flex-direction: column; gap: 15px; }
+        body.vertical-mode .day-col { flex-direction: row; height: 100%; align-items: stretch; gap: 15px; }
+        body.vertical-mode .day-header { 
+            flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            width: 120px; border-bottom: none; border-right: 3px solid rgba(var(--c-prim-light-rgb), 0.4); 
+            padding: 0 15px 0 0; margin-bottom: 0; 
+        }
+        body.vertical-mode .day-header::after { top: auto; bottom: 20%; left: auto; right: -3px; width: 3px; height: 60%; }
+        body.vertical-mode .day-col.off .day-header { border-right-color: #4b5563; border-bottom-color: transparent; }
+        
+        body.vertical-mode .day-card { flex-direction: row; flex: 1; border-top: none; border-left: 4px solid var(--c-sec); }
+        body.vertical-mode .day-col.off .day-card { border-left-color: #4b5563; }
+        
+        /* Centrage du texte et images en format vertical */
+        body.vertical-mode .event-block { 
+            justify-content: center; 
+            align-items: center;    
+            text-align: center;
+            padding: 15px; 
+        }
+        body.vertical-mode .event-info { align-items: center; }
+        body.vertical-mode .event-block:not(:last-child)::after {
+            bottom: 5%; top: 5%; left: auto; right: 0; width: 2px; height: auto;
+            background: linear-gradient(to bottom, transparent, var(--c-sec), transparent);
+        }
+        
+        /* Filtre radial noir pour que le texte centré soit toujours lisible sur l'image */
+        body.vertical-mode .event-overlay { background: radial-gradient(circle at center, rgba(6, 2, 12, 0.8) 0%, rgba(6, 2, 12, 0.3) 100%) !important; }
+        
+        body.vertical-mode .time-wrapper { align-self: center; margin-bottom: 8px; padding: 4px 12px; }
+        body.vertical-mode .time-text { font-size: 18px; }
+        body.vertical-mode .game-title { font-size: 26px; }
+        body.vertical-mode .game-sub { font-size: 14px; }
+        body.vertical-mode .text-center .game-title { font-size: 34px; }
+        body.vertical-mode .twitch-badge { bottom: 25px; padding: 8px 30px 8px 25px; }
+
+        @media (max-width: 1600px) { 
+            .poster { zoom: 0.55; } 
+            body.vertical-mode .poster { zoom: 0.50; }
+        }
+        @media (max-width: 1300px) { 
+            .poster { zoom: 0.45; } 
+            body.vertical-mode .poster { zoom: 0.40; }
+        }
         
         /* MODE CAPTURE F12 */
         body.capture-mode .sidebar { display: none; }
         body.capture-mode { margin: 0; padding: 0; width: 1920px; height: 1080px; overflow: hidden; display: block; background: #05020a; }
+        body.capture-mode.vertical-mode { width: 1080px; height: 1920px; }
         body.capture-mode .preview-area { width: 1920px; height: 1080px; padding: 0; margin: 0; display: block; overflow: hidden; }
+        body.capture-mode.vertical-mode .preview-area { width: 1080px; height: 1920px; }
         body.capture-mode .poster { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; zoom: 1 !important; transform: none !important; }
+        body.capture-mode.vertical-mode .poster { width: 1080px; height: 1920px; }
     </style>
 </head>
 <body data-theme="cyberpunk" data-bg="classique">
@@ -214,6 +289,14 @@
             </div>
         </h2>
         
+        <div class="form-group" style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--c-sec);">
+            <label style="color: var(--c-sec);">📱 Format de l'image (Orientation)</label>
+            <select id="select-format" onchange="updateFormat(this.value)" style="border: none; font-size: 16px; font-weight: bold;">
+                <option value="horizontal">🖥️ Paysage (1920x1080) - Twitch/Twitter</option>
+                <option value="vertical">📱 Portrait (1080x1920) - Tiktok/Reels/Story</option>
+            </select>
+        </div>
+
         <div style="display: flex; gap: 10px; align-items: flex-end;">
             <div class="form-group" style="flex: 1;">
                 <label>🎨 Thème Couleur</label>
@@ -247,6 +330,42 @@
             <div class="form-group" style="flex: 1;">
                 <label>Secondaire</label>
                 <input type="color" id="color-sec" value="#00ffcc" oninput="applyCustomColors()">
+            </div>
+        </div>
+
+        <div class="split-divider"></div>
+
+        <!-- BLOC TYPOGRAPHIE AJOUTÉ -->
+        <div class="form-group" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+            <label style="color: #fff; font-size: 13px;">✍️ Typographie (Textes de l'affiche)</label>
+            <select id="select-font" onchange="updateFont()" style="border: 1px solid rgba(255,255,255,0.2); font-weight: bold; margin-bottom: 5px;">
+                <optgroup label="Spécial Streaming (Impact)">
+                    <option value="'Oswald', sans-serif">Oswald (Défaut original)</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas Neue (Très condensé)</option>
+                    <option value="'Anton', sans-serif">Anton (Épais et large)</option>
+                    <option value="'Rajdhani', sans-serif">Rajdhani (Style Tech/Futuriste)</option>
+                </optgroup>
+                <optgroup label="Modernes & Arrondies">
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                </optgroup>
+                <optgroup label="Neutres & Propres">
+                    <option value="'Inter', sans-serif">Inter</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="'Roboto Condensed', sans-serif">Roboto Condensed</option>
+                    <option value="'Arial', sans-serif">Arial / Sans-serif classique</option>
+                </optgroup>
+            </select>
+            
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="check-bold" onchange="updateFont()" checked>
+                    Gras
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="check-italic" onchange="updateFont()" checked>
+                    Italique
+                </label>
             </div>
         </div>
 
@@ -301,11 +420,16 @@
             </div>
 
             <header class="header">
-                <div class="title-group">
-                    <div class="title-planning">PLANNING</div>
-                    <div class="title-name" id="display-name">SQUADIR</div>
+                <div class="header-main">
+                    <div class="title-group">
+                        <div class="title-planning">PLANNING</div>
+                        <div class="title-name" id="display-name">SQUADIR</div>
+                    </div>
                 </div>
-                <div class="header-badge" id="display-date">JUILLET 2026</div>
+                
+                <div class="header-side">
+                    <div class="header-badge" id="display-date">JUILLET 2026</div>
+                </div>
             </header>
 
             <div class="grid-days" id="poster-grid-container"></div> 
@@ -329,11 +453,10 @@
         let isAppReady = false;
         let saveTimeout;
         
-        // ICI TES IMAGES D'ORIGINE SONT REMISES PAR DEFAUT !
         let schedule = [
             { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', time1: '18H00', title1: 'STREAM<br>LIBRE' },
             { id: 1, name: 'MARDI', date: '21', type: 'split', img1: 'ranked.png', time1: '19H00', title1: 'FORTNITE', sub1: 'RANKED RELOAD', img2: 'f1.jpg', time2: '21H00', title2: 'F1 25', sub2: 'VIEWERS' },
-            { id: 2, name: 'MERCREDI', date: '22', type: 'off' },
+            { id: 2, name: 'MERCREDI', date: '22', type: 'off', img1: 'dayofff.png' },
             { id: 3, name: 'JEUDI', date: '23', type: 'single', img1: 'perf.png', time1: '19H00', title1: 'FORTNITE', sub1: 'PERFORMANCE CUP' },
             { id: 4, name: 'VENDREDI', date: '24', type: 'single', img1: 'perf.png', time1: '19H00', title1: 'FORTNITE', sub1: 'PERFORMANCE CUP' },
             { id: 5, name: 'SAMEDI', date: '25', type: 'single', img1: 'bombe.png', time1: '15H00', title1: 'BOMBANANA!', sub1: 'AVEC KASH & WALID' },
@@ -344,10 +467,16 @@
         function saveConfig() {
             if (!isAppReady) return;
             const config = {
+                format: document.getElementById('select-format').value,
                 theme: document.getElementById('select-theme').value,
                 bg: document.getElementById('select-bg').value,
                 neon: document.getElementById('range-neon').value,
                 radius: document.getElementById('range-radius').value,
+                
+                fontFamily: document.getElementById('select-font').value,
+                fontBold: document.getElementById('check-bold').checked,
+                fontItalic: document.getElementById('check-italic').checked,
+
                 cp: document.getElementById('color-prim').value,
                 cs: document.getElementById('color-sec').value,
                 name: document.getElementById('input-name').value,
@@ -375,45 +504,78 @@
 
         function loadConfig() {
             const saved = localStorage.getItem('squadir_planning_save');
+            let config = {};
             if (saved) {
                 try {
-                    const config = JSON.parse(saved);
-                    
-                    if (config.theme) document.getElementById('select-theme').value = config.theme;
-                    if (config.bg) document.getElementById('select-bg').value = config.bg;
-                    if (config.neon) document.getElementById('range-neon').value = config.neon;
-                    if (config.radius) document.getElementById('range-radius').value = config.radius;
-                    if (config.cp) document.getElementById('color-prim').value = config.cp;
-                    if (config.cs) document.getElementById('color-sec').value = config.cs;
-                    if (config.name) document.getElementById('input-name').value = config.name;
-                    if (config.twitch) document.getElementById('input-twitch').value = config.twitch;
-                    if (config.date) document.getElementById('input-date').value = config.date;
-
-                    if (config.schedule) schedule = config.schedule;
-
-                    changeTheme(config.theme || 'cyberpunk');
-                    document.body.setAttribute('data-bg', config.bg || 'classique');
-                    document.body.style.setProperty('--neon-glow', config.neon || "1");
-                    document.body.style.setProperty('--card-radius', (config.radius || "8") + 'px');
-                    
-                    if (config.theme === 'custom') applyCustomColors();
-
-                    updateGlobal('name', config.name || "SQUADIR");
-                    updateGlobal('twitch', config.twitch || "SQUADIRFN");
-                    updateGlobal('date', config.date || "JUILLET 2026");
+                    config = JSON.parse(saved);
                 } catch (e) {
                     console.error("Erreur chargement sauvegarde", e);
                 }
             }
+
+            document.getElementById('select-format').value = config.format || 'horizontal';
+            document.getElementById('select-theme').value = config.theme || 'cyberpunk';
+            document.getElementById('select-bg').value = config.bg || 'classique';
+            
+            if (config.fontFamily) document.getElementById('select-font').value = config.fontFamily;
+            document.getElementById('check-bold').checked = config.hasOwnProperty('fontBold') ? config.fontBold : true;
+            document.getElementById('check-italic').checked = config.hasOwnProperty('fontItalic') ? config.fontItalic : true;
+
+            if (config.neon) document.getElementById('range-neon').value = config.neon;
+            if (config.radius) document.getElementById('range-radius').value = config.radius;
+            if (config.cp) document.getElementById('color-prim').value = config.cp;
+            if (config.cs) document.getElementById('color-sec').value = config.cs;
+            
+            document.getElementById('input-name').value = config.name || "SQUADIR";
+            document.getElementById('input-twitch').value = config.twitch || "SQUADIRFN";
+            document.getElementById('input-date').value = config.date || "JUILLET 2026";
+
+            if (config.schedule) schedule = config.schedule;
+
+            updateFormat(config.format || 'horizontal');
+            changeTheme(config.theme || 'cyberpunk');
+            document.body.setAttribute('data-bg', config.bg || 'classique');
+            document.body.style.setProperty('--neon-glow', config.neon || "1");
+            document.body.style.setProperty('--card-radius', (config.radius || "8") + 'px');
+            
+            updateFont();
+
+            if ((config.theme || 'cyberpunk') === 'custom') applyCustomColors();
+
+            updateGlobal('name', config.name || "SQUADIR");
+            updateGlobal('twitch', config.twitch || "SQUADIRFN");
+            updateGlobal('date', config.date || "JUILLET 2026");
+
             renderSidebar();
             renderGrid();
-            isAppReady = true; // Active la sauvegarde à partir de maintenant
+            isAppReady = true; 
         }
 
         /* --- OUTILS --- */
+        function updateFont() {
+            const fontF = document.getElementById('select-font').value;
+            const isBold = document.getElementById('check-bold').checked;
+            const isItalic = document.getElementById('check-italic').checked;
+            
+            document.body.style.setProperty('--font-main', fontF);
+            document.body.style.setProperty('--font-weight-main', isBold ? '700' : '500');
+            document.body.style.setProperty('--font-style-main', isItalic ? 'italic' : 'normal');
+            
+            saveConfig();
+        }
+
         function hexToRgb(hex) {
             let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+        }
+
+        function updateFormat(format) {
+            if(format === 'vertical') {
+                document.body.classList.add('vertical-mode');
+            } else {
+                document.body.classList.remove('vertical-mode');
+            }
+            saveConfig();
         }
 
         function changeTheme(theme) {
@@ -542,7 +704,7 @@
                         </div>`;
                 } else if (day.type === 'split') {
                     html += `
-                        <div class="split-divider"></div><label style="color:var(--c-sec);">▶ JEU 1 (HAUT)</label>
+                        <div class="split-divider"></div><label style="color:var(--c-sec);">▶ JEU 1 (HAUT/GAUCHE)</label>
                         <div class="form-group"><label>Heure</label><input type="text" value="${day.time1 || ''}" oninput="updateData(${index}, 'time1', this.value)"></div>
                         <div class="form-group"><label>Titre</label><input type="text" value="${day.title1 || ''}" oninput="updateData(${index}, 'title1', this.value)"></div>
                         <div class="form-group"><label>Sous-titre</label><input type="text" value="${day.sub1 || ''}" oninput="updateData(${index}, 'sub1', this.value)"></div>
@@ -550,7 +712,7 @@
                             <label class="upload-btn">📁 Uploader Image 1<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img1')"></label>
                         </div>
                         
-                        <div class="split-divider"></div><label style="color:rgb(var(--c-prim-light-rgb));">▶ JEU 2 (BAS)</label>
+                        <div class="split-divider"></div><label style="color:rgb(var(--c-prim-light-rgb));">▶ JEU 2 (BAS/DROITE)</label>
                         <div class="form-group"><label>Heure</label><input type="text" value="${day.time2 || ''}" oninput="updateData(${index}, 'time2', this.value)"></div>
                         <div class="form-group"><label>Titre</label><input type="text" value="${day.title2 || ''}" oninput="updateData(${index}, 'title2', this.value)"></div>
                         <div class="form-group"><label>Sous-titre</label><input type="text" value="${day.sub2 || ''}" oninput="updateData(${index}, 'sub2', this.value)"></div>
@@ -580,7 +742,14 @@
                     <div class="day-card">`;
 
                 if (day.type === 'off') {
-                    cardHTML += `<div class="event-block off-block"><div class="event-overlay"></div><div class="event-info text-center off-text"><span class="game-title">DAY<br>OFF</span></div></div>`;
+                    cardHTML += `
+                        <div class="event-block off-block">
+                            <div class="event-bg" style="background-image: url('${day.img1 || 'dayofff.png'}'); filter: brightness(0.6) saturate(0.8);"></div>
+                            <div class="event-overlay"></div>
+                            <div class="event-info text-center off-text">
+                                <span class="game-title">DAY<br>OFF</span>
+                            </div>
+                        </div>`;
                 } else if (day.type === 'libre') {
                     cardHTML += `
                         <div class="event-block">
