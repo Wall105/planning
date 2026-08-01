@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur Planning SQUADIR - PRO (Capture F12)</title>
+    <title>Générateur Planning SQUADIR - PRO (Sauvegarde Auto)</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:ital,wght@0,500;0,700;1,700&family=Rajdhani:wght@500;600;700&display=swap');
@@ -23,69 +23,41 @@
             --time2-txt: #000;
             --time2-sub: var(--c-sec);
 
-            /* NOUVELLES VARIABLES DE CUSTOMISATION */
-            --neon-glow: 1; /* Multiplicateur d'intensité lumineuse */
-            --card-radius: 8px; /* Arrondi des cases */
+            /* VARIABLES DE CUSTOMISATION */
+            --neon-glow: 1; 
+            --card-radius: 8px; 
         }
 
         body[data-theme="inferno"] {
-            /* 🔥 INFERNO */
-            --c-prim: #ff0033;
-            --c-prim-rgb: 255, 0, 51;
-            --c-prim-light-rgb: 255, 77, 106;
-            --c-sec: #ff9900;
-            --c-sec-rgb: 255, 153, 0;
-            --grad-time1: linear-gradient(to right, #ff0033, #99001f);
-            --time1-bord: #ffccd6;
-            --grad-time2: linear-gradient(to right, #ff9900, #995c00);
-            --time2-bord: #ffe6cc;
-            --time2-txt: #000;
-            --time2-sub: #ffe6cc;
+            --c-prim: #ff0033; --c-prim-rgb: 255, 0, 51; --c-prim-light-rgb: 255, 77, 106;
+            --c-sec: #ff9900; --c-sec-rgb: 255, 153, 0;
+            --grad-time1: linear-gradient(to right, #ff0033, #99001f); --time1-bord: #ffccd6;
+            --grad-time2: linear-gradient(to right, #ff9900, #995c00); --time2-bord: #ffe6cc;
+            --time2-txt: #000; --time2-sub: #ffe6cc;
         }
 
         body[data-theme="toxic"] {
-            /* ☣️ TOXIC */
-            --c-prim: #00ff00;
-            --c-prim-rgb: 0, 255, 0;
-            --c-prim-light-rgb: 77, 255, 77;
-            --c-sec: #ffea00;
-            --c-sec-rgb: 255, 234, 0;
-            --grad-time1: linear-gradient(to right, #00ff00, #008000);
-            --time1-bord: #ccffcc;
-            --grad-time2: linear-gradient(to right, #ffea00, #998c00);
-            --time2-bord: #fffbcc;
-            --time2-txt: #000;
-            --time2-sub: #fffbcc;
+            --c-prim: #00ff00; --c-prim-rgb: 0, 255, 0; --c-prim-light-rgb: 77, 255, 77;
+            --c-sec: #ffea00; --c-sec-rgb: 255, 234, 0;
+            --grad-time1: linear-gradient(to right, #00ff00, #008000); --time1-bord: #ccffcc;
+            --grad-time2: linear-gradient(to right, #ffea00, #998c00); --time2-bord: #fffbcc;
+            --time2-txt: #000; --time2-sub: #fffbcc;
         }
 
         body[data-theme="glacier"] {
-            /* ❄️ GLACIER */
-            --c-prim: #0066ff;
-            --c-prim-rgb: 0, 102, 255;
-            --c-prim-light-rgb: 77, 148, 255;
-            --c-sec: #00ffff;
-            --c-sec-rgb: 0, 255, 255;
-            --grad-time1: linear-gradient(to right, #0066ff, #003d99);
-            --time1-bord: #cce0ff;
-            --grad-time2: linear-gradient(to right, #00ffff, #009999);
-            --time2-bord: #ccffff;
-            --time2-txt: #000;
-            --time2-sub: #ccffff;
+            --c-prim: #0066ff; --c-prim-rgb: 0, 102, 255; --c-prim-light-rgb: 77, 148, 255;
+            --c-sec: #00ffff; --c-sec-rgb: 0, 255, 255;
+            --grad-time1: linear-gradient(to right, #0066ff, #003d99); --time1-bord: #cce0ff;
+            --grad-time2: linear-gradient(to right, #00ffff, #009999); --time2-bord: #ccffff;
+            --time2-txt: #000; --time2-sub: #ccffff;
         }
 
         body[data-theme="gold"] {
-            /* 👑 PRESTIGE */
-            --c-prim: #d4af37;
-            --c-prim-rgb: 212, 175, 55;
-            --c-prim-light-rgb: 224, 196, 105;
-            --c-sec: #ffffff;
-            --c-sec-rgb: 255, 255, 255;
-            --grad-time1: linear-gradient(to right, #d4af37, #806921);
-            --time1-bord: #f6efe1;
-            --grad-time2: linear-gradient(to right, #ffffff, #999999);
-            --time2-bord: #ffffff;
-            --time2-txt: #000;
-            --time2-sub: #ffffff;
+            --c-prim: #d4af37; --c-prim-rgb: 212, 175, 55; --c-prim-light-rgb: 224, 196, 105;
+            --c-sec: #ffffff; --c-sec-rgb: 255, 255, 255;
+            --grad-time1: linear-gradient(to right, #d4af37, #806921); --time1-bord: #f6efe1;
+            --grad-time2: linear-gradient(to right, #ffffff, #999999); --time2-bord: #ffffff;
+            --time2-txt: #000; --time2-sub: #ffffff;
         }
 
         /* ─── STYLES GÉNÉRAUX ─── */
@@ -97,7 +69,10 @@
         .sidebar::-webkit-scrollbar { width: 8px; }
         .sidebar::-webkit-scrollbar-track { background: #030107; }
         .sidebar::-webkit-scrollbar-thumb { background: var(--c-prim); border-radius: 4px; }
-        .sidebar h2 { font-family: 'Oswald', sans-serif; color: var(--c-sec); font-size: 24px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid rgba(var(--c-sec-rgb), 0.3); padding-bottom: 5px; margin-bottom: 10px; }
+        .sidebar h2 { font-family: 'Oswald', sans-serif; color: var(--c-sec); font-size: 24px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid rgba(var(--c-sec-rgb), 0.3); padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        .btn-reset { background: none; border: 1px solid #ff3333; color: #ff3333; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; font-family: 'Rajdhani', sans-serif; transition: 0.2s; }
+        .btn-reset:hover { background: #ff3333; color: #fff; }
 
         details { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 5px; }
         summary { font-family: 'Oswald', sans-serif; font-size: 18px; color: var(--time1-bord); font-weight: 700; text-transform: uppercase; padding: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
@@ -137,7 +112,6 @@
 
         /* ─── GESTION DES FONDS (BACKGROUNDS) ─── */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; transition: all 0.5s ease; }
-        
         .bg-layer::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 10% 10%, rgba(var(--c-prim-rgb), 0.2) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(var(--c-sec-rgb), 0.15) 0%, transparent 40%), #030107; transition: all 0.5s ease; }
         .beam-1, .beam-2 { position: absolute; width: 200%; height: 180px; transform-origin: center; transition: all 0.5s ease; opacity: 1; }
         .beam-1 { top: 15%; left: -50%; transform: rotate(-35deg); background: linear-gradient(to right, transparent 0%, rgba(var(--c-prim-light-rgb), 0.08) 50%, transparent 100%); }
@@ -154,7 +128,6 @@
         body[data-bg="minimal"] .dot-matrix, body[data-bg="minimal"] .beam-1, body[data-bg="minimal"] .beam-2 { opacity: 0; }
         body[data-bg="minimal"] .bg-layer::before { background: radial-gradient(circle at 50% -20%, rgba(var(--c-prim-rgb), 0.15) 0%, transparent 60%), #030107; }
 
-        /* TEXTE EN FILIGRANE & SCANLINES */
         .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); font-family: 'Oswald', sans-serif; font-weight: 700; font-style: italic; font-size: 380px; color: rgba(255, 255, 255, 0.015); white-space: nowrap; letter-spacing: -5px; z-index: 1; }
         .poster::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; pointer-events: none; z-index: 3; opacity: 0.8; }
         body[data-bg="minimal"] .poster::after { opacity: 0.2; }
@@ -189,7 +162,6 @@
         .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
 
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
-        
         .time-wrapper { align-self: flex-start; background: var(--grad-time1); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid var(--time1-bord); border-radius: calc(var(--card-radius) * 0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.8); transition: all 0.5s; }
         .time-wrapper.cyan { background: var(--grad-time2); border-left-color: var(--time2-bord); }
         .time-text { display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
@@ -234,13 +206,18 @@
 
     <!-- ═══ SIDEBAR ═══ -->
     <aside class="sidebar">
-        <h2>🛠️ Globaux</h2>
+        <h2>
+            <span>🛠️ Globaux</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button class="btn-reset" onclick="localStorage.removeItem('squadir_planning_save'); location.reload();" title="Effacer la sauvegarde et remettre par défaut">🔄 Reset</button>
+                <span id="save-status" style="font-size: 13px; color: #00ff00; font-family: 'Rajdhani', sans-serif; text-transform: none; letter-spacing: 0;">🟢 Prêt</span>
+            </div>
+        </h2>
         
         <div style="display: flex; gap: 10px; align-items: flex-end;">
-            <!-- SÉLECTEUR DE COULEURS -->
             <div class="form-group" style="flex: 1;">
                 <label>🎨 Thème Couleur</label>
-                <select onchange="changeTheme(this.value)" style="border: 1px solid var(--c-sec); color: #fff; font-weight: bold;">
+                <select id="select-theme" onchange="changeTheme(this.value)" style="border: 1px solid var(--c-sec); color: #fff; font-weight: bold;">
                     <option value="cyberpunk">🟣 Cyberpunk</option>
                     <option value="inferno">🔥 Inferno</option>
                     <option value="toxic">☣️ Toxic</option>
@@ -250,10 +227,9 @@
                 </select>
             </div>
 
-            <!-- SÉLECTEUR DE FOND -->
             <div class="form-group" style="flex: 1;">
                 <label>🖼️ Style de Fond</label>
-                <select onchange="document.body.setAttribute('data-bg', this.value)" style="border: 1px solid rgb(var(--c-prim-light-rgb)); color: #fff; font-weight: bold;">
+                <select id="select-bg" onchange="updateBg(this.value)" style="border: 1px solid rgb(var(--c-prim-light-rgb)); color: #fff; font-weight: bold;">
                     <option value="classique">🌃 Classique</option>
                     <option value="grid">🌐 Tech Grid</option>
                     <option value="speed">⚡ Vitesse</option>
@@ -263,7 +239,6 @@
             </div>
         </div>
 
-        <!-- PANNEAU COULEURS CUSTOM (Caché par défaut) -->
         <div id="custom-color-panel" style="display: none; gap: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
             <div class="form-group" style="flex: 1;">
                 <label>Primaire</label>
@@ -277,29 +252,28 @@
 
         <div class="split-divider"></div>
 
-        <!-- NOUVEAUX SLIDERS (NÉON ET ARRONDI) -->
         <div class="form-group">
             <label style="color: var(--c-sec);">✨ Puissance Néon (Lumière)</label>
-            <input type="range" min="0" max="2" step="0.1" value="1" oninput="document.body.style.setProperty('--neon-glow', this.value)">
+            <input id="range-neon" type="range" min="0" max="2" step="0.1" value="1" oninput="updateNeon(this.value)">
         </div>
         <div class="form-group">
             <label style="color: rgb(var(--c-prim-light-rgb));">🔲 Style des cases (Carré → Arrondi)</label>
-            <input type="range" min="0" max="30" step="1" value="8" oninput="document.body.style.setProperty('--card-radius', this.value + 'px')">
+            <input id="range-radius" type="range" min="0" max="30" step="1" value="8" oninput="updateRadius(this.value)">
         </div>
 
         <div class="split-divider"></div>
 
         <div class="form-group">
             <label>Nom en haut à gauche</label>
-            <input type="text" value="SQUADIR" oninput="updateGlobal('name', this.value)">
+            <input id="input-name" type="text" value="SQUADIR" oninput="updateGlobal('name', this.value)">
         </div>
         <div class="form-group">
             <label>Pseudo Twitch</label>
-            <input type="text" value="SQUADIRFN" oninput="updateGlobal('twitch', this.value)">
+            <input id="input-twitch" type="text" value="SQUADIRFN" oninput="updateGlobal('twitch', this.value)">
         </div>
         <div class="form-group">
             <label>Mois / Année</label>
-            <input type="text" value="JUILLET 2026" oninput="updateGlobal('date', this.value)">
+            <input id="input-date" type="text" value="JUILLET 2026" oninput="updateGlobal('date', this.value)">
         </div>
 
         <div id="sidebar-days-container"></div> 
@@ -352,7 +326,10 @@
     <!-- ═══ JAVASCRIPT ═══ -->
     <script>
         const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
+        let isAppReady = false;
+        let saveTimeout;
         
+        // ICI TES IMAGES D'ORIGINE SONT REMISES PAR DEFAUT !
         let schedule = [
             { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', time1: '18H00', title1: 'STREAM<br>LIBRE' },
             { id: 1, name: 'MARDI', date: '21', type: 'split', img1: 'ranked.png', time1: '19H00', title1: 'FORTNITE', sub1: 'RANKED RELOAD', img2: 'f1.jpg', time2: '21H00', title2: 'F1 25', sub2: 'VIEWERS' },
@@ -363,7 +340,77 @@
             { id: 6, name: 'DIMANCHE', date: '26', type: 'split', img1: 'ranked.png', time1: '14H00', title1: 'FORTNITE', sub1: 'RANKED SOLO', img2: 'pillars.jpg', time2: '23H00', title2: 'PILLARS', sub2: 'GAMES VIEWERS' }
         ];
 
-        /* NOUVEAU : GESTION DES COULEURS CUSTOM */
+        /* --- SAUVEGARDE AUTO --- */
+        function saveConfig() {
+            if (!isAppReady) return;
+            const config = {
+                theme: document.getElementById('select-theme').value,
+                bg: document.getElementById('select-bg').value,
+                neon: document.getElementById('range-neon').value,
+                radius: document.getElementById('range-radius').value,
+                cp: document.getElementById('color-prim').value,
+                cs: document.getElementById('color-sec').value,
+                name: document.getElementById('input-name').value,
+                twitch: document.getElementById('input-twitch').value,
+                date: document.getElementById('input-date').value,
+                schedule: schedule
+            };
+
+            const status = document.getElementById('save-status');
+            try {
+                localStorage.setItem('squadir_planning_save', JSON.stringify(config));
+                status.innerText = "🟢 Sauvegardé";
+                status.style.color = "#00ff00";
+            } catch (e) {
+                status.innerText = "🔴 Images trop lourdes";
+                status.style.color = "#ff3333";
+                console.warn("Quota dépassé : impossible de sauvegarder les images si elles sont trop volumineuses.");
+            }
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                if(status.innerText === "🟢 Sauvegardé") status.innerText = "🟢 Auto-save activé";
+            }, 2000);
+        }
+
+        function loadConfig() {
+            const saved = localStorage.getItem('squadir_planning_save');
+            if (saved) {
+                try {
+                    const config = JSON.parse(saved);
+                    
+                    if (config.theme) document.getElementById('select-theme').value = config.theme;
+                    if (config.bg) document.getElementById('select-bg').value = config.bg;
+                    if (config.neon) document.getElementById('range-neon').value = config.neon;
+                    if (config.radius) document.getElementById('range-radius').value = config.radius;
+                    if (config.cp) document.getElementById('color-prim').value = config.cp;
+                    if (config.cs) document.getElementById('color-sec').value = config.cs;
+                    if (config.name) document.getElementById('input-name').value = config.name;
+                    if (config.twitch) document.getElementById('input-twitch').value = config.twitch;
+                    if (config.date) document.getElementById('input-date').value = config.date;
+
+                    if (config.schedule) schedule = config.schedule;
+
+                    changeTheme(config.theme || 'cyberpunk');
+                    document.body.setAttribute('data-bg', config.bg || 'classique');
+                    document.body.style.setProperty('--neon-glow', config.neon || "1");
+                    document.body.style.setProperty('--card-radius', (config.radius || "8") + 'px');
+                    
+                    if (config.theme === 'custom') applyCustomColors();
+
+                    updateGlobal('name', config.name || "SQUADIR");
+                    updateGlobal('twitch', config.twitch || "SQUADIRFN");
+                    updateGlobal('date', config.date || "JUILLET 2026");
+                } catch (e) {
+                    console.error("Erreur chargement sauvegarde", e);
+                }
+            }
+            renderSidebar();
+            renderGrid();
+            isAppReady = true; // Active la sauvegarde à partir de maintenant
+        }
+
+        /* --- OUTILS --- */
         function hexToRgb(hex) {
             let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
@@ -376,7 +423,6 @@
                 applyCustomColors();
             } else {
                 document.getElementById('custom-color-panel').style.display = 'none';
-                // On nettoie les styles inline pour laisser le CSS faire le travail
                 document.body.style.removeProperty('--c-prim');
                 document.body.style.removeProperty('--c-prim-rgb');
                 document.body.style.removeProperty('--c-prim-light-rgb');
@@ -389,6 +435,7 @@
                 document.body.style.removeProperty('--time2-sub');
                 document.body.style.removeProperty('--time2-txt');
             }
+            saveConfig();
         }
 
         function applyCustomColors() {
@@ -401,7 +448,6 @@
             document.body.style.setProperty('--c-prim', prim);
             document.body.style.setProperty('--c-prim-rgb', rgbPrim);
             document.body.style.setProperty('--c-prim-light-rgb', rgbPrim);
-            
             document.body.style.setProperty('--c-sec', sec);
             document.body.style.setProperty('--c-sec-rgb', rgbSec);
             
@@ -411,11 +457,17 @@
             document.body.style.setProperty('--time2-bord', '#ffffff');
             document.body.style.setProperty('--time2-txt', '#000');
             document.body.style.setProperty('--time2-sub', sec);
+            saveConfig();
         }
+
+        function updateBg(bg) { document.body.setAttribute('data-bg', bg); saveConfig(); }
+        function updateNeon(val) { document.body.style.setProperty('--neon-glow', val); saveConfig(); }
+        function updateRadius(val) { document.body.style.setProperty('--card-radius', val + 'px'); saveConfig(); }
 
         function updateData(dayId, field, value) {
             schedule[dayId][field] = value;
             renderGrid(); 
+            saveConfig();
         }
 
         function updateType(dayId, newType) {
@@ -428,6 +480,7 @@
             }
             renderSidebar(); 
             renderGrid();    
+            saveConfig();
         }
 
         function handleImageUpload(input, dayId, imageField) {
@@ -437,15 +490,28 @@
                 reader.onload = function(e) {
                     schedule[dayId][imageField] = e.target.result; 
                     renderGrid(); 
+                    saveConfig();
                 }
                 reader.readAsDataURL(file);
             }
         }
 
+        function updateGlobal(target, value) {
+            if(target === 'name') {
+                document.getElementById('display-name').innerText = value;
+                document.getElementById('display-watermark').innerText = value;
+            } else if (target === 'twitch') {
+                document.getElementById('display-twitch').innerText = "TWITCH.TV/" + value;
+            } else if (target === 'date') {
+                document.getElementById('display-date').innerText = value;
+            }
+            saveConfig();
+        }
+
+        /* --- RENDU --- */
         function renderSidebar() {
             const container = document.getElementById('sidebar-days-container');
             container.innerHTML = ''; 
-
             schedule.forEach((day, index) => {
                 let html = `
                 <details>
@@ -500,7 +566,6 @@
                             <label class="upload-btn">📁 Uploader une image<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img1')"></label>
                         </div>`;
                 }
-
                 html += `</div></details>`;
                 container.innerHTML += html;
             });
@@ -509,7 +574,6 @@
         function renderGrid() {
             const grid = document.getElementById('poster-grid-container');
             grid.innerHTML = '';
-
             schedule.forEach(day => {
                 let cardHTML = `<div class="day-col ${day.type === 'off' ? 'off' : ''}">
                     <div class="day-header"><span class="day-name">${day.name}</span><span class="day-date">${day.date}</span></div>
@@ -517,8 +581,7 @@
 
                 if (day.type === 'off') {
                     cardHTML += `<div class="event-block off-block"><div class="event-overlay"></div><div class="event-info text-center off-text"><span class="game-title">DAY<br>OFF</span></div></div>`;
-                } 
-                else if (day.type === 'libre') {
+                } else if (day.type === 'libre') {
                     cardHTML += `
                         <div class="event-block">
                             <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}')"></div>
@@ -528,8 +591,7 @@
                                 <span class="game-title">${day.title1 || ''}</span>
                             </div>
                         </div>`;
-                }
-                else if (day.type === 'single') {
+                } else if (day.type === 'single') {
                     cardHTML += `
                         <div class="event-block">
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
@@ -540,8 +602,7 @@
                                 <span class="game-sub">${day.sub1 || ''}</span>
                             </div>
                         </div>`;
-                }
-                else if (day.type === 'split') {
+                } else if (day.type === 'split') {
                     cardHTML += `
                         <div class="event-block">
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
@@ -562,25 +623,13 @@
                             </div>
                         </div>`;
                 }
-
                 cardHTML += `</div></div>`;
                 grid.innerHTML += cardHTML;
             });
         }
 
-        function updateGlobal(target, value) {
-            if(target === 'name') {
-                document.getElementById('display-name').innerText = value;
-                document.getElementById('display-watermark').innerText = value;
-            } else if (target === 'twitch') {
-                document.getElementById('display-twitch').innerText = "TWITCH.TV/" + value;
-            } else if (target === 'date') {
-                document.getElementById('display-date').innerText = value;
-            }
-        }
-
-        renderSidebar();
-        renderGrid();
+        // Lancement au démarrage
+        loadConfig();
     </script>
 </body>
 </html>
