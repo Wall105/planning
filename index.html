@@ -12,7 +12,7 @@
         body { background-color: #111; font-family: 'Rajdhani', sans-serif; display: flex; height: 100vh; overflow: hidden; color: #fff; }
 
         /* ─── SIDEBAR (GÉNÉRATEUR) ─── */
-        .sidebar { width: 450px; background: #0a0514; border-right: 1px solid rgba(168, 85, 247, 0.3); padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; box-shadow: 10px 0 30px rgba(0,0,0,0.8); z-index: 100; }
+        .sidebar { width: 450px; background: #0a0514; border-right: 1px solid rgba(168, 85, 247, 0.3); padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; box-shadow: 10px 0 30px rgba(0,0,0,0.8); z-index: 100; transition: transform 0.3s ease; }
         .sidebar::-webkit-scrollbar { width: 8px; }
         .sidebar::-webkit-scrollbar-track { background: #030107; }
         .sidebar::-webkit-scrollbar-thumb { background: #9d00ff; border-radius: 4px; }
@@ -35,22 +35,38 @@
         .upload-btn:hover { background: rgba(168, 85, 247, 0.3); border-color: #22d3ee; }
         .upload-btn input[type="file"] { display: none; }
 
-        /* Nouveau design pour le bouton de préparation F12 */
-        .f12-btn { background: linear-gradient(to right, #e11d48, #be123c); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
-        .f12-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(225, 29, 72, 0.4); }
-        
-        .f12-help { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 5px; font-weight: 600; }
+        .f12-btn { background: linear-gradient(to right, #9d00ff, #22d3ee); color: #fff; border: none; padding: 15px; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; border-radius: 8px; text-transform: uppercase; transition: transform 0.2s, box-shadow 0.2s; margin-top: 20px; flex-shrink: 0; }
+        .f12-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(157, 0, 255, 0.4); }
+        .f12-help { font-size: 13px; color: #9ca3af; text-align: center; margin-top: 8px; font-weight: 600; line-height: 1.5; }
 
         /* ─── PREVIEW & POSTER ─── */
-        .preview-area { flex: 1; display: flex; justify-content: center; align-items: center; background: #000; overflow: auto; padding: 20px; }
-        
+       .preview-area {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+}
+        body.capture-mode .poster {
+    transform: none;
+}
         .poster { 
-            width: 1920px; height: 1080px; min-width: 1920px; min-height: 1080px; 
-            background-color: #05020a; position: relative; overflow: hidden; 
-            padding: 45px 60px 85px; display: flex; flex-direction: column; 
-            transform: scale(0.65); transform-origin: center center; transition: transform 0.3s ease;
-            border: 3px solid #9d00ff; box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2), 0 0 40px rgba(157, 0, 255, 0.4);
-        }
+    width: 1920px;
+    height: 1080px;
+    background-color: #05020a;
+    position: relative;
+    overflow: hidden;
+    padding: 45px 60px 85px;
+    display: flex;
+    flex-direction: column;
+
+    transform: scale(0.65);
+    transform-origin: top left;
+
+    border: 3px solid #9d00ff;
+    box-shadow: inset 0 0 150px rgba(157, 0, 255, 0.2),
+                0 0 40px rgba(157, 0, 255, 0.4);
+}
 
         /* FOND & EFFETS */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
@@ -86,7 +102,7 @@
         .event-block { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 20px; overflow: hidden; }
         .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, #22d3ee, transparent); z-index: 10; box-shadow: 0 0 15px #22d3ee; }
         .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; }
-        .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); transform: scale(1.05); }
+        .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); }
         .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
         .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
 
@@ -122,15 +138,45 @@
         .twitch-icon svg { width: 28px; height: 28px; fill: #fff; display: block; }
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
 
-        /* Gestion de l'affichage adaptatif de base */
-        @media (max-width: 1600px) { .poster { transform: scale(0.55); } }
-        @media (max-width: 1300px) { .poster { transform: scale(0.45); } }
+        /* Gestion de l'affichage adaptatif (On utilise zoom ici aussi pour la cohérence) */
+        @media (max-width: 1600px) { .poster { zoom: 0.55; } }
+        @media (max-width: 1300px) { .poster { zoom: 0.45; } }
         
-        /* Classe spéciale déclenchée par le bouton pour forcer la taille 100% (pour F12) */
-        .poster.ready-for-capture {
-            transform: scale(1) !important;
-            margin: auto;
-        }
+        /* ─── CLASSE POUR LE MODE CAPTURE ─── */
+        body.capture-mode .sidebar { display: none; }
+        /* MODE CAPTURE F12 */
+body.capture-mode {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    background: #05020a;
+}
+
+body.capture-mode .sidebar {
+    display: none;
+}
+
+body.capture-mode .preview-area {
+    width: 1920px;
+    height: 1080px;
+    padding: 0;
+    margin: 0;
+    display: block;
+    overflow: hidden;
+}
+
+body.capture-mode .poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    zoom: 1 !important;
+    transform: none !important;
+}
     </style>
 </head>
 <body>
@@ -153,18 +199,18 @@
 
         <div id="sidebar-days-container"></div> 
 
-        <button class="f12-btn" id="f12-btn" onclick="toggleCaptureMode()">📸 Préparer pour Capture</button>
+        <button class="f12-btn" onclick="document.body.classList.add('capture-mode')">📸 Masquer le Menu pour Capturer</button>
         <div class="f12-help">
-            1. Clique ici pour afficher en 1920x1080<br>
-            2. Fais <b>F12</b> (Inspecter)<br>
-            3. Clic droit sur le code de l'affiche<br>
-            4. <b>Capturer le nœud</b>
+            1. Configure tout ton planning.<br>
+            2. Clique sur le bouton ci-dessus.<br>
+            3. Fais ton <b>F12 -> Capturer le nœud</b>.<br>
+            4. <i>Appuie sur <b>F5</b> pour retrouver le menu.</i>
         </div>
     </aside>
 
     <!-- ═══ AFFICHE GÉNÉRÉE PAR JAVASCRIPT ═══ -->
     <main class="preview-area" id="preview-area">
-        <!-- C'est ce bloc qu'il faut cibler dans F12 -->
+        <!-- 🔥 C'EST CETTE LIGNE EXACTEMENT QU'IL FAUT CAPTURER DANS LE CODE (F12) 🔥 -->
         <div class="poster" id="poster-capture">
             
             <div class="bg-layer">
@@ -201,7 +247,6 @@
         const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
         
         let schedule = [
-            // Ajout de l'heure pour le stream libre (time1)
             { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', time1: '18H00', title1: 'STREAM<br>LIBRE' },
             { id: 1, name: 'MARDI', date: '21', type: 'split', img1: 'ranked.png', time1: '19H00', title1: 'FORTNITE', sub1: 'RANKED RELOAD', img2: 'f1.jpg', time2: '21H00', title2: 'F1 25', sub2: 'VIEWERS' },
             { id: 2, name: 'MERCREDI', date: '22', type: 'off' },
@@ -374,27 +419,6 @@
                 document.getElementById('display-twitch').innerText = "TWITCH.TV/" + value;
             } else if (target === 'date') {
                 document.getElementById('display-date').innerText = value;
-            }
-        }
-
-        // Fonction pour activer/désactiver la vue 100% (pour faciliter F12)
-        let isCaptureMode = false;
-        function toggleCaptureMode() {
-            const poster = document.getElementById('poster-capture');
-            const btn = document.getElementById('f12-btn');
-            
-            isCaptureMode = !isCaptureMode;
-            
-            if(isCaptureMode) {
-                poster.classList.add('ready-for-capture');
-                btn.innerText = "❌ Annuler le zoom";
-                btn.style.background = "linear-gradient(to right, #4b5563, #374151)";
-                // Fait scroller la zone pour voir le poster
-                document.getElementById('preview-area').scrollTop = 0;
-            } else {
-                poster.classList.remove('ready-for-capture');
-                btn.innerText = "📸 Préparer pour Capture";
-                btn.style.background = "linear-gradient(to right, #e11d48, #be123c)";
             }
         }
 
