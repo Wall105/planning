@@ -16,12 +16,16 @@
             --c-prim-light-rgb: 168, 85, 247;
             --c-sec: #22d3ee;
             --c-sec-rgb: 34, 211, 238;
-            --grad-time1: linear-gradient(to right, #9d00ff, #6b21a8);
+            --grad-time1: linear-gradient(to right, var(--c-prim), #6b21a8);
             --time1-bord: #e9d5ff;
-            --grad-time2: linear-gradient(to right, #22d3ee, #0e7490);
+            --grad-time2: linear-gradient(to right, var(--c-sec), #0e7490);
             --time2-bord: #cffafe;
             --time2-txt: #000;
-            --time2-sub: #a5f3fc;
+            --time2-sub: var(--c-sec);
+
+            /* NOUVELLES VARIABLES DE CUSTOMISATION */
+            --neon-glow: 1; /* Multiplicateur d'intensité lumineuse */
+            --card-radius: 8px; /* Arrondi des cases */
         }
 
         body[data-theme="inferno"] {
@@ -105,6 +109,8 @@
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group label { font-weight: 600; color: #9ca3af; font-size: 12px; text-transform: uppercase; }
         .form-group input, .form-group select { padding: 8px; background: #030107; border: 1px solid rgba(var(--c-prim-light-rgb), 0.4); color: #fff; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 14px; transition: 0.3s; }
+        .form-group input[type="color"] { padding: 2px; height: 35px; cursor: pointer; }
+        .form-group input[type="range"] { padding: 0; cursor: pointer; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--c-sec); box-shadow: 0 0 10px rgba(var(--c-sec-rgb), 0.2); }
         .split-divider { width: 100%; height: 1px; background: rgba(var(--c-sec-rgb), 0.3); margin: 10px 0; }
 
@@ -119,81 +125,50 @@
         .f12-help code { color: var(--c-sec); background: #000; padding: 2px 4px; border-radius: 3px; font-family: monospace; font-size: 11px; word-break: break-all; }
 
         /* ─── PREVIEW & POSTER ─── */
-        .preview-area {
-            flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 20px;
-        }
+        .preview-area { flex: 1; display: flex; justify-content: center; align-items: flex-start; overflow: auto; padding: 20px; }
         body.capture-mode .poster { transform: none; }
         .poster { 
             width: 1920px; height: 1080px; background-color: #05020a; position: relative; overflow: hidden; padding: 45px 60px 85px; display: flex; flex-direction: column;
             transform: scale(0.60); transform-origin: top center;
             border: 3px solid var(--c-prim);
-            box-shadow: inset 0 0 150px rgba(var(--c-prim-rgb), 0.2), 0 0 40px rgba(var(--c-prim-rgb), 0.4);
+            box-shadow: inset 0 0 calc(150px * var(--neon-glow)) rgba(var(--c-prim-rgb), 0.2), 0 0 calc(40px * var(--neon-glow)) rgba(var(--c-prim-rgb), 0.4);
             flex-shrink: 0; transition: border-color 0.5s, box-shadow 0.5s;
         }
 
         /* ─── GESTION DES FONDS (BACKGROUNDS) ─── */
         .bg-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; transition: all 0.5s ease; }
         
-        /* 1. CLASSIQUE (Défaut) */
         .bg-layer::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 10% 10%, rgba(var(--c-prim-rgb), 0.2) 0%, transparent 40%), radial-gradient(circle at 90% 90%, rgba(var(--c-sec-rgb), 0.15) 0%, transparent 40%), #030107; transition: all 0.5s ease; }
         .beam-1, .beam-2 { position: absolute; width: 200%; height: 180px; transform-origin: center; transition: all 0.5s ease; opacity: 1; }
         .beam-1 { top: 15%; left: -50%; transform: rotate(-35deg); background: linear-gradient(to right, transparent 0%, rgba(var(--c-prim-light-rgb), 0.08) 50%, transparent 100%); }
         .beam-2 { top: 60%; left: -50%; transform: rotate(-35deg); background: linear-gradient(to right, transparent 0%, rgba(var(--c-sec-rgb), 0.05) 50%, transparent 100%); }
         .dot-matrix { position: absolute; inset: 0; z-index: 2; transition: all 0.5s ease; opacity: 1; }
-        body[data-bg="classique"] .dot-matrix {
-            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px);
-            background-size: 32px 32px;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
-        }
-
-        /* 2. TECH GRID (Quadrillage) */
-        body[data-bg="grid"] .dot-matrix {
-            background-image: linear-gradient(rgba(var(--c-prim-light-rgb), 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--c-prim-light-rgb), 0.1) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
-        }
-
-        /* 3. VITESSE (Diagonales) */
-        body[data-bg="speed"] .dot-matrix {
-            background-image: repeating-linear-gradient(-45deg, rgba(var(--c-prim-light-rgb), 0.04), rgba(var(--c-prim-light-rgb), 0.04) 4px, transparent 4px, transparent 15px);
-            background-size: 100% 100%;
-            mask-image: linear-gradient(to right, black 20%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, black 20%, transparent 100%);
-        }
+        
+        body[data-bg="classique"] .dot-matrix { background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px); background-size: 32px 32px; mask-image: radial-gradient(circle at center, black 40%, transparent 90%); -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%); }
+        body[data-bg="grid"] .dot-matrix { background-image: linear-gradient(rgba(var(--c-prim-light-rgb), 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--c-prim-light-rgb), 0.1) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(circle at center, black 60%, transparent 100%); -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%); }
+        body[data-bg="speed"] .dot-matrix { background-image: repeating-linear-gradient(-45deg, rgba(var(--c-prim-light-rgb), 0.04), rgba(var(--c-prim-light-rgb), 0.04) 4px, transparent 4px, transparent 15px); background-size: 100% 100%; mask-image: linear-gradient(to right, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 20%, transparent 100%); }
         body[data-bg="speed"] .beam-1, body[data-bg="speed"] .beam-2 { height: 400px; transform: rotate(-15deg); }
-
-        /* 4. AURA (Gros Halos) */
         body[data-bg="glow"] .dot-matrix { opacity: 0; }
         body[data-bg="glow"] .beam-1, body[data-bg="glow"] .beam-2 { opacity: 0; }
-        body[data-bg="glow"] .bg-layer::before {
-            background: 
-                radial-gradient(circle at 15% 70%, rgba(var(--c-prim-rgb), 0.25) 0%, transparent 60%), 
-                radial-gradient(circle at 85% 30%, rgba(var(--c-sec-rgb), 0.25) 0%, transparent 60%), 
-                radial-gradient(circle at 50% 50%, rgba(var(--c-prim-light-rgb), 0.05) 0%, transparent 80%), 
-                #030107;
-        }
-
-        /* 5. MINIMALISTE */
+        body[data-bg="glow"] .bg-layer::before { background: radial-gradient(circle at 15% 70%, rgba(var(--c-prim-rgb), 0.25) 0%, transparent 60%), radial-gradient(circle at 85% 30%, rgba(var(--c-sec-rgb), 0.25) 0%, transparent 60%), radial-gradient(circle at 50% 50%, rgba(var(--c-prim-light-rgb), 0.05) 0%, transparent 80%), #030107; }
         body[data-bg="minimal"] .dot-matrix, body[data-bg="minimal"] .beam-1, body[data-bg="minimal"] .beam-2 { opacity: 0; }
         body[data-bg="minimal"] .bg-layer::before { background: radial-gradient(circle at 50% -20%, rgba(var(--c-prim-rgb), 0.15) 0%, transparent 60%), #030107; }
 
         /* TEXTE EN FILIGRANE & SCANLINES */
         .watermark { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); font-family: 'Oswald', sans-serif; font-weight: 700; font-style: italic; font-size: 380px; color: rgba(255, 255, 255, 0.015); white-space: nowrap; letter-spacing: -5px; z-index: 1; }
         .poster::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; pointer-events: none; z-index: 3; opacity: 0.8; }
-        body[data-bg="minimal"] .poster::after { opacity: 0.2; } /* Adoucit l'effet sur le minimaliste */
+        body[data-bg="minimal"] .poster::after { opacity: 0.2; }
 
         /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 10; padding-bottom: 25px; margin-bottom: 35px; }
         .title-group { display: flex; flex-direction: column; }
-        .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 40px rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
-        .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; color: var(--c-sec); text-shadow: 0 0 20px rgba(var(--c-prim-light-rgb), 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; transition: color 0.5s, text-shadow 0.5s; }
+        .title-planning { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 88px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; line-height: 0.85; text-shadow: 0 0 calc(40px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
+        .title-name { font-family: 'Oswald', sans-serif; font-size: 34px; font-weight: 600; color: var(--c-sec); text-shadow: 0 0 calc(20px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.6); letter-spacing: 12px; margin-top: 10px; text-transform: uppercase; transition: color 0.5s, text-shadow 0.5s; }
         
         .header-badge { 
             background-color: #1a0b35; border: 2px solid rgba(var(--c-prim-light-rgb), 0.8); border-left: 8px solid var(--c-sec); 
-            border-radius: 6px; padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; 
-            font-size: 32px; color: #fff; letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px 25px rgba(var(--c-prim-light-rgb), 0.3); 
+            border-radius: calc(var(--card-radius) * 0.75); padding: 12px 35px; font-family: 'Oswald', sans-serif; font-style: italic; 
+            font-size: 32px; color: #fff; letter-spacing: 4px; text-transform: uppercase; box-shadow: 0 5px calc(25px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.3); 
             transition: all 0.5s;
         }
 
@@ -201,13 +176,13 @@
         .grid-days { display: flex; gap: 22px; flex: 1; position: relative; z-index: 10; }
         .day-col { flex: 1; display: flex; flex-direction: column; }
         .day-header { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 5px 8px; border-bottom: 3px solid rgba(var(--c-prim-light-rgb), 0.4); margin-bottom: 16px; position: relative; transition: border-color 0.5s; }
-        .day-header::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 40%; height: 3px; background: var(--c-sec); box-shadow: 0 0 15px var(--c-sec); transition: all 0.5s; }
+        .day-header::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 40%; height: 3px; background: var(--c-sec); box-shadow: 0 0 calc(15px * var(--neon-glow)) var(--c-sec); transition: all 0.5s; }
         .day-name { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 0 rgba(var(--c-prim-light-rgb), 0.5); transition: text-shadow 0.5s; }
-        .day-date { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 38px; font-weight: 700; color: var(--c-sec); line-height: 0.8; text-shadow: 0 0 15px rgba(var(--c-sec-rgb), 0.5); transition: all 0.5s; }
-        .day-card { flex: 1; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: rgba(6, 2, 12, 0.95); border: 1px solid rgba(var(--c-sec-rgb), 0.2); border-top: 4px solid var(--c-sec); box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(var(--c-sec-rgb), 0.05); transition: all 0.5s; }
+        .day-date { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 38px; font-weight: 700; color: var(--c-sec); line-height: 0.8; text-shadow: 0 0 calc(15px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.5); transition: all 0.5s; }
+        .day-card { flex: 1; display: flex; flex-direction: column; border-radius: var(--card-radius); overflow: hidden; background: rgba(6, 2, 12, 0.95); border: 1px solid rgba(var(--c-sec-rgb), 0.2); border-top: 4px solid var(--c-sec); box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 calc(20px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.05); transition: all 0.5s; }
 
         .event-block { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 20px; overflow: hidden; }
-        .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, var(--c-sec), transparent); z-index: 10; box-shadow: 0 0 15px var(--c-sec); transition: all 0.5s; }
+        .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, var(--c-sec), transparent); z-index: 10; box-shadow: 0 0 calc(15px * var(--neon-glow)) var(--c-sec); transition: all 0.5s; }
         .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center top; background-repeat: no-repeat; z-index: 1; }
         .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); }
         .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
@@ -215,7 +190,7 @@
 
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
         
-        .time-wrapper { align-self: flex-start; background: var(--grad-time1); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid var(--time1-bord); border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.8); transition: all 0.5s; }
+        .time-wrapper { align-self: flex-start; background: var(--grad-time1); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid var(--time1-bord); border-radius: calc(var(--card-radius) * 0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.8); transition: all 0.5s; }
         .time-wrapper.cyan { background: var(--grad-time2); border-left-color: var(--time2-bord); }
         .time-text { display: block; font-family: 'Oswald', sans-serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
         
@@ -224,7 +199,7 @@
         .time-wrapper.cyan + .game-title + .game-sub { color: var(--time2-sub); }
 
         .text-center { text-align: center; align-items: center; justify-content: center; height: 100%; }
-        .text-center .game-title { font-size: 48px; color: #fff; text-shadow: 0 5px 25px rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
+        .text-center .game-title { font-size: 48px; color: #fff; text-shadow: 0 5px calc(25px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.9); transition: text-shadow 0.5s; }
 
         /* DAY OFF */
         .day-col.off { opacity: 0.85; }
@@ -235,12 +210,12 @@
         .event-block.off-block .event-overlay { background: repeating-linear-gradient(45deg, rgba(20, 15, 30, 0.8), rgba(20, 15, 30, 0.8) 15px, rgba(5, 2, 10, 0.9) 15px, rgba(5, 2, 10, 0.9) 30px); }
         .text-center.off-text .game-title { color: #9ca3af; text-shadow: 0 2px 5px rgba(0,0,0,0.5); letter-spacing: 5px; }
 
-        /* BADGE TWITCH Centré */
+        /* BADGE TWITCH */
         .twitch-badge { 
             position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); 
             background-color: #06020c; border: 2px solid rgba(var(--c-sec-rgb), 0.4); border-right: 8px solid var(--c-sec); 
-            border-radius: 8px; padding: 10px 35px 10px 30px; display: flex; align-items: center; gap: 15px; z-index: 20; 
-            box-shadow: 0 10px 30px rgba(var(--c-sec-rgb), 0.2); transition: all 0.5s;
+            border-radius: var(--card-radius); padding: 10px 35px 10px 30px; display: flex; align-items: center; gap: 15px; z-index: 20; 
+            box-shadow: 0 10px calc(30px * var(--neon-glow)) rgba(var(--c-sec-rgb), 0.2); transition: all 0.5s;
         }
         .twitch-icon svg { width: 28px; height: 28px; fill: #fff; display: block; }
         .twitch-text { font-family: 'Oswald', sans-serif; font-style: italic; font-size: 26px; font-weight: 700; color: #fff; letter-spacing: 2px; padding-top: 3px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
@@ -255,26 +230,27 @@
         body.capture-mode .poster { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; zoom: 1 !important; transform: none !important; }
     </style>
 </head>
-<body data-theme="cyberpunk" data-bg="classique"> <!-- Thème et Fond par défaut -->
+<body data-theme="cyberpunk" data-bg="classique">
 
     <!-- ═══ SIDEBAR ═══ -->
     <aside class="sidebar">
         <h2>🛠️ Globaux</h2>
         
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 10px; align-items: flex-end;">
             <!-- SÉLECTEUR DE COULEURS -->
             <div class="form-group" style="flex: 1;">
                 <label>🎨 Thème Couleur</label>
-                <select onchange="document.body.setAttribute('data-theme', this.value)" style="border: 1px solid var(--c-sec); color: #fff; font-weight: bold;">
+                <select onchange="changeTheme(this.value)" style="border: 1px solid var(--c-sec); color: #fff; font-weight: bold;">
                     <option value="cyberpunk">🟣 Cyberpunk</option>
                     <option value="inferno">🔥 Inferno</option>
                     <option value="toxic">☣️ Toxic</option>
                     <option value="glacier">❄️ Glacier</option>
                     <option value="gold">👑 Prestige</option>
+                    <option value="custom">🎨 Personnalisé</option>
                 </select>
             </div>
 
-            <!-- NOUVEAU SÉLECTEUR DE FOND -->
+            <!-- SÉLECTEUR DE FOND -->
             <div class="form-group" style="flex: 1;">
                 <label>🖼️ Style de Fond</label>
                 <select onchange="document.body.setAttribute('data-bg', this.value)" style="border: 1px solid rgb(var(--c-prim-light-rgb)); color: #fff; font-weight: bold;">
@@ -285,6 +261,30 @@
                     <option value="minimal">🌑 Minimaliste</option>
                 </select>
             </div>
+        </div>
+
+        <!-- PANNEAU COULEURS CUSTOM (Caché par défaut) -->
+        <div id="custom-color-panel" style="display: none; gap: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+            <div class="form-group" style="flex: 1;">
+                <label>Primaire</label>
+                <input type="color" id="color-prim" value="#ff00a0" oninput="applyCustomColors()">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Secondaire</label>
+                <input type="color" id="color-sec" value="#00ffcc" oninput="applyCustomColors()">
+            </div>
+        </div>
+
+        <div class="split-divider"></div>
+
+        <!-- NOUVEAUX SLIDERS (NÉON ET ARRONDI) -->
+        <div class="form-group">
+            <label style="color: var(--c-sec);">✨ Puissance Néon (Lumière)</label>
+            <input type="range" min="0" max="2" step="0.1" value="1" oninput="document.body.style.setProperty('--neon-glow', this.value)">
+        </div>
+        <div class="form-group">
+            <label style="color: rgb(var(--c-prim-light-rgb));">🔲 Style des cases (Carré → Arrondi)</label>
+            <input type="range" min="0" max="30" step="1" value="8" oninput="document.body.style.setProperty('--card-radius', this.value + 'px')">
         </div>
 
         <div class="split-divider"></div>
@@ -362,6 +362,56 @@
             { id: 5, name: 'SAMEDI', date: '25', type: 'single', img1: 'bombe.png', time1: '15H00', title1: 'BOMBANANA!', sub1: 'AVEC KASH & WALID' },
             { id: 6, name: 'DIMANCHE', date: '26', type: 'split', img1: 'ranked.png', time1: '14H00', title1: 'FORTNITE', sub1: 'RANKED SOLO', img2: 'pillars.jpg', time2: '23H00', title2: 'PILLARS', sub2: 'GAMES VIEWERS' }
         ];
+
+        /* NOUVEAU : GESTION DES COULEURS CUSTOM */
+        function hexToRgb(hex) {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+        }
+
+        function changeTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            if (theme === 'custom') {
+                document.getElementById('custom-color-panel').style.display = 'flex';
+                applyCustomColors();
+            } else {
+                document.getElementById('custom-color-panel').style.display = 'none';
+                // On nettoie les styles inline pour laisser le CSS faire le travail
+                document.body.style.removeProperty('--c-prim');
+                document.body.style.removeProperty('--c-prim-rgb');
+                document.body.style.removeProperty('--c-prim-light-rgb');
+                document.body.style.removeProperty('--c-sec');
+                document.body.style.removeProperty('--c-sec-rgb');
+                document.body.style.removeProperty('--grad-time1');
+                document.body.style.removeProperty('--grad-time2');
+                document.body.style.removeProperty('--time1-bord');
+                document.body.style.removeProperty('--time2-bord');
+                document.body.style.removeProperty('--time2-sub');
+                document.body.style.removeProperty('--time2-txt');
+            }
+        }
+
+        function applyCustomColors() {
+            if(document.body.getAttribute('data-theme') !== 'custom') return;
+            const prim = document.getElementById('color-prim').value;
+            const sec = document.getElementById('color-sec').value;
+            const rgbPrim = hexToRgb(prim);
+            const rgbSec = hexToRgb(sec);
+            
+            document.body.style.setProperty('--c-prim', prim);
+            document.body.style.setProperty('--c-prim-rgb', rgbPrim);
+            document.body.style.setProperty('--c-prim-light-rgb', rgbPrim);
+            
+            document.body.style.setProperty('--c-sec', sec);
+            document.body.style.setProperty('--c-sec-rgb', rgbSec);
+            
+            document.body.style.setProperty('--grad-time1', `linear-gradient(to right, ${prim}, rgba(${rgbPrim}, 0.5))`);
+            document.body.style.setProperty('--time1-bord', '#ffffff');
+            document.body.style.setProperty('--grad-time2', `linear-gradient(to right, ${sec}, rgba(${rgbSec}, 0.4))`);
+            document.body.style.setProperty('--time2-bord', '#ffffff');
+            document.body.style.setProperty('--time2-txt', '#000');
+            document.body.style.setProperty('--time2-sub', sec);
+        }
 
         function updateData(dayId, field, value) {
             schedule[dayId][field] = value;
