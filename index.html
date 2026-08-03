@@ -214,7 +214,11 @@
 
         /* ─── NOUVEAU : MODE VERTICAL (Tiktok, Reels, Shorts) ─── */
         body.vertical-mode .poster { width: 1080px; height: 1920px; padding: 40px 30px 100px; transform: scale(0.40); }
-        
+        /* Empêche les images d'être rognées en mode vertical */
+/* Garde le remplissage mais cadre mieux les images en mode vertical */
+body.vertical-mode .event-bg {
+    background-position: top center !important;
+}
         body.vertical-mode .header { flex-direction: column; align-items: center; gap: 10px; padding-bottom: 0; margin-bottom: 25px; }
         body.vertical-mode .header-main { justify-content: center; width: 100%; gap: 15px; }
         body.vertical-mode .header-side { justify-content: center; width: 100%; margin-top: 10px; }
@@ -693,6 +697,24 @@
                             <input type="text" value="${day.date || ''}" oninput="updateData(${index}, 'date', this.value)">
                         </div>`;
 
+                // Outil mis à jour avec le curseur de Zoom
+                const getPosSliders = (imgNum) => `
+                    <div style="display:flex; gap:10px; margin-top:5px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; flex-wrap: wrap;">
+                        <div class="form-group" style="flex:1; min-width: 45%;">
+                            <label style="font-size:10px;">↔️ Gauche/Droite</label>
+                            <input type="range" min="0" max="100" value="${day['posX'+imgNum] !== undefined ? day['posX'+imgNum] : 50}" oninput="updateData(${index}, 'posX${imgNum}', this.value)">
+                        </div>
+                        <div class="form-group" style="flex:1; min-width: 45%;">
+                            <label style="font-size:10px;">↕️ Haut/Bas</label>
+                            <input type="range" min="0" max="100" value="${day['posY'+imgNum] !== undefined ? day['posY'+imgNum] : 50}" oninput="updateData(${index}, 'posY${imgNum}', this.value)">
+                        </div>
+                        <div class="form-group" style="flex:1; min-width: 100%;">
+                            <label style="font-size:10px;">🔍 Zoom (%)</label>
+                            <input type="range" min="10" max="300" value="${day['zoom'+imgNum] !== undefined ? day['zoom'+imgNum] : 100}" oninput="updateData(${index}, 'zoom${imgNum}', this.value)">
+                        </div>
+                    </div>
+                `;
+
                 if (day.type === 'single') {
                     html += `
                         <div class="form-group"><label>Heure</label><input type="text" value="${day.time1 || ''}" oninput="updateData(${index}, 'time1', this.value)"></div>
@@ -701,6 +723,7 @@
                         <div class="form-group">
                             <label>Image de fond</label>
                             <label class="upload-btn">📁 Uploader une image<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img1')"></label>
+                            ${getPosSliders(1)}
                         </div>`;
                 } else if (day.type === 'split') {
                     html += `
@@ -710,6 +733,7 @@
                         <div class="form-group"><label>Sous-titre</label><input type="text" value="${day.sub1 || ''}" oninput="updateData(${index}, 'sub1', this.value)"></div>
                         <div class="form-group">
                             <label class="upload-btn">📁 Uploader Image 1<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img1')"></label>
+                            ${getPosSliders(1)}
                         </div>
                         
                         <div class="split-divider"></div><label style="color:rgb(var(--c-prim-light-rgb));">▶ JEU 2 (BAS/DROITE)</label>
@@ -718,6 +742,7 @@
                         <div class="form-group"><label>Sous-titre</label><input type="text" value="${day.sub2 || ''}" oninput="updateData(${index}, 'sub2', this.value)"></div>
                         <div class="form-group">
                             <label class="upload-btn">📁 Uploader Image 2<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img2')"></label>
+                            ${getPosSliders(2)}
                         </div>`;
                 } else if (day.type === 'libre') {
                     html += `
@@ -726,6 +751,7 @@
                         <div class="form-group">
                             <label>Image de fond (Effet Sombre)</label>
                             <label class="upload-btn">📁 Uploader une image<input type="file" accept="image/*" onchange="handleImageUpload(this, ${index}, 'img1')"></label>
+                            ${getPosSliders(1)}
                         </div>`;
                 }
                 html += `</div></details>`;
@@ -741,6 +767,15 @@
                     <div class="day-header"><span class="day-name">${day.name}</span><span class="day-date">${day.date}</span></div>
                     <div class="day-card">`;
 
+                // Fonction de position mise à jour avec le Zoom
+                const getPos = (num) => {
+                    const x = day['posX'+num] !== undefined ? day['posX'+num] : 50;
+                    const y = day['posY'+num] !== undefined ? day['posY'+num] : 50;
+                    const zoom = day['zoom'+num] !== undefined ? day['zoom'+num] : 100;
+                    // On modifie la taille avec le zoom et on décale la position
+                    return `background-size: ${zoom}% !important; background-position: ${x}% ${y}% !important;`;
+                };
+
                 if (day.type === 'off') {
                     cardHTML += `
                         <div class="event-block off-block">
@@ -753,7 +788,7 @@
                 } else if (day.type === 'libre') {
                     cardHTML += `
                         <div class="event-block">
-                            <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}')"></div>
+                            <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay with-effects"></div>
                             <div class="event-info text-center">
                                 <div class="time-wrapper" style="align-self: center; margin-bottom: 12px;"><span class="time-text">${day.time1 || ''}</span></div>
@@ -763,7 +798,7 @@
                 } else if (day.type === 'single') {
                     cardHTML += `
                         <div class="event-block">
-                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
+                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
@@ -774,7 +809,7 @@
                 } else if (day.type === 'split') {
                     cardHTML += `
                         <div class="event-block">
-                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}')"></div>
+                            <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
@@ -783,7 +818,7 @@
                             </div>
                         </div>
                         <div class="event-block">
-                            <div class="event-bg" style="background-image: url('${day.img2 || placeholderImg}')"></div>
+                            <div class="event-bg" style="background-image: url('${day.img2 || placeholderImg}'); ${getPos(2)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info">
                                 <div class="time-wrapper cyan"><span class="time-text" style="color:var(--time2-txt);">${day.time2 || ''}</span></div>
