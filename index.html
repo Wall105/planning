@@ -468,42 +468,54 @@ body.vertical-mode .event-bg {
         ];
 
         /* --- SAUVEGARDE AUTO --- */
+        let actualSaveTimer; // On crée un minuteur pour éviter le lag
+        /* --- SAUVEGARDE AUTO --- */
         function saveConfig() {
             if (!isAppReady) return;
-            const config = {
-                format: document.getElementById('select-format').value,
-                theme: document.getElementById('select-theme').value,
-                bg: document.getElementById('select-bg').value,
-                neon: document.getElementById('range-neon').value,
-                radius: document.getElementById('range-radius').value,
-                
-                fontFamily: document.getElementById('select-font').value,
-                fontBold: document.getElementById('check-bold').checked,
-                fontItalic: document.getElementById('check-italic').checked,
-
-                cp: document.getElementById('color-prim').value,
-                cs: document.getElementById('color-sec').value,
-                name: document.getElementById('input-name').value,
-                twitch: document.getElementById('input-twitch').value,
-                date: document.getElementById('input-date').value,
-                schedule: schedule
-            };
-
-            const status = document.getElementById('save-status');
-            try {
-                localStorage.setItem('squadir_planning_save', JSON.stringify(config));
-                status.innerText = "🟢 Sauvegardé";
-                status.style.color = "#00ff00";
-            } catch (e) {
-                status.innerText = "🔴 Images trop lourdes";
-                status.style.color = "#ff3333";
-                console.warn("Quota dépassé : impossible de sauvegarder les images si elles sont trop volumineuses.");
-            }
             
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => {
-                if(status.innerText === "🟢 Sauvegardé") status.innerText = "🟢 Auto-save activé";
-            }, 2000);
+            const status = document.getElementById('save-status');
+            status.innerText = "⏳ Sauvegarde...";
+            status.style.color = "#ff9900";
+
+            // On annule la sauvegarde précédente si l'utilisateur bouge encore le curseur
+            clearTimeout(actualSaveTimer);
+            
+            // On attend 400ms APRÈS le dernier mouvement pour lancer la lourde sauvegarde
+            actualSaveTimer = setTimeout(() => {
+                const config = {
+                    format: document.getElementById('select-format').value,
+                    theme: document.getElementById('select-theme').value,
+                    bg: document.getElementById('select-bg').value,
+                    neon: document.getElementById('range-neon').value,
+                    radius: document.getElementById('range-radius').value,
+                    
+                    fontFamily: document.getElementById('select-font').value,
+                    fontBold: document.getElementById('check-bold').checked,
+                    fontItalic: document.getElementById('check-italic').checked,
+
+                    cp: document.getElementById('color-prim').value,
+                    cs: document.getElementById('color-sec').value,
+                    name: document.getElementById('input-name').value,
+                    twitch: document.getElementById('input-twitch').value,
+                    date: document.getElementById('input-date').value,
+                    schedule: schedule
+                };
+
+                try {
+                    localStorage.setItem('squadir_planning_save', JSON.stringify(config));
+                    status.innerText = "🟢 Sauvegardé";
+                    status.style.color = "#00ff00";
+                } catch (e) {
+                    status.innerText = "🔴 Images trop lourdes";
+                    status.style.color = "#ff3333";
+                    console.warn("Quota dépassé : impossible de sauvegarder les images si elles sont trop volumineuses.");
+                }
+                
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    if(status.innerText === "🟢 Sauvegardé") status.innerText = "🟢 Auto-save activé";
+                }, 2000);
+            }, 400); // 400 millisecondes de délai
         }
 
         function loadConfig() {
