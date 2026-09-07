@@ -281,7 +281,60 @@
         body.capture-mode .preview-area { width: 1920px; height: 1080px; padding: 0; margin: 0; display: block; overflow: hidden; }
         body.capture-mode.vertical-mode .preview-area { width: 1080px; height: 1920px; }
         body.capture-mode .poster { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; zoom: 1 !important; transform: none !important; }
-        body.capture-mode.vertical-mode .poster { width: 1080px; height: 1920px; }
+        /* ─── PRO GRAPHIC DESIGN (Graphiste Esport) ─── */
+        /* Texture Bruit / Grain de film pour lier les visuels */
+        .poster::before {
+            content: ''; position: absolute; inset: 0; z-index: 50; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay; opacity: 0.8;
+        }
+        
+        /* Chromatic Aberration & Glitch sur les titres */
+        .glitch-text {
+            text-shadow: 4px 0 0 rgba(255, 0, 51, 0.8), -4px 0 0 rgba(34, 211, 238, 0.8), 0 0 calc(30px * var(--neon-glow)) rgba(var(--c-prim-light-rgb), 0.6) !important;
+            position: relative;
+        }
+
+        /* Coins coupés (Clip-path) - Le look Esport moderne */
+        .day-card {
+            border-radius: 0 !important; /* On annule l'arrondi basique */
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            border-left: 1px solid rgba(var(--c-sec-rgb), 0.3) !important;
+            border-right: 1px solid rgba(var(--c-sec-rgb), 0.3) !important;
+            border-top: 3px solid var(--c-sec) !important;
+            border-bottom: 3px solid var(--c-prim) !important;
+        }
+        
+        body.vertical-mode .day-card {
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            border-top: none !important; border-bottom: none !important;
+            border-left: 4px solid var(--c-sec) !important;
+            border-right: 2px solid rgba(var(--c-prim-rgb), 0.3) !important;
+        }
+
+        /* Stroke Text (Texte transparent avec contour en fond) */
+        .bg-stroke-text {
+            position: absolute; top: -15px; left: -5%; font-size: 85px;
+            font-family: var(--font-main); font-weight: 900; font-style: italic;
+            color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.12);
+            text-transform: uppercase; white-space: nowrap; z-index: 1;
+            transform: rotate(-3deg); pointer-events: none; line-height: 1;
+            letter-spacing: 2px;
+        }
+        body.vertical-mode .bg-stroke-text { font-size: 60px; top: -5px; transform: rotate(0deg); text-align: center; left: 0; right: 0; }
+
+
+
+        /* Modification spéciale Day Off (Warning Stripes) */
+        .off-block .event-overlay {
+            background: repeating-linear-gradient(-45deg, rgba(10, 5, 20, 0.95), rgba(10, 5, 20, 0.95) 15px, rgba(var(--c-prim-rgb), 0.2) 15px, rgba(var(--c-prim-rgb), 0.2) 30px) !important;
+            mix-blend-mode: normal !important;
+        }
+        .off-box {
+            border: 2px dashed rgba(var(--c-sec-rgb), 0.8); padding: 15px 25px; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px); display: inline-block; transform: rotate(-5deg);
+        }
+        body.vertical-mode .off-box { transform: rotate(0deg); }
     </style>
 </head>
 <body data-theme="cyberpunk" data-bg="classique">
@@ -422,10 +475,12 @@
                 <div class="dot-matrix"></div>
             </div>
 
+
+
             <header class="header">
                 <div class="header-main">
                     <div class="title-group">
-                        <div class="title-planning">PLANNING</div>
+                        <div class="title-planning glitch-text">PLANNING</div>
                         <div class="title-name" id="display-name">SQUADIR</div>
                     </div>
                 </div>
@@ -852,13 +907,17 @@
                     return `background-size: ${zoom == 100 ? 'cover' : zoom + '%'} !important; background-position: ${x}% ${y}% !important;`;
                 };
 
+                const strokeTxt = (txt) => `<div class="bg-stroke-text">${txt}</div>`;
+
                 if (day.type === 'off') {
                     cardHTML += `
                         <div class="event-block off-block">
-                            <div class="event-bg" style="background-image: url('${day.img1 || 'dayofff.png'}'); filter: brightness(0.6) saturate(0.8);"></div>
+                            <div class="event-bg" style="background-image: url('${day.img1 || 'dayofff.png'}'); filter: grayscale(1) brightness(0.4);"></div>
                             <div class="event-overlay"></div>
                             <div class="event-info text-center off-text">
-                                <span class="game-title">DAY<br>OFF</span>
+                                <div class="off-box">
+                                    <span class="game-title" style="color:var(--c-sec); letter-spacing:8px;">OFFLINE</span>
+                                </div>
                             </div>
                         </div>`;
                 } else if (day.type === 'libre') {
@@ -867,7 +926,8 @@
                             <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay with-effects"></div>
                             <div class="event-overlay-glow"></div>
-                            <div class="event-info text-center">
+                            <div class="event-info text-center" style="position: relative;">
+                                ${strokeTxt(day.title1 || '')}
                                 <div class="time-wrapper" style="align-self: center; margin-bottom: 12px;"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
                             </div>
@@ -878,7 +938,8 @@
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-overlay-glow"></div>
-                            <div class="event-info">
+                            <div class="event-info" style="position: relative;">
+                                ${strokeTxt(day.title1 || '')}
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
                                 <span class="game-sub">${day.sub1 || ''}</span>
@@ -890,7 +951,8 @@
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-overlay-glow"></div>
-                            <div class="event-info">
+                            <div class="event-info" style="position: relative;">
+                                ${strokeTxt(day.title1 || '')}
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
                                 <span class="game-sub">${day.sub1 || ''}</span>
@@ -900,7 +962,8 @@
                             <div class="event-bg" style="background-image: url('${day.img2 || placeholderImg}'); ${getPos(2)}"></div>
                             <div class="event-overlay"></div>
                             <div class="event-overlay-glow"></div>
-                            <div class="event-info">
+                            <div class="event-info" style="position: relative;">
+                                ${strokeTxt(day.title2 || '')}
                                 <div class="time-wrapper cyan"><span class="time-text" style="color:var(--time2-txt);">${day.time2 || ''}</span></div>
                                 <span class="game-title">${day.title2 || ''}</span>
                                 <span class="game-sub">${day.sub2 || ''}</span>
