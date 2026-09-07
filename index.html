@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur Planning SQUADIR - PRO (Sauvegarde Auto)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,500;0,700;1,500;1,700&family=Oswald:ital,wght@0,500;0,700;1,700&family=Poppins:ital,wght@0,500;0,700;1,500;1,700&family=Rajdhani:wght@500;600;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -178,8 +179,9 @@
         .event-block:not(:last-child)::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 2px; background: linear-gradient(to right, transparent, var(--c-sec), transparent); z-index: 10; box-shadow: 0 0 calc(15px * var(--neon-glow)) var(--c-sec); transition: all 0.5s; }
         .event-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 1; }
         .event-bg.with-effects { filter: saturate(1.3) brightness(0.7) contrast(1.1); }
-        .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.9) 0%, transparent 35%); z-index: 2; }
-        .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.5) 65%, transparent 100%); }
+        .event-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 2, 12, 0.95) 0%, transparent 40%); z-index: 2; mix-blend-mode: multiply; }
+        .event-overlay.with-effects { background: linear-gradient(to top, #06020c 10%, rgba(6, 2, 12, 0.6) 65%, transparent 100%); }
+        .event-overlay-glow { position: absolute; inset: 0; background: linear-gradient(to top, rgba(var(--c-prim-rgb), 0.2) 0%, transparent 50%); z-index: 2; mix-blend-mode: screen; pointer-events: none;}
 
         .event-info { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 5px; }
         .time-wrapper { align-self: flex-start; background: var(--grad-time1); padding: 6px 16px; margin-bottom: 8px; border-left: 4px solid var(--time1-bord); border-radius: calc(var(--card-radius) * 0.5); box-shadow: 0 4px 10px rgba(0,0,0,0.8); transition: all 0.5s; }
@@ -215,10 +217,10 @@
         /* ─── NOUVEAU : MODE VERTICAL (Tiktok, Reels, Shorts) ─── */
         body.vertical-mode .poster { width: 1080px; height: 1920px; padding: 40px 30px 100px; transform: scale(0.40); }
         /* Empêche les images d'être rognées en mode vertical */
-/* Garde le remplissage mais cadre mieux les images en mode vertical */
-body.vertical-mode .event-bg {
-    background-position: top center !important;
-}
+        /* Empêche les images d'être rognées bizarrement en mode vertical */
+        body.vertical-mode .event-bg {
+            background-position: center 25% !important; /* Focus the image slightly higher */
+        }
         body.vertical-mode .header { flex-direction: column; align-items: center; gap: 10px; padding-bottom: 0; margin-bottom: 25px; }
         body.vertical-mode .header-main { justify-content: center; width: 100%; gap: 15px; }
         body.vertical-mode .header-side { justify-content: center; width: 100%; margin-top: 10px; }
@@ -252,8 +254,9 @@ body.vertical-mode .event-bg {
             background: linear-gradient(to bottom, transparent, var(--c-sec), transparent);
         }
         
-        /* Filtre radial noir pour que le texte centré soit toujours lisible sur l'image */
-        body.vertical-mode .event-overlay { background: radial-gradient(circle at center, rgba(6, 2, 12, 0.8) 0%, rgba(6, 2, 12, 0.3) 100%) !important; }
+        /* Filtre noir plus puissant pour que le texte centré soit toujours lisible sur l'image en vertical */
+        body.vertical-mode .event-overlay { background: radial-gradient(ellipse at center, rgba(6, 2, 12, 0.7) 0%, rgba(6, 2, 12, 0.95) 100%) !important; mix-blend-mode: multiply; }
+        body.vertical-mode .event-overlay-glow { background: radial-gradient(ellipse at center, rgba(var(--c-prim-rgb), 0.1) 0%, transparent 60%) !important; }
         
         body.vertical-mode .time-wrapper { align-self: center; margin-bottom: 8px; padding: 4px 12px; }
         body.vertical-mode .time-text { font-size: 18px; }
@@ -401,15 +404,11 @@ body.vertical-mode .event-bg {
 
         <div id="sidebar-days-container"></div> 
 
-        <button class="f12-btn" onclick="document.body.classList.add('capture-mode')">📸 Masquer le Menu pour Capturer</button>
+        <button class="f12-btn" onclick="downloadPoster()" style="background: linear-gradient(to right, #00ffcc, #0066ff); box-shadow: 0 4px 15px rgba(0,255,204,0.3); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">📸 TÉLÉCHARGER LE PLANNING</button>
         
-        <div class="f12-help">
-            1. Configure tout ton planning.<br>
-            2. Clique sur le bouton ci-dessus.<br>
-            3. Fais ton <b>F12</b> -> dérouler <br><code>&lt;main class="preview-area" id="preview-area"&gt; &lt;/main&gt;</code><br>
-            4. Clique droit sur <br><code>&lt;div class="poster" id="poster-capture"&gt; &lt;/div&gt;</code><br>
-            5. Clique sur <b>Capture node screenshot</b><br>
-            6. <i>Appuie sur <b>F5</b> pour retrouver le menu.</i>
+        <div class="f12-help" style="text-align: center;">
+            Génération automatique de l'image (PNG).<br>
+            <i>Patiente quelques secondes après le clic.</i>
         </div>
     </aside>
 
@@ -666,12 +665,77 @@ body.vertical-mode .event-bg {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    schedule[dayId][imageField] = e.target.result; 
-                    renderGrid(); 
-                    saveConfig();
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        const max_size = 1200; // compression pour éviter le bug de LocalStorage
+                        
+                        if (width > height && width > max_size) {
+                            height *= max_size / width;
+                            width = max_size;
+                        } else if (height > width && height > max_size) {
+                            width *= max_size / height;
+                            height = max_size;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Compresser en JPEG 80% qualité
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                        
+                        schedule[dayId][imageField] = dataUrl;
+                        renderGrid();
+                        saveConfig();
+                    };
+                    img.src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
+        }
+        
+        function downloadPoster() {
+            const btn = document.querySelector('.f12-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "⏳ GÉNÉRATION...";
+            
+            const poster = document.getElementById('poster-capture');
+            const oldTransform = poster.style.transform;
+            const isVertical = document.body.classList.contains('vertical-mode');
+            
+            // Retirer le scale pour une capture 1:1 HD
+            poster.style.transform = 'none';
+            poster.style.width = isVertical ? '1080px' : '1920px';
+            poster.style.height = isVertical ? '1920px' : '1080px';
+            
+            // Attendre un petit instant pour que le DOM se mette à jour sans scale
+            setTimeout(() => {
+                html2canvas(poster, {
+                    scale: 1, 
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#05020a'
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `planning_${document.getElementById('input-name').value || 'SQUADIR'}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    poster.style.transform = oldTransform;
+                    poster.style.width = '';
+                    poster.style.height = '';
+                    btn.innerText = originalText;
+                }).catch(err => {
+                    console.error(err);
+                    alert("Erreur lors de la génération de l'image.");
+                    poster.style.transform = oldTransform;
+                    btn.innerText = originalText;
+                });
+            }, 100);
         }
 
         function updateGlobal(target, value) {
@@ -785,7 +849,7 @@ body.vertical-mode .event-bg {
                     const y = day['posY'+num] !== undefined ? day['posY'+num] : 50;
                     const zoom = day['zoom'+num] !== undefined ? day['zoom'+num] : 100;
                     // On modifie la taille avec le zoom et on décale la position
-                    return `background-size: ${zoom}% !important; background-position: ${x}% ${y}% !important;`;
+                    return `background-size: ${zoom == 100 ? 'cover' : zoom + '%'} !important; background-position: ${x}% ${y}% !important;`;
                 };
 
                 if (day.type === 'off') {
@@ -802,6 +866,7 @@ body.vertical-mode .event-bg {
                         <div class="event-block">
                             <div class="event-bg with-effects" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay with-effects"></div>
+                            <div class="event-overlay-glow"></div>
                             <div class="event-info text-center">
                                 <div class="time-wrapper" style="align-self: center; margin-bottom: 12px;"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
@@ -812,6 +877,7 @@ body.vertical-mode .event-bg {
                         <div class="event-block">
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
+                            <div class="event-overlay-glow"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
@@ -823,6 +889,7 @@ body.vertical-mode .event-bg {
                         <div class="event-block">
                             <div class="event-bg" style="background-image: url('${day.img1 || placeholderImg}'); ${getPos(1)}"></div>
                             <div class="event-overlay"></div>
+                            <div class="event-overlay-glow"></div>
                             <div class="event-info">
                                 <div class="time-wrapper"><span class="time-text">${day.time1 || ''}</span></div>
                                 <span class="game-title">${day.title1 || ''}</span>
@@ -832,6 +899,7 @@ body.vertical-mode .event-bg {
                         <div class="event-block">
                             <div class="event-bg" style="background-image: url('${day.img2 || placeholderImg}'); ${getPos(2)}"></div>
                             <div class="event-overlay"></div>
+                            <div class="event-overlay-glow"></div>
                             <div class="event-info">
                                 <div class="time-wrapper cyan"><span class="time-text" style="color:var(--time2-txt);">${day.time2 || ''}</span></div>
                                 <span class="game-title">${day.title2 || ''}</span>
