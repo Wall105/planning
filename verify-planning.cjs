@@ -1,0 +1,58 @@
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const html = fs.readFileSync('index.html', 'utf8');
+const code = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const elements = new Map();
+const style = () => ({setProperty(k,v){this[k]=v;},removeProperty(k){delete this[k];}});
+for (const match of html.matchAll(/<[^>]+\bid="([^"]+)"[^>]*>/g)) {
+  const tag = match[0];
+  elements.set(match[1], {value: tag.match(/\bvalue="([^"]*)"/)?.[1] || '', checked:tag.includes('checked'), style:style(),innerHTML:'',textContent:'',innerText:'',clientWidth:1280});
+}
+const classes = new Set();
+const body = {style:style(),dataset:{},setAttribute(k,v){this[k]=v;},getAttribute(k){return this[k];},classList:{add(k){classes.add(k);},remove(k){classes.delete(k);},contains(k){return classes.has(k);}}};
+const saved = new Map();
+let pending=[];
+const context = vm.createContext({console,document:{body,getElementById(id){return elements.get(id)||null;},querySelector(){return {clientWidth:1280};}},window:{innerHeight:900},localStorage:{getItem(k){return saved.get(k)||null;},setItem(k,v){saved.set(k,v);}},setTimeout(fn){pending.push(fn);return fn;},clearTimeout(fn){pending=pending.filter(x=>x!==fn);},ResizeObserver:class{observe(){}},URL});
+vm.runInContext(code, context);
+const run = s => vm.runInContext(s, context);
+assert.equal(body.dataset.look,'original');
+const initialSchedule = run('JSON.stringify(schedule)');
+for(const look of ['esport','cards','minimal','event','original']) {
+  elements.get('select-look').value=look;
+  run('updateAppearance()');
+  assert.equal(body.dataset.look,look);
+  assert.equal(run('JSON.stringify(schedule)'),initialSchedule);
+}
+elements.get('featured-day').value='3';
+elements.get('select-look').value='event';
+elements.get('title-scale').value='115';
+run("updateAppearance(); updateData(1,'fit1','contain'); updateData(1,'splitRatio',60)");
+assert.match(elements.get('poster-grid-container').innerHTML,/background-size: contain !important/);
+assert.match(elements.get('poster-grid-container').innerHTML,/--split:60/);
+assert.equal((elements.get('poster-grid-container').innerHTML.match(/class="day-col [^"]*featured/g)||[]).length,1);
+assert.equal(body.style['--title-scale'],1.15);
+pending.splice(0).forEach(fn=>fn());
+const config = JSON.parse(saved.get('squadir_planning_save'));
+assert.equal(config.look,'event');
+assert.equal(config.schedule[1].fit1,'contain');
+run('isAppReady = false; loadConfig()');
+assert.equal(elements.get('title-scale').value,'115');
+assert.equal(elements.get('select-look').value,'event');
+assert.equal(run('schedule[1].splitRatio'),60);
+run("updateFormat('vertical')");
+assert.ok(classes.has('vertical-mode'));
+const css = fs.readFileSync('planning-styles.css','utf8');
+assert.equal((css.match(/{/g)||[]).length,(css.match(/}/g)||[]).length);
+console.log('OK: startup, 5 looks, original data preserved, image fit, split ratio, featured day, font scales, save/reload, portrait.');
+run("updateData(2, 'offStyle', 'dayoff')");
+assert.match(elements.get('poster-grid-container').innerHTML, /rest-dayoff/);
+assert.match(elements.get('poster-grid-container').innerHTML, /DAY <br>OFF/);
+pending.splice(0).forEach(fn=>fn());
+run('isAppReady = false; loadConfig()');
+assert.equal(run('schedule[2].offStyle'), 'dayoff');
+assert.match(elements.get('sidebar-days-container').innerHTML, /value="dayoff" selected/);
+run("updateData(2, 'offStyle', 'offline')");
+assert.match(elements.get('poster-grid-container').innerHTML, /rest-offline/);
+assert.doesNotMatch(elements.get('poster-grid-container').innerHTML, /off-box/);
+console.log('OK: OFFLINE / DAY OFF rendering, selector and persistence.');

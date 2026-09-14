@@ -1,0 +1,88 @@
+/* Optional looks: Original intentionally keeps the existing visual effects. */
+.sidebar { flex-shrink: 0; }
+body:not(.capture-mode) .poster { transform: none; zoom: var(--preview-scale, .4); }
+.grid-days { flex: none; height: calc(650px * var(--card-size, 1)); gap: var(--card-gap, 22px); }
+.day-col, .day-card, .event-block { min-width: 0; min-height: 0; }
+body.vertical-mode .grid-days { height: calc(1460px * var(--card-size, 1)); gap: var(--card-gap, 22px); }
+body.vertical-mode .day-col { height: auto; }
+.day-card.has-split .event-block:first-child { flex: var(--split, 50) 1 0%; }
+.day-card.has-split .event-block:last-child { flex: calc(100 - var(--split, 50)) 1 0%; }
+.poster .game-title { font-size: calc(32px * var(--title-scale, 1)); overflow-wrap: anywhere; }
+.poster .text-center .game-title { font-size: calc(48px * var(--title-scale, 1)); }
+.poster .time-text { font-size: calc(22px * var(--time-scale, 1)); }
+.poster .game-sub { font-size: calc(16px * var(--sub-scale, 1)); overflow-wrap: anywhere; }
+body.vertical-mode .poster .game-title { font-size: calc(26px * var(--title-scale, 1)); }
+body.vertical-mode .poster .text-center .game-title { font-size: calc(34px * var(--title-scale, 1)); }
+body.vertical-mode .poster .game-sub { font-size: calc(14px * var(--sub-scale, 1)); }
+.preset-row { display: flex; gap: 8px; }
+.preset-row button { flex: 1; padding: 8px; background: #20152e; color: #fff; border: 1px solid #645477; border-radius: 6px; cursor: pointer; }
+.details-content output { color: var(--c-sec); }
+.style-note { font-size: 14px; line-height: 1.5; color: #aeb8ca; }
+[hidden] { display: none !important; }
+body[data-look]:not([data-look="original"]) .poster::after,
+body[data-look]:not([data-look="original"]) .bg-stroke-text { display: none; }
+body[data-look]:not([data-look="original"]) .poster .glitch-text { text-shadow: none !important; }
+body[data-look]:not([data-look="original"]) .poster .day-card { clip-path: none; border-radius: var(--card-radius) !important; }
+body[data-look="esport"] .poster { background: #0c111a; box-shadow: none; border: 1px solid #263344; }
+body[data-look="esport"] .bg-layer { opacity: .15; }
+body[data-look="esport"] .poster .day-card { border: 1px solid #2c3848 !important; border-top: 4px solid var(--c-sec) !important; box-shadow: none; }
+body[data-look="esport"] .poster .day-header *, body[data-look="esport"] .poster .title-name { text-shadow: none; }
+body[data-look="esport"] .time-wrapper { background: #101a29; border-color: var(--c-sec); box-shadow: none; }
+body[data-look="esport"] .time-text { color: white !important; }
+body[data-look="cards"] .poster .day-card { border: 0 !important; box-shadow: 0 12px 26px #0008; }
+body[data-look="cards"] .event-block { padding: 0; }
+body[data-look="cards"] .event-info { padding: 20px 14px; background: #080c16e8; width: 100%; height: auto; margin-top: auto; text-align: left; align-items: flex-start; }
+body[data-look="cards"] .event-overlay { opacity: .25; }
+body[data-look="cards"] .time-wrapper { box-shadow: none; }
+body[data-look="minimal"] .poster { background: #f4f2ec; border: 1px solid #d6d5d1; box-shadow: none; }
+body[data-look="minimal"] .bg-layer { display: none; }
+body[data-look="minimal"] .poster .title-planning,
+body[data-look="minimal"] .poster .title-name,
+body[data-look="minimal"] .poster .day-name,
+body[data-look="minimal"] .poster .day-date { color: #182432; text-shadow: none; }
+body[data-look="minimal"] .poster .header-badge { background: white; color: #182432; box-shadow: none; }
+body[data-look="minimal"] .poster .day-header { border-color: #c7ccd1; }
+body[data-look="minimal"] .poster .day-card { border: 1px solid #d0d5db !important; box-shadow: none; background: #fff; }
+body[data-look="minimal"] .event-block { padding: 0; }
+body[data-look="minimal"] .event-info { background: #fff; padding: 18px 12px; width: 100%; height: auto; margin-top: auto; align-items: flex-start; text-align: left; gap: 8px; }
+body[data-look="minimal"] .poster .event-info .game-title,
+body[data-look="minimal"] .poster .event-info .game-sub { color: #182432 !important; text-shadow: none; }
+body[data-look="minimal"] .time-wrapper { background: #182432; border: none; box-shadow: none; }
+body[data-look="minimal"] .time-text { color: #fff !important; }
+body[data-look="minimal"] .event-overlay { display: none; }
+body[data-look="minimal"] .off-box { border: 0; background: transparent; transform: none; padding: 0; }
+body[data-look="minimal"] .twitch-badge { background: #182432; box-shadow: none; }
+body[data-look="event"] .day-col.featured { flex: 1.8; }
+body[data-look="event"] .day-col.featured .day-card { border: 3px solid var(--c-sec) !important; }
+body[data-look="event"] .day-col.featured .day-header::before { content: '★'; color: var(--c-sec); margin-right: 8px; }
+body[data-look="event"] .day-col:not(.featured) .day-name { font-size: 23px; letter-spacing: 0; }
+body[data-look="event"] .day-col:not(.featured) .day-date { font-size: 30px; }
+body[data-look="event"] .day-col:not(.featured) .event-block { padding: 18px 12px; }
+body[data-look="event"] .day-col:not(.featured) .game-title { font-size: calc(26px * var(--title-scale, 1)); }
+body[data-look="event"] .day-col:not(.featured) .game-sub { letter-spacing: 1px; }
+@media(max-width:800px) { body { flex-direction: column; height: auto; overflow: auto; } .sidebar { width:100%; max-height:55vh; } .preview-area { min-height:400px; } }
+
+/* Rest days use their own artwork, independent of game-card treatments. */
+.poster .rest-card { padding: 18px 10px; align-items: center; justify-content: center; isolation: isolate; }
+.rest-offline { color: #a7b8ce; background: radial-gradient(ellipse at 50% 25%, #263546 0%, #101923 55%, #0b1119 100%); }
+.rest-offline::before { content: ''; position: absolute; inset: 18px; border: 1px solid #a7b8ce26; border-radius: 3px; z-index: -1; }
+.rest-dayoff { color: #ede5ff; background: radial-gradient(ellipse at 80% 15%, rgba(var(--c-prim-rgb), .4), transparent 65%), #151324; }
+.rest-dayoff::before, .rest-dayoff::after { content: ''; position: absolute; width: 270px; height: 270px; border: 1px solid #ede5ff18; border-radius: 50%; z-index: -1; right: -150px; bottom: -40px; }
+.rest-dayoff::after { width: 340px; height: 340px; right: -185px; bottom: -75px; }
+.rest-content { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; width: 100%; }
+.rest-symbol { display: block; width: 60px; height: 60px; opacity: .8; }
+.rest-symbol svg { display: block; width: 100%; height: 100%; }
+.rest-title { font-family: var(--font-main); font-weight: 700; font-style: normal; font-size: calc(32px * var(--title-scale, 1)); line-height: 1.05; letter-spacing: 1px; }
+.rest-dayoff .rest-title { font-size: calc(54px * var(--title-scale, 1)); letter-spacing: 3px; }
+.rest-rule { width: 28px; height: 2px; background: currentColor; opacity: .45; }
+.rest-caption { font-family: Inter, sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; }
+body.vertical-mode .poster .rest-content { display: grid; width: auto; grid-template-columns: 48px auto; column-gap: 24px; row-gap: 8px; text-align: left; }
+body.vertical-mode .rest-symbol { grid-row: span 2; width: 48px; height: 48px; }
+body.vertical-mode .rest-rule { display: none; }
+body.vertical-mode .rest-title { font-size: calc(30px * var(--title-scale, 1)); }
+body.vertical-mode .rest-title br { display: none; }
+body.vertical-mode .rest-dayoff .rest-title { word-spacing: 8px; }
+body[data-look="minimal"] .rest-offline { background: #edf0f3; color: #455568; }
+body[data-look="minimal"] .rest-dayoff { background: #eee8f6; color: #58456d; }
+body[data-look="minimal"] .rest-offline::before { border-color: #45556830; }
+body[data-look="minimal"] .rest-dayoff::before, body[data-look="minimal"] .rest-dayoff::after { border-color: #58456d20; }
