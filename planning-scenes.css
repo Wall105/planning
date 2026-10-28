@@ -1,0 +1,249 @@
+/* Seasonal palettes also remain available independently of the scene presets. */
+body[data-theme="halloween"] {
+    --c-prim: #ee873c; --c-prim-rgb: 238, 135, 60; --c-prim-light-rgb: 255, 173, 94;
+    --c-sec: #c4a1ed; --c-sec-rgb: 196, 161, 237;
+    --grad-time1: linear-gradient(110deg, #a84a18, #71301c); --time1-bord: #ffc292;
+    --grad-time2: linear-gradient(110deg, #c4a1ed, #9e7fc5); --time2-bord: #e9d7ff;
+    --time2-txt: #21132f; --time2-sub: #e2cefa;
+}
+body[data-theme="christmas"] {
+    --c-prim: #c45456; --c-prim-rgb: 196, 84, 86; --c-prim-light-rgb: 221, 125, 122;
+    --c-sec: #e4c68e; --c-sec-rgb: 228, 198, 142;
+    --grad-time1: linear-gradient(110deg, #a6363f, #772b36); --time1-bord: #fac4ba;
+    --grad-time2: linear-gradient(110deg, #e4c68e, #bd995d); --time2-bord: #fff1d0;
+    --time2-txt: #293429; --time2-sub: #f6dfb4;
+}
+body[data-theme="autumn"] {
+    --c-prim: #ca8054; --c-prim-rgb: 202, 128, 84; --c-prim-light-rgb: 227, 160, 112;
+    --c-sec: #c2c99c; --c-sec-rgb: 194, 201, 156;
+    --grad-time1: linear-gradient(110deg, #985332, #663d2b); --time1-bord: #f3c09a;
+    --grad-time2: linear-gradient(110deg, #c2c99c, #99a374); --time2-bord: #e8eccf;
+    --time2-txt: #263026; --time2-sub: #dfe5c2;
+}
+body[data-theme="winter"] {
+    --c-prim: #75a9d9; --c-prim-rgb: 117, 169, 217; --c-prim-light-rgb: 160, 205, 240;
+    --c-sec: #d3e9ef; --c-sec-rgb: 211, 233, 239;
+    --grad-time1: linear-gradient(110deg, #356c9d, #284d75); --time1-bord: #badcf5;
+    --grad-time2: linear-gradient(110deg, #d3e9ef, #9ec5d1); --time2-bord: #f4fcff;
+    --time2-txt: #183449; --time2-sub: #d9f1f8;
+}
+body[data-theme="spring"] {
+    --c-prim: #89b79b; --c-prim-rgb: 137, 183, 155; --c-prim-light-rgb: 175, 215, 179;
+    --c-sec: #e7d591; --c-sec-rgb: 231, 213, 145;
+    --grad-time1: linear-gradient(110deg, #3f755b, #315340); --time1-bord: #c9ebcb;
+    --grad-time2: linear-gradient(110deg, #e7d591, #c1b36f); --time2-bord: #fff4c2;
+    --time2-txt: #303b28; --time2-sub: #f3e9bf;
+}
+body[data-theme="summer"] {
+    --c-prim: #f19179; --c-prim-rgb: 241, 145, 121; --c-prim-light-rgb: 255, 181, 145;
+    --c-sec: #8bdbd3; --c-sec-rgb: 139, 219, 211;
+    --grad-time1: linear-gradient(110deg, #ad5045, #844237); --time1-bord: #ffd1b6;
+    --grad-time2: linear-gradient(110deg, #8bdbd3, #5aada9); --time2-bord: #c9fff4;
+    --time2-txt: #163b3a; --time2-sub: #b7f5ec;
+}
+body[data-theme="sakura"] {
+    --c-prim: #dda2be; --c-prim-rgb: 221, 162, 190; --c-prim-light-rgb: 242, 193, 215;
+    --c-sec: #c4b2e4; --c-sec-rgb: 196, 178, 228;
+    --grad-time1: linear-gradient(110deg, #9d547a, #75425f); --time1-bord: #ffd5e5;
+    --grad-time2: linear-gradient(110deg, #d5c3ef, #b19bcf); --time2-bord: #f1e5ff;
+    --time2-txt: #372446; --time2-sub: #ebdbff;
+}
+body[data-theme="synthwave"] {
+    --c-prim: #ed75c2; --c-prim-rgb: 237, 117, 194; --c-prim-light-rgb: 255, 165, 222;
+    --c-sec: #73dce8; --c-sec-rgb: 115, 220, 232;
+    --grad-time1: linear-gradient(110deg, #a53b8b, #6d327b); --time1-bord: #ffc2ec;
+    --grad-time2: linear-gradient(110deg, #73dce8, #45a5c0); --time2-bord: #c7fbff;
+    --time2-txt: #152c43; --time2-sub: #bdf9ff;
+}
+body[data-theme="ocean"] {
+    --c-prim: #4eb5b0; --c-prim-rgb: 78, 181, 176; --c-prim-light-rgb: 132, 220, 205;
+    --c-sec: #a9d9ed; --c-sec-rgb: 169, 217, 237;
+    --grad-time1: linear-gradient(110deg, #217c7e, #1c555e); --time1-bord: #a7eee0;
+    --grad-time2: linear-gradient(110deg, #a9d9ed, #74aec8); --time2-bord: #d4f5ff;
+    --time2-txt: #153745; --time2-sub: #caeffa;
+}
+body[data-theme="cosmic"] {
+    --c-prim: #ad8bd7; --c-prim-rgb: 173, 139, 215; --c-prim-light-rgb: 204, 174, 238;
+    --c-sec: #e1c894; --c-sec-rgb: 225, 200, 148;
+    --grad-time1: linear-gradient(110deg, #7654a4, #4e3d78); --time1-bord: #d9c1f4;
+    --grad-time2: linear-gradient(110deg, #e1c894, #bea16d); --time2-bord: #fff0cf;
+    --time2-txt: #332d32; --time2-sub: #f2e2ba;
+}
+body[data-theme="midnight"] {
+    --c-prim: #7d9bc3; --c-prim-rgb: 125, 155, 195; --c-prim-light-rgb: 168, 191, 222;
+    --c-sec: #d2d9e4; --c-sec-rgb: 210, 217, 228;
+    --grad-time1: linear-gradient(110deg, #455f87, #304460); --time1-bord: #c0d1ea;
+    --grad-time2: linear-gradient(110deg, #d2d9e4, #a6b3c6); --time2-bord: #f2f5ff;
+    --time2-txt: #243145; --time2-sub: #e2eaf6;
+}
+
+/* Scene backgrounds are deliberately dark enough for every game image. */
+body[data-scene="halloween"] { --scene-ink: #17101f; --scene-deep: #0d0912; }
+body[data-scene="christmas"] { --scene-ink: #102923; --scene-deep: #091914; }
+body[data-scene="autumn"] { --scene-ink: #30251e; --scene-deep: #191613; }
+body[data-scene="winter"] { --scene-ink: #172b3d; --scene-deep: #0b1926; }
+body[data-scene="spring"] { --scene-ink: #21372c; --scene-deep: #121f1a; }
+body[data-scene="summer"] { --scene-ink: #34302d; --scene-deep: #172a2d; }
+body[data-scene="sakura"] { --scene-ink: #35273a; --scene-deep: #1e1726; }
+body[data-scene="synthwave"] { --scene-ink: #241136; --scene-deep: #0e1125; }
+body[data-scene="ocean"] { --scene-ink: #10333d; --scene-deep: #071c2b; }
+body[data-scene="cosmic"] { --scene-ink: #251d3b; --scene-deep: #111020; }
+body[data-scene="midnight"] { --scene-ink: #192638; --scene-deep: #0c1521; }
+
+body[data-scene]:not([data-scene="none"]):not([data-look="minimal"]) .poster {
+    background: var(--scene-deep);
+    border: 2px solid rgba(var(--c-prim-rgb), .5);
+    box-shadow: 0 20px 60px #0005, inset 0 0 calc(100px * var(--neon-glow)) rgba(var(--c-prim-rgb), .08);
+}
+body[data-scene]:not([data-scene="none"]) .bg-layer::before {
+    background: radial-gradient(ellipse at 92% 0%, rgba(var(--c-prim-rgb), .18), transparent 48%),
+        radial-gradient(ellipse at 8% 100%, rgba(var(--c-sec-rgb), .09), transparent 45%),
+        linear-gradient(135deg, var(--scene-ink), var(--scene-deep) 72%);
+}
+body[data-scene]:not([data-scene="none"])[data-bg="glow"] .bg-layer::before {
+    background: radial-gradient(ellipse at 12% 70%, rgba(var(--c-prim-rgb), .19), transparent 65%),
+        radial-gradient(ellipse at 90% 20%, rgba(var(--c-sec-rgb), .13), transparent 65%), var(--scene-deep);
+}
+body[data-scene]:not([data-scene="none"])[data-bg="minimal"] .bg-layer::before {
+    background: radial-gradient(ellipse at 50% -30%, rgba(var(--c-prim-rgb), .1), transparent 65%), var(--scene-deep);
+}
+body[data-scene]:not([data-scene="none"]) .poster::before { opacity: .3; }
+body[data-scene]:not([data-scene="none"]) .poster .title-name { text-shadow: none; }
+body[data-scene]:not([data-scene="none"]) .poster .day-name { text-shadow: none; letter-spacing: 1px; }
+body[data-scene]:not([data-scene="none"]) .poster .day-header::after { box-shadow: none; }
+body[data-scene]:not([data-scene="none"]) .poster .header-badge {
+    background: rgba(var(--c-prim-rgb), .08);
+    border: 1px solid rgba(var(--c-prim-rgb), .4);
+    border-left: 4px solid var(--c-sec);
+    box-shadow: none;
+}
+body[data-scene]:not([data-scene="none"]) .poster .twitch-badge {
+    background: var(--scene-deep);
+    border: 1px solid rgba(var(--c-sec-rgb), .35);
+    border-right: 4px solid var(--c-sec);
+    box-shadow: none;
+}
+body[data-scene]:not([data-scene="none"]) .poster .day-card { background: var(--scene-deep); }
+body[data-scene]:not([data-scene="none"]) .poster .event-overlay {
+    background: linear-gradient(to top, rgba(5, 9, 15, .98), rgba(5, 9, 15, .5) 40%, transparent 72%);
+    mix-blend-mode: normal;
+}
+body[data-scene]:not([data-scene="none"]) .poster .event-overlay-glow { opacity: .25; }
+body[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-info {
+    background: linear-gradient(120deg, var(--scene-deep), var(--scene-ink));
+    border-top: 1px solid rgba(var(--c-prim-rgb), .28);
+    padding: 19px 16px;
+    gap: 8px;
+}
+body[data-scene]:not([data-scene="none"]) .poster .event-info .game-sub { letter-spacing: 1.8px; line-height: 1.3; }
+body[data-scene]:not([data-scene="none"]) .poster .event-info .game-title { font-size: calc(28px * var(--title-scale, 1)); text-shadow: none; letter-spacing: .5px; }
+body[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .text-center .game-title { font-size: calc(38px * var(--title-scale, 1)); }
+body[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .text-center .time-wrapper { align-self: flex-start !important; }
+body[data-scene]:not([data-scene="none"]) .poster .time-wrapper { padding: 6px 13px; }
+body[data-scene]:not([data-scene="none"]) .poster .event-block:not(:last-child)::after { box-shadow: none; opacity: .45; }
+body[data-scene]:not([data-scene="none"]) .poster .rest-dayoff {
+    background: radial-gradient(ellipse at 90% 0%, rgba(var(--c-prim-rgb), .22), transparent 70%), var(--scene-ink);
+    color: var(--time1-bord);
+}
+body[data-scene]:not([data-scene="none"]) .poster .rest-offline {
+    background: linear-gradient(150deg, var(--scene-ink), var(--scene-deep));
+    color: var(--c-sec);
+}
+
+/* Lightweight SVG art is exported with the poster, with no animation to freeze. */
+.scene-decor { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; color: var(--c-prim); }
+.scene-art { position: absolute; display: block; overflow: visible; }
+.scene-art--corner { width: 290px; height: 250px; right: 250px; top: -30px; opacity: .28; transform: rotate(-9deg); }
+.scene-art--bottom { width: 240px; height: 210px; left: -30px; bottom: -66px; opacity: .27; transform: rotate(18deg); }
+.scene-particle { position: absolute; display: block; color: var(--c-sec); opacity: .28; }
+.scene-particle svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.scene-orbit { position: absolute; width: 730px; height: 730px; border: 1px solid rgba(var(--c-sec-rgb), .15); border-radius: 50%; right: -210px; top: -390px; transform: rotate(-20deg); }
+.scene-orbit::after { content: ''; position: absolute; inset: 50px; border: 1px solid rgba(var(--c-sec-rgb), .1); border-radius: 50%; }
+.scene-horizon { position: absolute; left: -5%; right: -5%; bottom: -260px; height: 390px; border: 2px solid rgba(var(--c-sec-rgb), .17); border-radius: 50%; }
+.scene-horizon::after { content: ''; position: absolute; inset: 35px -10px; border: 1px solid rgba(var(--c-sec-rgb), .12); border-radius: 50%; }
+body[data-scene="none"] .scene-decor { display: none; }
+body.scene-decor-hidden .scene-decor { display: none; }
+body[data-scene="halloween"] .scene-art--corner { color: var(--c-prim); opacity: .4; }
+body[data-scene="halloween"] .scene-art--bottom { color: var(--c-prim); opacity: .5; }
+body[data-scene="christmas"] .scene-art--corner { color: #7fb79b; opacity: .4; }
+body[data-scene="christmas"] .scene-art--bottom { color: #7fb79b; opacity: .38; }
+body[data-scene="autumn"] .scene-art--corner { color: #d4a96f; opacity: .35; }
+body[data-scene="spring"] .scene-art--corner { color: #c8dda7; opacity: .35; }
+body[data-scene="sakura"] .scene-art--corner { color: #f2bfd0; opacity: .36; }
+body[data-scene="synthwave"] .scene-art--corner { color: var(--c-prim); opacity: .4; }
+body[data-scene="ocean"] .scene-art--bottom { width: 380px; opacity: .2; }
+body[data-scene="cosmic"] .scene-art--corner { color: var(--c-sec); opacity: .35; }
+body[data-scene="midnight"] .scene-art--corner { color: var(--c-sec); opacity: .3; }
+
+/* A light card layout can still be combined with any season. */
+body[data-scene]:not([data-scene="none"])[data-look="minimal"] .poster .header-badge { background: #fff; color: #182432; }
+body[data-scene]:not([data-scene="none"])[data-look="minimal"] .poster .day-card { background: #fff; }
+body[data-scene]:not([data-scene="none"])[data-look="minimal"] .poster .twitch-badge { background: #182432; }
+body[data-scene]:not([data-scene="none"])[data-look="minimal"] .poster .rest-dayoff { background: #eee8e3; color: #695348; }
+body[data-scene]:not([data-scene="none"])[data-look="minimal"] .poster .rest-offline { background: #edf0f3; color: #455568; }
+body[data-look="minimal"] .scene-decor { opacity: .6; }
+
+body.vertical-mode .scene-art--corner { right: -30px; top: -20px; width: 240px; height: 240px; opacity: .23; }
+body.vertical-mode .scene-art--bottom { left: -20px; bottom: -45px; width: 210px; height: 190px; }
+body.vertical-mode .scene-orbit { right: -390px; top: -360px; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-block { padding: 0; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-info { padding: 12px 16px; text-align: left; align-items: flex-start; }
+/* Portrait cards pair artwork and copy, leaving room for both in short rows. */
+body.vertical-mode .poster .day-name { font-size: 20px; letter-spacing: 0; }
+body.vertical-mode .poster .day-header { flex-shrink: 0; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-block:not(.rest-card) { flex-direction: row; align-items: stretch; justify-content: flex-end; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-bg { width: 40%; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .event-info { width: 60%; height: 100%; margin-top: 0; justify-content: center; }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .time-wrapper { align-self: flex-start; }
+body.vertical-mode[data-scene]:not([data-scene="none"]) .poster .event-info .game-title { font-size: calc(26px * var(--title-scale, 1)); }
+body.vertical-mode[data-scene]:not([data-scene="none"])[data-look="cards"] .poster .text-center .game-title { font-size: calc(34px * var(--title-scale, 1)); }
+
+/* Additional universes retain independent accent palettes and export-safe colors. */
+body[data-theme="aurora"] {
+    --c-prim: #69d9b3; --c-prim-rgb: 105, 217, 179; --c-prim-light-rgb: 162, 240, 211;
+    --c-sec: #b6a0ee; --c-sec-rgb: 182, 160, 238;
+    --grad-time1: linear-gradient(110deg, #26765e, #1d514d); --time1-bord: #b2f3db;
+    --grad-time2: linear-gradient(110deg, #b6a0ee, #8d7bc4); --time2-bord: #e7d9ff;
+    --time2-txt: #222b40; --time2-sub: #e0d3ff;
+}
+body[data-theme="forest"] {
+    --c-prim: #76a383; --c-prim-rgb: 118, 163, 131; --c-prim-light-rgb: 161, 200, 162;
+    --c-sec: #dac49a; --c-sec-rgb: 218, 196, 154;
+    --grad-time1: linear-gradient(110deg, #396448, #2a4935); --time1-bord: #bfdfbf;
+    --grad-time2: linear-gradient(110deg, #dac49a, #b29a72); --time2-bord: #f3e4c7;
+    --time2-txt: #293127; --time2-sub: #ebddbd;
+}
+body[data-theme="lava"] {
+    --c-prim: #ef764f; --c-prim-rgb: 239, 118, 79; --c-prim-light-rgb: 255, 163, 113;
+    --c-sec: #f2c16f; --c-sec-rgb: 242, 193, 111;
+    --grad-time1: linear-gradient(110deg, #a9412a, #772b25); --time1-bord: #ffb598;
+    --grad-time2: linear-gradient(110deg, #f2c16f, #cb9546); --time2-bord: #ffe4b1;
+    --time2-txt: #3d261c; --time2-sub: #ffdc9e;
+}
+body[data-theme="arcade"] {
+    --c-prim: #9a8afa; --c-prim-rgb: 154, 138, 250; --c-prim-light-rgb: 195, 181, 255;
+    --c-sec: #f0b55e; --c-sec-rgb: 240, 181, 94;
+    --grad-time1: linear-gradient(110deg, #6350b1, #423775); --time1-bord: #d7caff;
+    --grad-time2: linear-gradient(110deg, #f0b55e, #c78a35); --time2-bord: #ffe0a7;
+    --time2-txt: #342740; --time2-sub: #ffdb9d;
+}
+body[data-theme="newyear"] {
+    --c-prim: #d4b472; --c-prim-rgb: 212, 180, 114; --c-prim-light-rgb: 237, 210, 158;
+    --c-sec: #f2ebe1; --c-sec-rgb: 242, 235, 225;
+    --grad-time1: linear-gradient(110deg, #8b6b37, #614e31); --time1-bord: #f6dfaf;
+    --grad-time2: linear-gradient(110deg, #f2ebe1, #c7bdae); --time2-bord: #fffaf2;
+    --time2-txt: #302923; --time2-sub: #f5e9d6;
+}
+body[data-theme="valentine"] {
+    --c-prim: #e17d9c; --c-prim-rgb: 225, 125, 156; --c-prim-light-rgb: 247, 176, 196;
+    --c-sec: #edbdc9; --c-sec-rgb: 237, 189, 201;
+    --grad-time1: linear-gradient(110deg, #a94366, #77354f); --time1-bord: #ffc1d3;
+    --grad-time2: linear-gradient(110deg, #edbdc9, #c68eaa); --time2-bord: #ffe3e9;
+    --time2-txt: #492537; --time2-sub: #f9dbe4;
+}
+body[data-scene="aurora"] { --scene-ink: #183846; --scene-deep: #0b1f27; }
+body[data-scene="forest"] { --scene-ink: #1d3027; --scene-deep: #0d1d18; }
+body[data-scene="lava"] { --scene-ink: #321e20; --scene-deep: #190d12; }
+body[data-scene="arcade"] { --scene-ink: #211d3d; --scene-deep: #121123; }
+body[data-scene="newyear"] { --scene-ink: #282323; --scene-deep: #141218; }
+body[data-scene="valentine"] { --scene-ink: #371d2c; --scene-deep: #1d0f1b; }

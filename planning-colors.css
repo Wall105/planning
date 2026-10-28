@@ -1,0 +1,64 @@
+/* Direct color controls remain available with every scene. */
+#color-editor summary { align-items: center; gap: 8px; }
+#palette-status { margin-left: auto; color: #85968e; font-size: 9px; font-weight: 400; }
+.color-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+.color-field { min-width: 0; }
+.color-field label { display: block; font-size: 10px; margin-bottom: 6px; color: #a5adb6; }
+.color-field>div { display: flex; align-items: center; min-width: 0; background: #111315; border: 1px solid #ffffff14; border-radius: 6px; padding: 4px; gap: 5px; }
+.color-field input[type="color"] { flex: 0 0 27px; width: 27px; height: 27px; padding: 0; border: 0; cursor: pointer; background: transparent; }
+.color-field input[type="color"]::-webkit-color-swatch-wrapper { padding: 1px; }
+.color-field input[type="color"]::-webkit-color-swatch { border: 0; border-radius: 4px; }
+.color-field input[type="text"] { width: 100%; min-width: 0; background: none; border: 0; color: #d3dad6; font: 10px/1.5 Consolas, monospace; letter-spacing: .3px; padding: 5px 2px; }
+.color-field input[aria-invalid="true"] { color: #f3a89b; }
+.color-preview { display: flex; align-items: center; gap: 6px; background: var(--palette-background); border: 1px solid #ffffff15; border-radius: 7px; padding: 12px; }
+.color-preview>span { color: var(--palette-text); font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-right: auto; }
+.color-preview i { width: 20px; height: 26px; border-radius: 3px; background: var(--palette-surface); border-top: 3px solid var(--palette-primary); }
+.color-preview i:nth-of-type(even) { border-color: var(--palette-secondary); }
+.palette-actions { display: flex; gap: 8px; }
+.palette-actions button { flex: 1; min-width: 0; background: #24292d; border: 1px solid #ffffff10; color: #c6d0cd; font-size: 10px; padding: 9px 5px; border-radius: 5px; cursor: pointer; }
+.palette-actions button:hover { background: #303a3a; }
+.palette-presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
+.palette-presets button { padding: 5px; min-width: 0; border-radius: 5px; border: 1px solid #ffffff10; background: #1c2024; color: #aeb7be; font-size: 9px; cursor: pointer; }
+.palette-presets button:hover, .palette-presets button[aria-pressed="true"] { border-color: #aac8b5; color: #f2f5f3; }
+.palette-presets button>span { display: flex; overflow: hidden; height: 16px; border-radius: 2px; margin-bottom: 5px; }
+.palette-presets i { flex: 1; }
+.keep-colors-label { font-size: 10px !important; line-height: 1.7; align-items: flex-start; }
+.keep-colors-label input { margin-top: 2px; flex-shrink: 0; accent-color: #b6d6c2; }
+.scene-tile-name { font-size: 9px; gap: 3px; min-height: 23px; }
+.scene-gallery { max-height: 330px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #4b4e54 transparent; padding: 2px; }
+.scene-check { flex-shrink: 0; }
+
+/* These overrides are scoped to user palettes and work with every poster look. */
+body[data-custom-colors="true"] .poster { background: var(--studio-background) !important; }
+body[data-custom-colors="true"] .poster .bg-layer::before {
+    background: radial-gradient(ellipse at 15% 5%, rgba(var(--c-prim-rgb), .12), transparent 55%), radial-gradient(ellipse at 95% 95%, rgba(var(--c-sec-rgb), .08), transparent 55%), var(--studio-background) !important;
+}
+body[data-custom-colors="true"] .poster .day-card,
+body[data-custom-colors="true"][data-look="cards"] .poster .event-info,
+body[data-custom-colors="true"][data-look="minimal"] .poster .event-info,
+body[data-custom-colors="true"] .poster .rest-card,
+body[data-custom-colors="true"] .poster .header-badge,
+body[data-custom-colors="true"] .poster .twitch-badge { background: var(--studio-surface) !important; }
+body[data-custom-colors="true"] .poster .title-planning,
+body[data-custom-colors="true"] .poster .day-name,
+body[data-custom-colors="true"] .poster .event-info .game-title,
+body[data-custom-colors="true"] .poster .header-badge,
+body[data-custom-colors="true"] .poster .twitch-text { color: var(--studio-text) !important; text-shadow: none !important; }
+body[data-custom-colors="true"] .poster .title-name,
+body[data-custom-colors="true"] .poster .day-date { color: var(--c-sec) !important; text-shadow: none; }
+body[data-custom-colors="true"] .poster .event-info .game-sub,
+body[data-custom-colors="true"] .poster .rest-card { color: var(--studio-muted) !important; text-shadow: none !important; }
+body[data-custom-colors="true"] .poster .twitch-icon svg { fill: var(--studio-text); }
+body[data-custom-colors="true"] .poster .time-wrapper { background: var(--grad-time1) !important; }
+body[data-custom-colors="true"] .poster .time-wrapper.cyan { background: var(--grad-time2) !important; }
+body[data-custom-colors="true"] .poster .time-text { color: var(--studio-primary-ink) !important; }
+body[data-custom-colors="true"] .poster .time-wrapper.cyan .time-text { color: var(--time2-txt) !important; }
+body[data-custom-colors="true"] .poster .day-card { border-color: rgba(var(--c-sec-rgb), .35) !important; }
+body[data-custom-colors="true"] .poster .rest-dayoff::before,
+body[data-custom-colors="true"] .poster .rest-dayoff::after { border-color: var(--studio-muted); opacity: .12; }
+/* Light palettes keep their dark type on a light panel over game artwork. */
+body[data-custom-colors="true"][data-palette-light="true"]:not([data-look="cards"]):not([data-look="minimal"]) .poster .event-block:not(.rest-card) { padding: 0; }
+body[data-custom-colors="true"][data-palette-light="true"]:not([data-look="cards"]):not([data-look="minimal"]) .poster .event-info {
+    background: var(--studio-surface); padding: 16px 14px; width: 100%; height: auto;
+    margin-top: auto; align-items: flex-start; text-align: left;
+}

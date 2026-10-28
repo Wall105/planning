@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur Planning SQUADIR - PRO (Sauvegarde Auto)</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>SQUADIR · Studio planning</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,500;0,700;1,500;1,700&family=Oswald:ital,wght@0,500;0,700;1,700&family=Poppins:ital,wght@0,500;0,700;1,500;1,700&family=Rajdhani:wght@500;600;700&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -337,18 +336,54 @@
         body.vertical-mode .off-box { transform: rotate(0deg); }
     </style>
     <link rel="stylesheet" href="planning-styles.css">
+    <link rel="stylesheet" href="planning-scenes.css">
+    <link rel="stylesheet" href="planning-studio.css">
+    <link rel="stylesheet" href="planning-colors.css">
 </head>
 <body data-theme="cyberpunk" data-bg="classique">
 
     <!-- ═══ SIDEBAR ═══ -->
     <aside class="sidebar">
-        <h2>
-            <span>🛠️ Globaux</span>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <button class="btn-reset" onclick="localStorage.removeItem('squadir_planning_save'); location.reload();" title="Effacer la sauvegarde et remettre par défaut">🔄 Reset</button>
-                <span id="save-status" style="font-size: 13px; color: #00ff00; font-family: 'Rajdhani', sans-serif; text-transform: none; letter-spacing: 0;">🟢 Prêt</span>
+        <div class="studio-brand"><span class="brand-monogram" aria-hidden="true">S<span> /</span></span><div><span class="studio-eyebrow">SQUADIR STUDIO</span><h1>Ton planning. Ton univers.</h1></div></div>
+        <div class="studio-save-row"><span id="save-status" role="status" aria-live="polite">🟢 Prêt</span><button class="btn-reset" onclick="localStorage.removeItem('squadir_planning_save'); location.reload();" title="Effacer la sauvegarde et remettre par défaut">Réinitialiser</button></div>
+
+        <section class="scene-library" aria-labelledby="scene-library-title">
+            <div class="studio-section-heading"><h2 id="scene-library-title">Choisis ton ambiance</h2><span class="library-count" id="scene-count">18 univers</span></div>
+            <p class="studio-intro">Une nouvelle saison, une nouvelle vibe.</p>
+            <div class="scene-filters" role="group" aria-label="Filtrer les ambiances">
+                <button type="button" class="scene-filter" data-category="all" aria-pressed="true" onclick="renderSceneGallery('all')">Tout</button>
+                <button type="button" class="scene-filter" data-category="seasons" aria-pressed="false" onclick="renderSceneGallery('seasons')">Saisons</button>
+                <button type="button" class="scene-filter" data-category="festive" aria-pressed="false" onclick="renderSceneGallery('festive')">Fêtes</button>
+                <button type="button" class="scene-filter" data-category="worlds" aria-pressed="false" onclick="renderSceneGallery('worlds')">Univers</button>
             </div>
-        </h2>
+            <div class="scene-gallery" id="scene-gallery" role="group" aria-label="Ambiances du planning"></div>
+            <div class="scene-selection" role="status" aria-live="polite"><span class="scene-selection-dot" aria-hidden="true"></span><div><strong id="scene-status">Original</strong><p id="scene-description">L’énergie esport, violet électrique et cyan.</p></div></div>
+            <label class="decor-toggle" for="toggle-decor"><span>Décors de l’ambiance<small>La petite touche en plus sur ton affiche</small></span><input type="checkbox" id="toggle-decor" checked onchange="updateSceneDecor()"><span class="toggle-track" aria-hidden="true"></span></label>
+        </section>
+
+        <details class="studio-settings" id="color-editor" open>
+            <summary>Tes couleurs <span id="palette-status">Palette de l’ambiance</span></summary>
+            <div class="details-content">
+                <p class="style-note">Modifie chaque couleur directement sur ton planning.</p>
+                <div class="color-preview" id="color-preview" aria-hidden="true"><span>PLANNING</span><i></i><i></i><i></i><i></i></div>
+                <div id="custom-color-panel" class="color-grid">
+                    <div class="color-field"><label for="color-prim">Principale</label><div><input type="color" id="color-prim" value="#9d00ff" oninput="updateColor('primary', this.value)"><input type="text" id="color-prim-hex" value="#9D00FF" maxlength="7" aria-label="Couleur principale en hexadécimal" spellcheck="false" oninput="updateColor('primary', this.value)" onblur="syncColorInputs()"></div></div>
+                    <div class="color-field"><label for="color-sec">Accent</label><div><input type="color" id="color-sec" value="#22d3ee" oninput="updateColor('secondary', this.value)"><input type="text" id="color-sec-hex" value="#22D3EE" maxlength="7" aria-label="Couleur d’accent en hexadécimal" spellcheck="false" oninput="updateColor('secondary', this.value)" onblur="syncColorInputs()"></div></div>
+                    <div class="color-field"><label for="color-background">Fond</label><div><input type="color" id="color-background" value="#05020a" oninput="updateColor('background', this.value)"><input type="text" id="color-background-hex" value="#05020A" maxlength="7" aria-label="Couleur du fond en hexadécimal" spellcheck="false" oninput="updateColor('background', this.value)" onblur="syncColorInputs()"></div></div>
+                    <div class="color-field"><label for="color-surface">Cartes</label><div><input type="color" id="color-surface" value="#080c16" oninput="updateColor('surface', this.value)"><input type="text" id="color-surface-hex" value="#080C16" maxlength="7" aria-label="Couleur des cartes en hexadécimal" spellcheck="false" oninput="updateColor('surface', this.value)" onblur="syncColorInputs()"></div></div>
+                    <div class="color-field"><label for="color-text">Titres</label><div><input type="color" id="color-text" value="#ffffff" oninput="updateColor('text', this.value)"><input type="text" id="color-text-hex" value="#FFFFFF" maxlength="7" aria-label="Couleur des titres en hexadécimal" spellcheck="false" oninput="updateColor('text', this.value)" onblur="syncColorInputs()"></div></div>
+                    <div class="color-field"><label for="color-muted">Sous-titres</label><div><input type="color" id="color-muted" value="#d8c7ee" oninput="updateColor('muted', this.value)"><input type="text" id="color-muted-hex" value="#D8C7EE" maxlength="7" aria-label="Couleur des sous-titres en hexadécimal" spellcheck="false" oninput="updateColor('muted', this.value)" onblur="syncColorInputs()"></div></div>
+                </div>
+                <div class="palette-actions"><button type="button" onclick="swapAccentColors()">⇄ Inverser les accents</button><button type="button" onclick="resetSceneColors()">Couleurs d’origine</button></div>
+                <div class="palette-presets" id="palette-presets" role="group" aria-label="Palettes prêtes à utiliser"></div>
+                <label class="checkbox-label keep-colors-label" for="keep-colors"><input type="checkbox" id="keep-colors" onchange="saveConfig()">Garder mes couleurs en changeant d’ambiance</label>
+                <p class="style-note">Le texte des horaires s’adapte automatiquement à leur couleur.</p>
+            </div>
+        </details>
+
+        <details class="studio-settings">
+        <summary>Personnaliser l’ambiance</summary>
+        <div class="details-content">
         
         <div class="form-group" style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; border: 1px solid var(--c-sec);">
             <label style="color: var(--c-sec);">📱 Format de l'image (Orientation)</label>
@@ -367,6 +402,17 @@
                     <option value="toxic">☣️ Toxic</option>
                     <option value="glacier">❄️ Glacier</option>
                     <option value="gold">👑 Prestige</option>
+                    <optgroup label="Saisons & fêtes">
+                        <option value="halloween">🎃 Halloween</option><option value="christmas">🎄 Noël</option>
+                        <option value="autumn">🍂 Automne</option><option value="winter">❄️ Hiver</option>
+                        <option value="spring">🌼 Printemps</option><option value="summer">☀️ Été</option><option value="sakura">🌸 Sakura</option>
+                    </optgroup>
+                    <optgroup label="Univers">
+                        <option value="synthwave">🌆 Synthwave</option><option value="ocean">🌊 Océan</option>
+                        <option value="cosmic">🪐 Cosmos</option><option value="midnight">🌙 Minuit</option>
+                        <option value="aurora">Aurore boréale</option><option value="forest">Forêt</option><option value="lava">Volcan</option><option value="arcade">Arcade</option>
+                    </optgroup>
+                    <optgroup label="Autres fêtes"><option value="newyear">Nouvel an</option><option value="valentine">Saint-Valentin</option></optgroup>
                     <option value="custom">🎨 Personnalisé</option>
                 </select>
             </div>
@@ -380,17 +426,6 @@
                     <option value="glow">✨ Aura (Doux)</option>
                     <option value="minimal">🌑 Minimaliste</option>
                 </select>
-            </div>
-        </div>
-
-        <div id="custom-color-panel" style="display: none; gap: 10px; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
-            <div class="form-group" style="flex: 1;">
-                <label>Primaire</label>
-                <input type="color" id="color-prim" value="#ff00a0" oninput="applyCustomColors()">
-            </div>
-            <div class="form-group" style="flex: 1;">
-                <label>Secondaire</label>
-                <input type="color" id="color-sec" value="#00ffcc" oninput="applyCustomColors()">
             </div>
         </div>
 
@@ -441,7 +476,10 @@
             <input id="range-radius" type="range" min="0" max="30" step="1" value="8" oninput="updateRadius(this.value)">
         </div>
 
-        <div class="split-divider"></div>
+        </div>
+        </details>
+
+        <details class="studio-settings" open><summary>Identité du planning</summary><div class="details-content">
 
         <div class="form-group">
             <label>Nom en haut à gauche</label>
@@ -455,8 +493,9 @@
             <label>Mois / Année</label>
             <input id="input-date" type="text" value="JUILLET 2026" oninput="updateGlobal('date', this.value)">
         </div>
+        </div></details>
 
-        <details open>
+        <details>
             <summary>Styles et lisibilité</summary>
             <div class="details-content">
                 <div class="form-group"><label for="select-look">Style de l’affiche</label><select id="select-look" onchange="updateAppearance()"><option value="original">Original · effets actuels</option><option value="esport">Esport sobre</option><option value="cards">Cartes de jeux</option><option value="minimal">Minimal clair</option><option value="event">Événement</option></select></div>
@@ -476,18 +515,19 @@
                 <div class="form-group"><label for="range-card-gap">Espacement · <output id="card-gap-value">22 px</output></label><input id="range-card-gap" type="range" min="8" max="30" value="22" oninput="updateLayout()"></div>
             </div>
         </details>
+        <div class="studio-section-heading days-section-heading"><h2>Ta semaine</h2><span class="library-count">7 jours</span></div>
+        <p class="studio-intro">Ouvre une journée pour modifier tes streams.</p>
         <div id="sidebar-days-container"></div>
 
-        <button id="export-btn" class="f12-btn" onclick="exportPNG()" style="background: linear-gradient(to right, #00ffcc, #0066ff); box-shadow: 0 4px 15px rgba(0,255,204,0.3); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">📸 TÉLÉCHARGER LE PLANNING</button>
+        <button id="export-btn" class="f12-btn" onclick="exportPNG()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>Télécharger le planning</button>
         <p id="export-status" class="style-note" role="status" aria-live="polite"></p>
         
-        <div class="f12-help" style="text-align: center;">
-            Génération automatique de l'image (PNG).<br>
-            <i>Patiente quelques secondes après le clic.</i>
-        </div>
+        <p class="studio-footnote">Créé pour tes streams. Prêt à être partagé.</p>
     </aside>
 
     <!-- ═══ AFFICHE ═══ -->
+    <section class="studio-workspace" aria-label="Aperçu du planning">
+    <div class="studio-preview-header"><div><span class="studio-eyebrow"><span class="live-dot" aria-hidden="true"></span> APERÇU EN DIRECT</span><h2 id="preview-scene-name">Original</h2></div><div class="preview-formats" role="group" aria-label="Orientation de l’affiche"><button id="format-horizontal" type="button" aria-pressed="true" onclick="setStudioFormat('horizontal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 22h8m-4-4v4"/></svg>Paysage</button><button id="format-vertical" type="button" aria-pressed="false" onclick="setStudioFormat('vertical')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg>Story</button></div></div>
     <main class="preview-area" id="preview-area">
         <div class="poster" id="poster-capture">
             
@@ -496,9 +536,7 @@
                 <div class="watermark" id="display-watermark">SQUADIR</div>
                 <div class="dot-matrix"></div>
             </div>
-
-
-
+            <div class="scene-decor" id="scene-decor" aria-hidden="true"></div>
             <header class="header">
                 <div class="header-main">
                     <div class="title-group">
@@ -526,8 +564,14 @@
 
         </div>
     </main>
+    <div class="preview-caption"><span id="preview-dimensions">1920 × 1080 px</span><span>PNG haute définition <span aria-hidden="true">↗</span></span></div>
+    </section>
 
     <script src="html2canvas.min.js"></script>
+    <script src="planning-art.js"></script>
+    <script src="planning-extra-scenes.js"></script>
+    <script src="planning-studio.js"></script>
+    <script src="planning-colors.js"></script>
     <!-- ═══ JAVASCRIPT ═══ -->
     <script>
         const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
@@ -568,6 +612,10 @@
                     cardSize: document.getElementById('range-card-size').value,
                     cardGap: document.getElementById('range-card-gap').value,
                     look: document.getElementById('select-look').value,
+                    scene: activeScene,
+                    showDecor: document.getElementById('toggle-decor').checked,
+                    customPalette: customPalette,
+                    keepColors: document.getElementById('keep-colors').checked,
                     featuredDay: document.getElementById('featured-day').value,
                     textScales: Object.fromEntries(['title', 'time', 'sub'].map(key => [key, document.getElementById(key + '-scale').value])),
                     
@@ -611,6 +659,10 @@
                 }
             }
 
+            activeScene = Object.prototype.hasOwnProperty.call(scenePresets, config.scene) ? config.scene : 'none';
+            document.body.dataset.scene = activeScene;
+            clearCustomPalette();
+            document.getElementById('keep-colors').checked = config.keepColors === true;
             document.getElementById('select-format').value = config.format || 'horizontal';
             document.getElementById('select-theme').value = config.theme || 'cyberpunk';
             document.getElementById('select-bg').value = config.bg || 'classique';
@@ -619,8 +671,8 @@
             document.getElementById('check-bold').checked = config.hasOwnProperty('fontBold') ? config.fontBold : true;
             document.getElementById('check-italic').checked = config.hasOwnProperty('fontItalic') ? config.fontItalic : true;
 
-            if (config.neon) document.getElementById('range-neon').value = config.neon;
-            if (config.radius) document.getElementById('range-radius').value = config.radius;
+            if (config.neon != null) document.getElementById('range-neon').value = config.neon;
+            if (config.radius != null) document.getElementById('range-radius').value = config.radius;
             if (config.cp) document.getElementById('color-prim').value = config.cp;
             if (config.cs) document.getElementById('color-sec').value = config.cs;
             
@@ -633,8 +685,8 @@
             updateFormat(config.format || 'horizontal');
             changeTheme(config.theme || 'cyberpunk');
             document.body.setAttribute('data-bg', config.bg || 'classique');
-            document.body.style.setProperty('--neon-glow', config.neon || "1");
-            document.body.style.setProperty('--card-radius', (config.radius || "8") + 'px');
+            document.body.style.setProperty('--neon-glow', config.neon ?? "1");
+            document.body.style.setProperty('--card-radius', (config.radius ?? "8") + 'px');
             
             document.getElementById('range-card-size').value = config.cardSize ?? 100;
             document.getElementById('range-card-gap').value = config.cardGap ?? 22;
@@ -645,14 +697,24 @@
             ['title','time','sub'].forEach(key => { document.getElementById(key + '-scale').value = config.textScales?.[key] ?? 100; });
             updateAppearance();
 
-            if ((config.theme || 'cyberpunk') === 'custom') applyCustomColors();
-
             updateGlobal('name', config.name || "SQUADIR");
             updateGlobal('twitch', config.twitch || "SQUADIRFN");
             updateGlobal('date', config.date || "JUILLET 2026");
 
             renderSidebar();
             renderGrid();
+            activeScene = Object.prototype.hasOwnProperty.call(scenePresets, config.scene) ? config.scene : 'none';
+            document.getElementById('toggle-decor').checked = config.showDecor !== false;
+            renderSceneGallery();
+            renderSceneDecor();
+            if (config.customPalette) setCustomPalette(config.customPalette);
+            else if (config.theme === 'custom') {
+                clearCustomPalette();
+                setCustomPalette({ ...readCurrentPalette(), primary: config.cp || '#ff00a0', secondary: config.cs || '#00ffcc' });
+            }
+            renderColorPalettes();
+            syncColorInputs();
+            syncStudioFormat();
             isAppReady = true; 
         }
 
@@ -674,6 +736,7 @@
                 document.getElementById(key + '-scale-value').textContent = value + ' %';
             });
             renderGrid();
+            syncColorInputs();
             saveConfig();
         }
         function setCardSize(value) {
@@ -730,7 +793,9 @@
             const isBold = document.getElementById('check-bold').checked;
             const isItalic = document.getElementById('check-italic').checked;
             
-            document.body.style.setProperty('--font-main', fontF);
+            const fontStack = /Oswald|Bebas Neue|Anton|Roboto Condensed/.test(fontF)
+                ? fontF.replace(/,\s*sans-serif$/, ", 'Arial Narrow', Impact, sans-serif") : fontF;
+            document.body.style.setProperty('--font-main', fontStack);
             document.body.style.setProperty('--font-weight-main', isBold ? '700' : '500');
             document.body.style.setProperty('--font-style-main', isItalic ? 'italic' : 'normal');
             
@@ -748,6 +813,7 @@
             } else {
                 document.body.classList.remove('vertical-mode');
             }
+            syncStudioFormat();
             fitPreview();
             saveConfig();
         }
@@ -757,17 +823,18 @@
             const vertical = document.body.classList.contains('vertical-mode');
             const width = vertical ? 1080 : 1920;
             const height = vertical ? 1920 : 1080;
-            const scale = Math.min((area.clientWidth - 40) / width, (window.innerHeight - 40) / height, 1);
-            document.body.style.setProperty('--preview-scale', Math.max(.15, scale));
+            const scale = Math.min((area.clientWidth - 56) / width, ((area.clientHeight || window.innerHeight) - 56) / height, 1);
+            document.body.style.setProperty('--preview-scale', Math.max(.05, scale));
         }
 
         function changeTheme(theme) {
+            const palette = customPalette || readCurrentPalette();
+            clearCustomPalette();
+            document.getElementById('select-theme').value = theme;
             document.body.setAttribute('data-theme', theme);
             if (theme === 'custom') {
-                document.getElementById('custom-color-panel').style.display = 'flex';
-                applyCustomColors();
+                setCustomPalette(palette);
             } else {
-                document.getElementById('custom-color-panel').style.display = 'none';
                 document.body.style.removeProperty('--c-prim');
                 document.body.style.removeProperty('--c-prim-rgb');
                 document.body.style.removeProperty('--c-prim-light-rgb');
@@ -780,29 +847,12 @@
                 document.body.style.removeProperty('--time2-sub');
                 document.body.style.removeProperty('--time2-txt');
             }
+            syncColorInputs();
             saveConfig();
         }
 
         function applyCustomColors() {
-            if(document.body.getAttribute('data-theme') !== 'custom') return;
-            const prim = document.getElementById('color-prim').value;
-            const sec = document.getElementById('color-sec').value;
-            const rgbPrim = hexToRgb(prim);
-            const rgbSec = hexToRgb(sec);
-            
-            document.body.style.setProperty('--c-prim', prim);
-            document.body.style.setProperty('--c-prim-rgb', rgbPrim);
-            document.body.style.setProperty('--c-prim-light-rgb', rgbPrim);
-            document.body.style.setProperty('--c-sec', sec);
-            document.body.style.setProperty('--c-sec-rgb', rgbSec);
-            
-            document.body.style.setProperty('--grad-time1', `linear-gradient(to right, ${prim}, rgba(${rgbPrim}, 0.5))`);
-            document.body.style.setProperty('--time1-bord', '#ffffff');
-            document.body.style.setProperty('--grad-time2', `linear-gradient(to right, ${sec}, rgba(${rgbSec}, 0.4))`);
-            document.body.style.setProperty('--time2-bord', '#ffffff');
-            document.body.style.setProperty('--time2-txt', '#000');
-            document.body.style.setProperty('--time2-sub', sec);
-            saveConfig();
+            setCustomPalette({ ...readCurrentPalette(), primary: document.getElementById('color-prim').value, secondary: document.getElementById('color-sec').value });
         }
 
         function updateBg(bg) { document.body.setAttribute('data-bg', bg); saveConfig(); }

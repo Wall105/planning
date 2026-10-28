@@ -1,0 +1,274 @@
+﻿commit 2678c297a8b6e9c3dcbd0e08b2e23c9e2941fd65
+Author: Wall105 <walid.c69@outlook.fr>
+Date:   Mon Sep 14 23:06:36 2026 +0200
+
+    lll
+
+diff --git a/index.html b/index.html
+index a216645..2049026 100644
+--- a/index.html
++++ b/index.html
+@@ -336,6 +336,7 @@
+         }
+         body.vertical-mode .off-box { transform: rotate(0deg); }
+     </style>
++    <link rel="stylesheet" href="planning-styles.css">
+ </head>
+ <body data-theme="cyberpunk" data-bg="classique">
+ 
+@@ -455,9 +456,30 @@
+             <input id="input-date" type="text" value="JUILLET 2026" oninput="updateGlobal('date', this.value)">
+         </div>
+ 
+-        <div id="sidebar-days-container"></div> 
++        <details open>
++            <summary>Styles et lisibilit├®</summary>
++            <div class="details-content">
++                <div class="form-group"><label for="select-look">Style de lÔÇÖaffiche</label><select id="select-look" onchange="updateAppearance()"><option value="original">Original ┬À effets actuels</option><option value="esport">Esport sobre</option><option value="cards">Cartes de jeux</option><option value="minimal">Minimal clair</option><option value="event">├ëv├®nement</option></select></div>
++                <p class="style-note" id="look-description">Votre style actuel, avec tous ses effets.</p>
++                <div class="form-group" id="featured-control" hidden><label for="featured-day">Journ├®e ├á mettre en avant</label><select id="featured-day" onchange="updateAppearance()"><option value="0">Lundi</option><option value="1">Mardi</option><option value="2">Mercredi</option><option value="3">Jeudi</option><option value="4">Vendredi</option><option value="5">Samedi</option><option value="6">Dimanche</option></select></div>
++                <div class="form-group"><label for="title-scale">Titres des jeux ┬À <output id="title-scale-value">100 %</output></label><input id="title-scale" type="range" min="75" max="125" value="100" oninput="updateAppearance()"></div>
++                <div class="form-group"><label for="time-scale">Horaires ┬À <output id="time-scale-value">100 %</output></label><input id="time-scale" type="range" min="80" max="130" value="100" oninput="updateAppearance()"></div>
++                <div class="form-group"><label for="sub-scale">Sous-titres ┬À <output id="sub-scale-value">100 %</output></label><input id="sub-scale" type="range" min="80" max="130" value="100" oninput="updateAppearance()"></div>
++                <p class="style-note">Les styles conservent votre palette, vos images et vos textes. Original permet de retrouver les effets actuels.</p>
++            </div>
++        </details>
++        <details>
++            <summary>Mise en page</summary>
++            <div class="details-content">
++                <div class="preset-row"><button type="button" onclick="setCardSize(80)">Compact</button><button type="button" onclick="setCardSize(90)">Normal</button><button type="button" onclick="setCardSize(100)">Grand</button></div>
++                <div class="form-group"><label for="range-card-size">Hauteur des cartes ┬À <output id="card-size-value">100 %</output></label><input id="range-card-size" type="range" min="80" max="100" value="100" oninput="updateLayout()"></div>
++                <div class="form-group"><label for="range-card-gap">Espacement ┬À <output id="card-gap-value">22 px</output></label><input id="range-card-gap" type="range" min="8" max="30" value="22" oninput="updateLayout()"></div>
++            </div>
++        </details>
++        <div id="sidebar-days-container"></div>
+ 
+-        <button class="f12-btn" onclick="downloadPoster()" style="background: linear-gradient(to right, #00ffcc, #0066ff); box-shadow: 0 4px 15px rgba(0,255,204,0.3); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">­ƒô© T├ëL├ëCHARGER LE PLANNING</button>
++        <button id="export-btn" class="f12-btn" onclick="exportPNG()" style="background: linear-gradient(to right, #00ffcc, #0066ff); box-shadow: 0 4px 15px rgba(0,255,204,0.3); text-shadow: 0 2px 4px rgba(0,0,0,0.5);">­ƒô© T├ëL├ëCHARGER LE PLANNING</button>
++        <p id="export-status" class="style-note" role="status" aria-live="polite"></p>
+         
+         <div class="f12-help" style="text-align: center;">
+             G├®n├®ration automatique de l'image (PNG).<br>
+@@ -505,6 +527,7 @@
+         </div>
+     </main>
+ 
++    <script src="html2canvas.min.js"></script>
+     <!-- ÔòÉÔòÉÔòÉ JAVASCRIPT ÔòÉÔòÉÔòÉ -->
+     <script>
+         const placeholderImg = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; 
+@@ -514,7 +537,7 @@
+         let schedule = [
+             { id: 0, name: 'LUNDI', date: '20', type: 'libre', img1: 'stream.png', time1: '18H00', title1: 'STREAM<br>LIBRE' },
+             { id: 1, name: 'MARDI', date: '21', type: 'split', img1: 'ranked.png', time1: '19H00', title1: 'FORTNITE', sub1: 'RANKED RELOAD', img2: 'f1.jpg', time2: '21H00', title2: 'F1 25', sub2: 'VIEWERS' },
+-            { id: 2, name: 'MERCREDI', date: '22', type: 'off', img1: 'dayofff.png' },
++            { id: 2, name: 'MERCREDI', date: '22', type: 'off', img1: placeholderImg },
+             { id: 3, name: 'JEUDI', date: '23', type: 'single', img1: 'perf.png', time1: '19H00', title1: 'FORTNITE', sub1: 'PERFORMANCE CUP' },
+             { id: 4, name: 'VENDREDI', date: '24', type: 'single', img1: 'perf.png', time1: '19H00', title1: 'FORTNITE', sub1: 'PERFORMANCE CUP' },
+             { id: 5, name: 'SAMEDI', date: '25', type: 'single', img1: '', time1: '15H00', title1: 'BOMBANANA!', sub1: 'AVEC KASH & WALID' },
+@@ -542,6 +565,11 @@
+                     bg: document.getElementById('select-bg').value,
+                     neon: document.getElementById('range-neon').value,
+                     radius: document.getElementById('range-radius').value,
++                    cardSize: document.getElementById('range-card-size').value,
++                    cardGap: document.getElementById('range-card-gap').value,
++                    look: document.getElementById('select-look').value,
++                    featuredDay: document.getElementById('featured-day').value,
++                    textScales: Object.fromEntries(['title', 'time', 'sub'].map(key => [key, document.getElementById(key + '-scale').value])),
+                     
+                     fontFamily: document.getElementById('select-font').value,
+                     fontBold: document.getElementById('check-bold').checked,
+@@ -608,7 +636,14 @@
+             document.body.style.setProperty('--neon-glow', config.neon || "1");
+             document.body.style.setProperty('--card-radius', (config.radius || "8") + 'px');
+             
++            document.getElementById('range-card-size').value = config.cardSize ?? 100;
++            document.getElementById('range-card-gap').value = config.cardGap ?? 22;
++            updateLayout();
+             updateFont();
++            document.getElementById('select-look').value = ['original','esport','cards','minimal','event'].includes(config.look) ? config.look : 'original';
++            document.getElementById('featured-day').value = config.featuredDay ?? '0';
++            ['title','time','sub'].forEach(key => { document.getElementById(key + '-scale').value = config.textScales?.[key] ?? 100; });
++            updateAppearance();
+ 
+             if ((config.theme || 'cyberpunk') === 'custom') applyCustomColors();
+ 
+@@ -622,6 +657,74 @@
+         }
+ 
+         /* --- OUTILS --- */
++        function updateAppearance() {
++            const look = document.getElementById('select-look').value;
++            document.body.dataset.look = look;
++            document.getElementById('featured-control').hidden = look !== 'event';
++            document.getElementById('look-description').textContent = {
++                original: 'Votre style actuel, avec tous ses effets.',
++                esport: 'Fond sombre, bordures fines et horaires contrast├®s.',
++                cards: 'Des visuels mis en avant avec les informations en bandeau.',
++                minimal: 'Une affiche claire, des bandeaux blancs et une typographie sombre.',
++                event: 'Une journ├®e plus grande pour votre rendez-vous de la semaine.'
++            }[look];
++            ['title','time','sub'].forEach(key => {
++                const value = document.getElementById(key + '-scale').value;
++                document.body.style.setProperty('--' + key + '-scale', value / 100);
++                document.getElementById(key + '-scale-value').textContent = value + ' %';
++            });
++            renderGrid();
++            saveConfig();
++        }
++        function setCardSize(value) {
++            document.getElementById('range-card-size').value = value;
++            updateLayout();
++        }
++        function updateLayout() {
++            const size = document.getElementById('range-card-size').value;
++            const gap = document.getElementById('range-card-gap').value;
++            document.body.style.setProperty('--card-size', size / 100);
++            document.body.style.setProperty('--card-gap', gap + 'px');
++            document.getElementById('card-size-value').textContent = size + ' %';
++            document.getElementById('card-gap-value').textContent = gap + ' px';
++            saveConfig();
++        }
++        async function exportPNG() {
++            const button = document.getElementById('export-btn');
++            const status = document.getElementById('export-status');
++            button.disabled = true;
++            status.textContent = 'Pr├®paration de votre imageÔÇª';
++            try {
++                if (typeof html2canvas !== 'function') throw new Error('Biblioth├¿que PNG indisponible.');
++                await document.fonts.ready;
++                const vertical = document.body.classList.contains('vertical-mode');
++                const width = vertical ? 1080 : 1920;
++                const height = vertical ? 1920 : 1080;
++                const canvas = await html2canvas(document.getElementById('poster-capture'), {
++                    width, height, scale: 1, backgroundColor: '#05020a', useCORS: true,
++                    windowWidth: 2400, windowHeight: 2200,
++                    onclone(doc) {
++                        doc.body.classList.add('capture-mode');
++                        const style = doc.createElement('style');
++                        style.textContent = '* { transition: none !important; animation: none !important; }';
++                        doc.head.appendChild(style);
++                    }
++                });
++                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
++                if (!blob) throw new Error('Cr├®ation du PNG impossible.');
++                const url = URL.createObjectURL(blob);
++                const link = document.createElement('a');
++                link.href = url;
++                link.download = 'planning-' + (vertical ? 'portrait' : 'paysage') + '.png';
++                link.click();
++                setTimeout(() => URL.revokeObjectURL(url), 60000);
++                status.textContent = 'PNG pr├¬t ┬À ' + width + ' ├ù ' + height + ' px.';
++            } catch (error) {
++                console.error(error);
++                status.textContent = 'Export impossible. V├®rifiez les images et r├®essayez.';
++            } finally { button.disabled = false; }
++        }
++
+         function updateFont() {
+             const fontF = document.getElementById('select-font').value;
+             const isBold = document.getElementById('check-bold').checked;
+@@ -645,9 +748,19 @@
+             } else {
+                 document.body.classList.remove('vertical-mode');
+             }
++            fitPreview();
+             saveConfig();
+         }
+ 
++        function fitPreview() {
++            const area = document.querySelector('.preview-area');
++            const vertical = document.body.classList.contains('vertical-mode');
++            const width = vertical ? 1080 : 1920;
++            const height = vertical ? 1920 : 1080;
++            const scale = Math.min((area.clientWidth - 40) / width, (window.innerHeight - 40) / height, 1);
++            document.body.style.setProperty('--preview-scale', Math.max(.15, scale));
++        }
++
+         function changeTheme(theme) {
+             document.body.setAttribute('data-theme', theme);
+             if (theme === 'custom') {
+@@ -831,6 +944,7 @@
+                 // Outil mis ├á jour avec le curseur de Zoom
+                 const getPosSliders = (imgNum) => `
+                     <div style="display:flex; gap:10px; margin-top:5px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; flex-wrap: wrap;">
++                        <div class="form-group" style="width:100%"><label for="fit-${index}-${imgNum}">Cadrage de lÔÇÖimage</label><select id="fit-${index}-${imgNum}" onchange="updateData(${index}, 'fit${imgNum}', this.value)"><option value="legacy" ${!day['fit'+imgNum] || day['fit'+imgNum] === 'legacy' ? 'selected' : ''}>Actuel ┬À zoom existant</option><option value="cover" ${day['fit'+imgNum] === 'cover' ? 'selected' : ''}>Remplir la carte</option><option value="contain" ${day['fit'+imgNum] === 'contain' ? 'selected' : ''}>Image enti├¿re</option></select><span class="style-note">Le zoom reste m├®moris├® dans ┬½ Actuel ┬╗. Les deux autres modes ajustent automatiquement lÔÇÖimage.</span></div>
+                         <div class="form-group" style="flex:1; min-width: 45%;">
+                             <label style="font-size:10px;">Ôåö´©Å Gauche/Droite</label>
+                             <input type="range" min="0" max="100" value="${day['posX'+imgNum] !== undefined ? day['posX'+imgNum] : 50}" oninput="updateData(${index}, 'posX${imgNum}', this.value)">
+@@ -846,7 +960,9 @@
+                     </div>
+                 `;
+ 
+-                if (day.type === 'single') {
++                if (day.type === 'off') {
++                    html += `<div class="form-group"><label for="off-style-${index}">Style du jour de repos</label><select id="off-style-${index}" onchange="updateData(${index}, 'offStyle', this.value)"><option value="dayoff" ${day.offStyle !== 'offline' ? 'selected' : ''}>DAY OFF ┬À pause</option><option value="offline" ${day.offStyle === 'offline' ? 'selected' : ''}>OFFLINE ┬À veille</option></select><p class="style-note">Deux ambiances au choix, enregistr├®es pour cette journ├®e.</p></div>`;
++                } else if (day.type === 'single') {
+                     html += `
+                         <div class="form-group"><label>Heure</label><input type="text" value="${day.time1 || ''}" oninput="updateData(${index}, 'time1', this.value)"></div>
+                         <div class="form-group"><label>Titre (Jeu)</label><input type="text" value="${day.title1 || ''}" oninput="updateData(${index}, 'title1', this.value)"></div>
+@@ -858,6 +974,7 @@
+                         </div>`;
+                 } else if (day.type === 'split') {
+                     html += `
++                        <div class="form-group"><label for="split-${index}">R├®partition jeu 1 / jeu 2 ┬À <output id="split-value-${index}">${day.splitRatio || 50} / ${100 - (day.splitRatio || 50)}</output></label><input id="split-${index}" type="range" min="35" max="65" value="${day.splitRatio || 50}" oninput="document.getElementById('split-value-${index}').textContent = this.value + ' / ' + (100-this.value); updateData(${index}, 'splitRatio', Number(this.value))"></div>
+                         <div class="split-divider"></div><label style="color:var(--c-sec);">ÔûÂ JEU 1 (HAUT/GAUCHE)</label>
+                         <div class="form-group"><label>Heure</label><input type="text" value="${day.time1 || ''}" oninput="updateData(${index}, 'time1', this.value)"></div>
+                         <div class="form-group"><label>Titre</label><input type="text" value="${day.title1 || ''}" oninput="updateData(${index}, 'title1', this.value)"></div>
+@@ -893,10 +1010,10 @@
+         function renderGrid() {
+             const grid = document.getElementById('poster-grid-container');
+             grid.innerHTML = '';
+-            schedule.forEach(day => {
+-                let cardHTML = `<div class="day-col ${day.type === 'off' ? 'off' : ''}">
++            schedule.forEach((day, index) => {
++                let cardHTML = `<div class="day-col ${day.type === 'off' ? 'off' : ''} ${index === Number(document.getElementById('featured-day').value) ? 'featured' : ''}">
+                     <div class="day-header"><span class="day-name">${day.name}</span><span class="day-date">${day.date}</span></div>
+-                    <div class="day-card">`;
++                    <div class="day-card ${day.type === 'split' ? 'has-split' : ''}" style="--split:${Math.max(35, Math.min(65, Number(day.splitRatio) || 50))}">`;
+ 
+                 // Fonction de position mise ├á jour avec le Zoom
+                 const getPos = (num) => {
+@@ -904,20 +1021,24 @@
+                     const y = day['posY'+num] !== undefined ? day['posY'+num] : 50;
+                     const zoom = day['zoom'+num] !== undefined ? day['zoom'+num] : 100;
+                     // On modifie la taille avec le zoom et on d├®cale la position
+-                    return `background-size: ${zoom == 100 ? 'cover' : zoom + '%'} !important; background-position: ${x}% ${y}% !important;`;
++                    const fit = day['fit'+num];
++                    const size = fit === 'contain' ? 'contain' : fit === 'cover' ? 'cover' : zoom == 100 ? 'cover' : zoom + '%';
++                    return `background-size: ${size} !important; background-position: ${x}% ${y}% !important;`;
+                 };
+ 
+                 const strokeTxt = (txt) => `<div class="bg-stroke-text">${txt}</div>`;
+ 
+                 if (day.type === 'off') {
++                    const isDayOff = day.offStyle !== 'offline';
+                     cardHTML += `
+-                        <div class="event-block off-block">
+-                            <div class="event-bg" style="background-image: url('${day.img1 || 'dayofff.png'}'); filter: grayscale(1) brightness(0.4);"></div>
+-                            <div class="event-overlay"></div>
+-                            <div class="event-info text-center off-text">
+-                                <div class="off-box">
+-                                    <span class="game-title" style="color:var(--c-sec); letter-spacing:8px;">OFFLINE</span>
+-                                </div>
++                        <div class="event-block rest-card ${isDayOff ? 'rest-dayoff' : 'rest-offline'}">
++                            <div class="rest-content">
++                                <span class="rest-symbol" aria-hidden="true">${isDayOff
++                                    ? '<svg viewBox="0 0 64 64" fill="none"><path d="M40 10a23 23 0 1 0 14 36A26 26 0 0 1 40 10Z" stroke="currentColor" stroke-width="2"/><path d="M48 13v10m-5-5h10" stroke="currentColor" stroke-width="2"/></svg>'
++                                    : '<svg viewBox="0 0 64 64" fill="none"><path d="M32 10v23M19 17a23 23 0 1 0 26 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'}</span>
++                                <span class="rest-title">${isDayOff ? 'DAY <br>OFF' : 'OFFLINE'}</span>
++                                <span class="rest-rule" aria-hidden="true"></span>
++                                ${isDayOff ? '' : '<span class="rest-caption">STREAM EN VEILLE</span>'}
+                             </div>
+                         </div>`;
+                 } else if (day.type === 'libre') {
+@@ -977,6 +1098,7 @@
+ 
+         // Lancement au d├®marrage
+         loadConfig();
++        new ResizeObserver(fitPreview).observe(document.querySelector('.preview-area'));
+     </script>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
